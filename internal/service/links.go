@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -43,21 +44,23 @@ func (ls *LinkService) RedirectToLink(g *gin.Context) {
 func (ls *LinkService) GetLinks(g *gin.Context) {
 	page, err := strconv.Atoi(g.Query("page"))
 	if err != nil {
-		g.JSON(http.StatusBadRequest, gin.H{"error": err})
+		g.String(http.StatusBadRequest, "invalid page")
 		return
 	}
 
 	pageSize, err := strconv.Atoi(g.Query("pageSize"))
 	if err != nil {
-		g.JSON(http.StatusBadRequest, gin.H{"error": err})
+		g.String(http.StatusBadRequest, "invalid page size")
 		return
 	}
 
 	links, err := ls.linkRepository.GetLinks(page, pageSize)
 	if err != nil {
-		g.JSON(http.StatusBadRequest, gin.H{"error": err})
+		g.String(http.StatusBadRequest, "error retrieving links")
 		return
 	}
 
-	g.JSON(http.StatusOK, links)
+	fmt.Println(links)
+
+	g.HTML(http.StatusOK, "table.html", links)
 }

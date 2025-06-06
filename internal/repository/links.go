@@ -82,10 +82,9 @@ func (l *LinkRepository) GetLinks(page, pageSize int) ([]model.Link, error) {
 		}
 
 		links = append(links, link)
-		rows.Next()
 	}
 
-	return nil, nil
+	return links, nil
 }
 
 func (l *LinkRepository) CreateLink(short, long string) error {
