@@ -1,9 +1,7 @@
 package service
 
 import (
-	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/kevin-fagan/learn-gin/internal/repository"
@@ -19,48 +17,47 @@ func NewLinkService(ctx *repository.SQLContext) *LinkService {
 	}
 }
 
-func (ls *LinkService) RedirectToLink(g *gin.Context) {
-	short := g.Param("link")
+func (ls *LinkService) CreateLink(g *gin.Context) {
+	short := g.PostForm("short-url")
+	long := g.PostForm("long-url")
 
-	link, err := ls.linkRepository.GetLink(short)
-	if err == repository.ErrLinkNotFound {
-		g.JSON(http.StatusNotFound, gin.H{"error": err})
-		return
+	if short == "" || long == "" {
+		g.String(http.StatusBadRequest, "missing short or long URL")
 	}
 
+	err := ls.linkRepository.CreateLink(short, long)
 	if err != nil {
-		g.JSON(http.StatusBadRequest, gin.H{"error": err})
-		return
+		g.String(http.StatusBadRequest, err.Error())
 	}
 
-	// Increment the visits field for a url. We can safely ignore
-	// any errors that occur for this function call
-	ls.linkRepository.IncrementVisits(short)
-
-	// Redirecting the user to the long url
-	g.Redirect(http.StatusFound, link.LongName)
+	g.Header("HX-Trigger", "refresh")
+	g.Status(http.StatusNoContent)
 }
 
-func (ls *LinkService) GetLinks(g *gin.Context) {
-	page, err := strconv.Atoi(g.Query("page"))
-	if err != nil {
-		g.String(http.StatusBadRequest, "invalid page")
-		return
+func (ls *LinkService) UpdateLink(g *gin.Context) {
+	short := g.PostForm("short-url")
+	long := g.PostForm("long-url")
+
+	if short == "" || long == "" {
+		g.String(http.StatusBadRequest, "missing short or long URL")
 	}
 
-	pageSize, err := strconv.Atoi(g.Query("pageSize"))
+	err := ls.linkRepository.UpdateLink(short, long)
 	if err != nil {
-		g.String(http.StatusBadRequest, "invalid page size")
-		return
+		g.String(http.StatusBadRequest, err.Error())
 	}
 
-	links, err := ls.linkRepository.GetLinks(page, pageSize)
+	g.Header("HX-Trigger", "refresh")
+	g.Status(http.StatusNoContent)
+}
+
+func (ls *LinkService) DeleteLink(g *gin.Context) {
+	short := g.Param("link")
+	err := ls.linkRepository.DeleteLink(short)
 	if err != nil {
-		g.String(http.StatusBadRequest, "error retrieving links")
-		return
+		g.String(http.StatusBadRequest, err.Error())
 	}
 
-	fmt.Println(links)
-
-	g.HTML(http.StatusOK, "table.html", links)
+	g.Header("HX-Trigger", "refresh")
+	g.Status(http.StatusNoContent)
 }

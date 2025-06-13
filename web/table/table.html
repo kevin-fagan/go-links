@@ -1,0 +1,94 @@
+<table 
+    id="links-table" 
+    hx-get="/components/table?page=0&pageSize=25" 
+    hx-trigger="refresh from:body"
+    hx-swap="outerHTML"
+    style="
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: 12px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 14px;
+        background-color: #121212;
+        color: #e0e0e0;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+        margin-top: 1rem;
+        overflow: hidden;
+    ">
+
+    <thead style="background-color: #1f1f1f; color: #bbb;">
+        <tr>
+            <th scope="col" style="text-align: left; padding: 12px 16px; font-weight: 600;">Short URL</th>
+            <th scope="col" style="text-align: left; padding: 12px 16px; font-weight: 600;">Long URL</th>
+            <th scope="col" style="text-align: right; padding: 12px 16px; font-weight: 600;">Visits</th>
+            <th scope="col" style="text-align: left; padding: 12px 16px; font-weight: 600;">Last Updated</th>
+            <th scope="col" style="padding: 12px 16px;"></th>
+        </tr>
+    </thead>
+
+    {{range .}}
+    <tbody>
+        <tr style="
+            border-top: 1px solid #2a2a2a; 
+            transition: background 0.25s ease;
+            border-radius: 8px;
+        " 
+        onmouseover="this.style.background='#222'" onmouseout="this.style.background='transparent'">
+            <td style="padding: 12px 16px; border-radius: 8px 0 0 8px;">{{.ShortURL}}</td>
+            <td style="padding: 12px 16px;">{{.LongURL}}</td>
+            <td style="padding: 12px 16px; text-align: right;">{{.Visits}}</td>
+            <td style="padding: 12px 16px;">{{.LastUpdated}}</td>
+            <td style="padding: 12px 16px; white-space: nowrap; border-radius: 0 8px 8px 0;">
+                <button 
+                    hx-get="/components/form/update/{{ .ShortURL }}" 
+                    hx-target="#modal" 
+                    hx-swap="innerHTML"
+                    aria-label="Update link {{ .ShortURL }}"
+                    style="
+                        background: none;
+                        border: none;
+                        color: #64b5f6;
+                        cursor: pointer;
+                        margin-right: 8px;
+                        padding: 6px;
+                        vertical-align: middle;
+                        border-radius: 6px;
+                        transition: background 0.2s ease;
+                    "
+                    onmouseover="this.style.background='rgba(100, 181, 246, 0.2)'"
+                    onmouseout="this.style.background='transparent'">
+                    <!-- Pencil icon (edit) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" height="18" width="18" fill="currentColor" viewBox="0 0 24 24" >
+                      <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM21.71 7.04a1.003 1.003 0 0 0 0-1.41l-2.34-2.34a1.003 1.003 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                    </svg>
+                </button>
+
+                <button 
+                    hx-get="/components/form/delete/{{ .ShortURL }}" 
+                    hx-target="#modal" 
+                    hx-swap="innerHTML"
+                    aria-label="Delete link {{ .ShortURL }}"
+                    style="
+                        background: none;
+                        border: none;
+                        color: #ef5350;
+                        cursor: pointer;
+                        padding: 6px;
+                        vertical-align: middle;
+                        border-radius: 6px;
+                        transition: background 0.2s ease;
+                    "
+                    onmouseover="this.style.background='rgba(239, 83, 80, 0.2)'"
+                    onmouseout="this.style.background='transparent'">
+                    <!-- Trash icon (delete) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" height="18" width="18" fill="currentColor" viewBox="0 0 24 24" >
+                      <path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-4.5l-1-1z"/>
+                    </svg>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+    {{end}}
+</table>
+

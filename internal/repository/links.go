@@ -51,7 +51,7 @@ func (l *LinkRepository) GetLink(short string) (*model.Link, error) {
 
 	var link model.Link
 	row := l.sql.QueryRow(statement, short)
-	err := row.Scan(&link.ShortName, &link.LongName, &link.Visits, &link.LastUpdated)
+	err := row.Scan(&link.ShortURL, &link.LongURL, &link.Visits, &link.LastUpdated)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func (l *LinkRepository) GetLinks(page, pageSize int) ([]model.Link, error) {
 
 	for rows.Next() {
 		var link model.Link
-		err := rows.Scan(&link.ShortName, &link.LongName, &link.Visits, &link.LastUpdated)
+		err := rows.Scan(&link.ShortURL, &link.LongURL, &link.Visits, &link.LastUpdated)
 		if err != nil {
 			return nil, err
 		}
@@ -124,7 +124,7 @@ func (l *LinkRepository) UpdateLink(short, long string) error {
 	statement := `
 	UPDATE links
 	SET long_name = ?
-	WHERE short_name ?;
+	WHERE short_name = ?;
 	`
 
 	results, err := l.sql.Exec(statement, long, short)

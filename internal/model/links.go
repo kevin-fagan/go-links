@@ -3,8 +3,8 @@ package model
 import "time"
 
 type Link struct {
-	ShortName   string
-	LongName    string
+	ShortURL    string
+	LongURL     string
 	Visits      int
 	LastUpdated time.Time
 }

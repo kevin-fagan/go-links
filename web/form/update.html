@@ -1,0 +1,40 @@
+<div class="modal" id="update-form">
+  <form 
+    hx-post="/links/{{ .ShortURL }}" 
+    hx-target="#modal" 
+    hx-swap="outerHTML" 
+    class="form-card">
+
+    <h2>Update URL</h2>
+
+    <label for="short">Short URL</label>
+    <input 
+        type="text" 
+        id="short-url" 
+        name="short-url" 
+        value="{{ .ShortURL}}" 
+        required />
+
+    <label for="long">Long URL</label>
+    <input 
+        type="url" 
+        id="long-url" 
+        name="long-url" 
+        value="{{ .LongURL}}" 
+        required />
+
+    <div class="form-actions">
+      <button 
+         type="submit">
+          Save
+      </button>
+
+      <button 
+        type="button" 
+        hx-target="#modal" 
+        hx-swap="outerHTML">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>
