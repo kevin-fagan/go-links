@@ -38,7 +38,6 @@ func (cs *ComponentService) LinkTable(g *gin.Context) {
 	}
 
 	g.HTML(http.StatusOK, "table.html", links)
-
 }
 
 func (cs *ComponentService) FormCreate(g *gin.Context) {
