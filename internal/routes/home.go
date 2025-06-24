@@ -1,9 +1,12 @@
 package routes
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/kevin-fagan/learn-gin/internal/service"
+)
 
 func AddHomeRoutes(rg *gin.RouterGroup) {
-	rg.GET("/", func(ctx *gin.Context) {
-		ctx.HTML(200, "home.html", gin.H{})
-	})
+	hs := service.NewHomeService()
+
+	rg.GET("/home", hs.HomePage)
 }

@@ -26,12 +26,12 @@ func main() {
 	router.LoadHTMLGlob("web/**/*.html")
 	router.Static("/assets", "./web/assets")
 
-	home := router.Group("/")
+	root := router.Group("/")
 
-	routes.AddHomeRoutes(home)
-	routes.AddLinksRoutes(home, sqlite)
-	routes.AddRedirectRoutes(home, sqlite)
-	routes.AddComponentRoutes(home, sqlite)
+	routes.AddHomeRoutes(root)
+	routes.AddLinksRoutes(root, sqlite)
+	routes.AddRedirectRoutes(root, sqlite)
+	routes.AddComponentRoutes(root, sqlite)
 
 	router.Run("localhost:8080")
 }

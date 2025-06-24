@@ -44,12 +44,17 @@ func (cs *ComponentService) FormCreate(g *gin.Context) {
 	g.HTML(http.StatusOK, "create.html", gin.H{})
 }
 
+func (cs *ComponentService) FormClear(g *gin.Context) {
+	g.HTML(http.StatusOK, "clear.html", gin.H{})
+}
+
 func (cs *ComponentService) FormUpdate(g *gin.Context) {
 	short := g.Param("link")
 
 	link, err := cs.linkRepository.GetLink(short)
 	if err != nil {
 		g.String(http.StatusBadRequest, err.Error())
+		return
 	}
 
 	g.HTML(http.StatusOK, "update.html", &link)
@@ -61,6 +66,7 @@ func (cs *ComponentService) FormDelete(g *gin.Context) {
 	link, err := cs.linkRepository.GetLink(short)
 	if err != nil {
 		g.String(http.StatusBadRequest, err.Error())
+		return
 	}
 
 	g.HTML(http.StatusOK, "delete.html", &link)

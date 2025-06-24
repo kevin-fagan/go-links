@@ -3,59 +3,34 @@
     hx-get="/components/table?page=0&pageSize=25" 
     hx-trigger="refresh from:body"
     hx-swap="outerHTML"
-    style="
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-        border-radius: 12px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-size: 14px;
-        background-color: #121212;
-        color: #e0e0e0;
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
-        margin-top: 1rem;
-        overflow: hidden;
-    ">
-
-    <thead style="background-color: #1f1f1f; color: #bbb;">
+    class="links-table"
+>
+    <thead class="links-table-head">
         <tr>
-            <th scope="col" style="text-align: left; padding: 12px 16px; font-weight: 600;">Short URL</th>
-            <th scope="col" style="text-align: left; padding: 12px 16px; font-weight: 600;">Long URL</th>
-            <th scope="col" style="text-align: right; padding: 12px 16px; font-weight: 600;">Visits</th>
-            <th scope="col" style="text-align: left; padding: 12px 16px; font-weight: 600;">Last Updated</th>
-            <th scope="col" style="padding: 12px 16px;"></th>
+            <th scope="col" class="th-left">Short URL</th>
+            <th scope="col" class="th-left">Long URL</th>
+            <th scope="col" class="th-right">Visits</th>
+            <th scope="col" class="th-left">Last Updated</th>
+            <th scope="col" class="th-empty"></th>
         </tr>
     </thead>
 
     {{range .}}
     <tbody>
-        <tr style="
-            border-top: 1px solid #2a2a2a; 
-            transition: background 0.25s ease;
-            border-radius: 8px;
-        " 
-        onmouseover="this.style.background='#222'" onmouseout="this.style.background='transparent'">
-            <td style="padding: 12px 16px; border-radius: 8px 0 0 8px;">{{.ShortURL}}</td>
-            <td style="padding: 12px 16px;">{{.LongURL}}</td>
-            <td style="padding: 12px 16px; text-align: right;">{{.Visits}}</td>
-            <td style="padding: 12px 16px;">{{.LastUpdated}}</td>
-            <td style="padding: 12px 16px; white-space: nowrap; border-radius: 0 8px 8px 0;">
+        <tr class="links-table-row" 
+            onmouseover="this.style.background='#222'" 
+            onmouseout="this.style.background='transparent'">
+            <td class="td-left">{{.ShortURL}}</td>
+            <td class="td-left">{{.LongURL}}</td>
+            <td class="td-right">{{.Visits}}</td>
+            <td class="td-left">{{.LastUpdated}}</td>
+            <td class="td-right">
                 <button 
                     hx-get="/components/form/update/{{ .ShortURL }}" 
                     hx-target="#modal" 
                     hx-swap="innerHTML"
                     aria-label="Update link {{ .ShortURL }}"
-                    style="
-                        background: none;
-                        border: none;
-                        color: #64b5f6;
-                        cursor: pointer;
-                        margin-right: 8px;
-                        padding: 6px;
-                        vertical-align: middle;
-                        border-radius: 6px;
-                        transition: background 0.2s ease;
-                    "
+                    class="btn-edit"
                     onmouseover="this.style.background='rgba(100, 181, 246, 0.2)'"
                     onmouseout="this.style.background='transparent'">
                     <!-- Pencil icon (edit) -->
@@ -69,16 +44,7 @@
                     hx-target="#modal" 
                     hx-swap="innerHTML"
                     aria-label="Delete link {{ .ShortURL }}"
-                    style="
-                        background: none;
-                        border: none;
-                        color: #ef5350;
-                        cursor: pointer;
-                        padding: 6px;
-                        vertical-align: middle;
-                        border-radius: 6px;
-                        transition: background 0.2s ease;
-                    "
+                    class="btn-delete"
                     onmouseover="this.style.background='rgba(239, 83, 80, 0.2)'"
                     onmouseout="this.style.background='transparent'">
                     <!-- Trash icon (delete) -->

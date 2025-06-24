@@ -1,0 +1,10 @@
+.toolbar, .pagination-toolbar {
+  background-color: #1f1f1f;
+  border-radius: 12px;
+  padding: 0.4rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 12px 0;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.7);
+}

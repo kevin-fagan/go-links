@@ -23,15 +23,17 @@ func (ls *LinkService) CreateLink(g *gin.Context) {
 
 	if short == "" || long == "" {
 		g.String(http.StatusBadRequest, "missing short or long URL")
+		return
 	}
 
 	err := ls.linkRepository.CreateLink(short, long)
 	if err != nil {
 		g.String(http.StatusBadRequest, err.Error())
+		return
 	}
 
-	g.Header("HX-Trigger", "refresh")
-	g.Status(http.StatusNoContent)
+	g.Header("hx-trigger", "refresh")
+	g.HTML(http.StatusOK, "clear.html", gin.H{})
 }
 
 func (ls *LinkService) UpdateLink(g *gin.Context) {
@@ -40,15 +42,17 @@ func (ls *LinkService) UpdateLink(g *gin.Context) {
 
 	if short == "" || long == "" {
 		g.String(http.StatusBadRequest, "missing short or long URL")
+		return
 	}
 
 	err := ls.linkRepository.UpdateLink(short, long)
 	if err != nil {
 		g.String(http.StatusBadRequest, err.Error())
+		return
 	}
 
-	g.Header("HX-Trigger", "refresh")
-	g.Status(http.StatusNoContent)
+	g.Header("hx-trigger", "refresh")
+	g.HTML(http.StatusOK, "clear.html", gin.H{})
 }
 
 func (ls *LinkService) DeleteLink(g *gin.Context) {
@@ -56,8 +60,9 @@ func (ls *LinkService) DeleteLink(g *gin.Context) {
 	err := ls.linkRepository.DeleteLink(short)
 	if err != nil {
 		g.String(http.StatusBadRequest, err.Error())
+		return
 	}
 
-	g.Header("HX-Trigger", "refresh")
-	g.Status(http.StatusNoContent)
+	g.Header("hx-trigger", "refresh")
+	g.HTML(http.StatusOK, "clear.html", gin.H{})
 }

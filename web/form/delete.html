@@ -2,7 +2,7 @@
   <form 
     hx-delete="/links/{{ .ShortURL }}" 
     hx-target="#modal" 
-    hx-swap="outerHTML"
+    hx-swap="innerHTML"
     class="form-card">
 
     <h2>Delete Link</h2>
@@ -13,16 +13,15 @@
 
     <div class="form-actions">
       <button 
-          type="submit" 
-          class="btn btn-danger">
-          Delete
+        type="button" 
+        hx-get="/components/form/clear">
+        Cancel
       </button>
 
       <button 
-        type="button" 
-        hx-target="#modal" 
-        hx-swap="outerHTML">
-        Cancel
+          type="submit" 
+          class="btn btn-danger"> 
+          Delete
       </button>
     </div>
   </form>

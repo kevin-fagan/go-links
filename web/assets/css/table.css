@@ -1,0 +1,75 @@
+.links-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 12px;
+  font-size: 14px;
+  background-color: #121212;
+  color: #e0e0e0;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+  margin-top: 1rem;
+  overflow: hidden;
+}
+
+.links-table-head {
+  background-color: #1f1f1f;
+  color: #bbb;
+}
+
+.th-left {
+  text-align: left;
+  padding: 12px 16px;
+  font-weight: 600;
+}
+
+.th-right {
+  text-align: right;
+  padding: 12px 16px;
+  font-weight: 600;
+}
+
+.th-empty {
+  padding: 12px 16px;
+}
+
+.links-table-row {
+  border-top: 1px solid #2a2a2a;
+  transition: background 0.25s ease;
+  border-radius: 8px;
+}
+
+.links-table-row:hover {
+  background: #222;
+}
+
+.td-right {
+  padding: 12px 16px;
+  text-align: right;
+}
+
+.td-left {
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.btn-edit, .btn-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  vertical-align: middle;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+  margin-right: 8px;
+}
+
+.btn-edit {
+  color: #64b5f6;
+  margin-right: 8px;
+}
+
+.btn-delete {
+  color: #ef5350;
+  margin-right: 0;
+}
+

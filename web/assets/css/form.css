@@ -1,0 +1,91 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(18, 18, 18, 0.85); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; 
+}
+
+.form-card {
+  background-color: #1f1f1f;
+  color: #e0e0e0;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+  width: 90%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+.form-card input[type="text"],
+.form-card input[type="url"] {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+  border: 1.5px solid #444;
+  border-radius: 8px;
+  background-color: #121212;
+  color: #e0e0e0;
+  font-size: 1rem;
+  transition: border-color 0.25s ease;
+  box-sizing: border-box;
+}
+
+.form-card input[type="text"]:focus,
+.form-card input[type="url"]:focus {
+  outline: none;
+  border-color: #64b5f6;
+  background-color: #181818;
+}
+
+.form-card label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.form-card h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  align-items: center;
+}
+
+.form-card button {
+  min-width: 80px;
+  background-color: #64b5f6;
+  color: #121212;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-card button:hover {
+  background-color: #42a5f5;
+}
+
+.form-card button[type="button"] {
+  background-color: #ef5350;
+  color: #fff;
+}
+
+.form-card button[type="button"]:hover {
+  background-color: #d43c3a;
+}
+

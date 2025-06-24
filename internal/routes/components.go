@@ -10,6 +10,7 @@ func AddComponentRoutes(rg *gin.RouterGroup, sqlite *repository.SQLContext) {
 	cs := service.NewComponentService(sqlite)
 
 	rg.GET("/components/table", cs.LinkTable)
+	rg.GET("/components/form/clear", cs.FormClear)
 	rg.GET("/components/form/create", cs.FormCreate)
 	rg.GET("/components/form/update/:link", cs.FormUpdate)
 	rg.GET("/components/form/delete/:link", cs.FormDelete)

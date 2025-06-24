@@ -2,7 +2,7 @@
   <form 
     hx-post="/links" 
     hx-target="#modal" 
-    hx-swap="outerHTML" 
+    hx-swap="innerHTML" 
     class="form-card">
 
     <h2>Create URL</h2>
@@ -23,15 +23,13 @@
 
     <div class="form-actions">
       <button 
-         type="submit">
-          Save
+        type="button" 
+        hx-get="/components/form/clear">
+        Cancel
       </button>
 
-      <button 
-        type="button" 
-        hx-target="#modal" 
-        hx-swap="outerHTML">
-        Cancel
+      <button type="submit"> 
+          Save
       </button>
     </div>
   </form>
