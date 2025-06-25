@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/kevin-fagan/learn-gin/internal/repository"
+	"github.com/kevin-fagan/go-links/internal/repository"
 )
 
 type LinkService struct {
@@ -22,17 +22,21 @@ func (ls *LinkService) CreateLink(g *gin.Context) {
 	long := g.PostForm("long-url")
 
 	if short == "" || long == "" {
-		g.String(http.StatusBadRequest, "missing short or long URL")
+		g.HTML(http.StatusBadRequest, "error.html", gin.H{
+			"Message": "missing short or long URL",
+		})
 		return
 	}
 
 	err := ls.linkRepository.CreateLink(short, long)
 	if err != nil {
-		g.String(http.StatusBadRequest, err.Error())
+		g.HTML(http.StatusBadRequest, "error.html", gin.H{
+			"Message": err.Error(),
+		})
 		return
 	}
 
-	g.Header("hx-trigger", "refresh")
+	g.Header("HX-Trigger", "refresh")
 	g.HTML(http.StatusOK, "clear.html", gin.H{})
 }
 
@@ -41,28 +45,35 @@ func (ls *LinkService) UpdateLink(g *gin.Context) {
 	long := g.PostForm("long-url")
 
 	if short == "" || long == "" {
-		g.String(http.StatusBadRequest, "missing short or long URL")
+		g.HTML(http.StatusBadRequest, "error.html", gin.H{
+			"Message": "missing short or long URL",
+		})
 		return
 	}
 
 	err := ls.linkRepository.UpdateLink(short, long)
 	if err != nil {
-		g.String(http.StatusBadRequest, err.Error())
+		g.HTML(http.StatusBadRequest, "error.html", gin.H{
+			"Message": err.Error(),
+		})
 		return
 	}
 
-	g.Header("hx-trigger", "refresh")
+	g.Header("HX-Trigger", "refresh")
 	g.HTML(http.StatusOK, "clear.html", gin.H{})
 }
 
 func (ls *LinkService) DeleteLink(g *gin.Context) {
 	short := g.Param("link")
 	err := ls.linkRepository.DeleteLink(short)
+
 	if err != nil {
-		g.String(http.StatusBadRequest, err.Error())
+		g.HTML(http.StatusBadRequest, "error.html", gin.H{
+			"Message": err.Error(),
+		})
 		return
 	}
 
-	g.Header("hx-trigger", "refresh")
+	g.Header("HX-Trigger", "refresh")
 	g.HTML(http.StatusOK, "clear.html", gin.H{})
 }

@@ -3,11 +3,14 @@ package repository
 import (
 	"errors"
 
-	"github.com/kevin-fagan/learn-gin/internal/model"
+	"github.com/kevin-fagan/go-links/internal/model"
+	"github.com/mattn/go-sqlite3"
 )
 
 var (
-	ErrLinkNotFound     = errors.New("link not found")
+	ErrLinkNotFound      = errors.New("link not found")
+	ErrLinkAlreadyExists = errors.New("link already exists")
+
 	ErrNegativePage     = errors.New("'page' cannot be negative")
 	ErrNegativePageSize = errors.New("'pageSize' cannot be negative")
 )
@@ -94,6 +97,9 @@ func (l *LinkRepository) CreateLink(short, long string) error {
 	`
 
 	_, err := l.sql.Exec(statement, short, long)
+	if err == sqlite3.ErrConstraintUnique {
+		return ErrLinkAlreadyExists
+	}
 	if err != nil {
 		return err
 	}

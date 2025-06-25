@@ -89,3 +89,15 @@
   background-color: #d43c3a;
 }
 
+.form-card input.readonly-field {
+    background-color: #1a1a1a;
+    color: #888;
+    border: 1.5px solid #333;
+    cursor: not-allowed;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+

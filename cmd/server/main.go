@@ -4,8 +4,8 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
-	"github.com/kevin-fagan/learn-gin/internal/repository"
-	"github.com/kevin-fagan/learn-gin/internal/routes"
+	"github.com/kevin-fagan/go-links/internal/repository"
+	"github.com/kevin-fagan/go-links/internal/routes"
 )
 
 var (

@@ -2,6 +2,7 @@
   <form 
     hx-post="/links/{{ .ShortURL }}" 
     hx-target="#modal" 
+    hx-target-error="#modal"
     hx-swap="innerHTML" 
     class="form-card">
 
@@ -13,6 +14,8 @@
         id="short-url" 
         name="short-url" 
         value="{{ .ShortURL}}" 
+        class="readonly-field"
+        readonly
         required />
 
     <label for="long">Long URL</label>

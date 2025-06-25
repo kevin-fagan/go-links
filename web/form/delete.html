@@ -2,15 +2,12 @@
   <form 
     hx-delete="/links/{{ .ShortURL }}" 
     hx-target="#modal" 
+    hx-target-error="#modal"
     hx-swap="innerHTML"
     class="form-card">
 
     <h2>Delete Link</h2>
-
-    <p>
-        Are you sure you want to delete <strong>{{ .ShortURL }}</strong>?
-    </p>
-
+    <p> Are you sure you want to delete <strong>{{ .ShortURL }}</strong>?</p>
     <div class="form-actions">
       <button 
         type="button" 

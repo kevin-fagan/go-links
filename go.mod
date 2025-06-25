@@ -1,4 +1,4 @@
-module github.com/kevin-fagan/learn-gin
+module github.com/kevin-fagan/go-links
 
 go 1.24.2
 

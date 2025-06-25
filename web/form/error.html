@@ -1,0 +1,17 @@
+<div 
+    class="modal" 
+    id="error-form"
+    hx-target="#modal" 
+    hx-swap="innerHTML">
+    <div class="form-card">
+        <h2 style="color: #ef5350;">Error</h2>
+        <p>{{ .Message }}</p>
+        <div class="form-actions">
+            <button 
+                type="button" 
+                hx-get="/components/form/clear">
+                Ok 
+            </button>
+        </div>
+    </div>
+</div>
