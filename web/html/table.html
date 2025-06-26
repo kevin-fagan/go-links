@@ -1,7 +1,7 @@
 <table
     id="links-table"
     class="links-table"
-    hx-get="/components/table?page={{ .Page.Current }}&pageSize={{ .Page.Size}}"
+    hx-get="/components/table?page={{ .Page.Current }}&pageSize={{ .Page.Size }}"
     hx-trigger="refresh from:body"
     hx-swap="outerHTML"
 >
@@ -17,11 +17,7 @@
 
     {{ range .Links }}
         <tbody>
-            <tr
-                class="links-table-row"
-                onmouseover="this.style.background='#222'"
-                onmouseout="this.style.background='transparent'"
-            >
+            <tr class="links-table-row">
                 <td class="td-left">{{ .ShortURL }}</td>
                 <td>{{ .LongURL }}</td>
                 <td class="td-left">{{ .Visits }}</td>
@@ -76,16 +72,16 @@
     {{ end }}
 </table>
 
-<div class="pagination-toolbar">
+<div class="toolbar">
     <div style="margin-left: auto; display: flex; gap: 0.5rem">
-        <div class="pagination-count" >
+        <div class="pagination-count">
             {{ .Results.Current }} of
             {{ .Results.Total }}
         </div>
 
         <button
             class="button-pagination"
-            hx-get="/components/table?page={{ .Page.Previous }}&pageSize={{ .Page.Size}}"
+            hx-get="/components/table?page={{ .Page.Previous }}&pageSize={{ .Page.Size }}"
             {{ if eq .Page.Current 0 }}disabled{{ end }}
             hx-target="#links-table"
             hx-swap="innerHTML"

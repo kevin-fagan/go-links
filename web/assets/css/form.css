@@ -8,13 +8,12 @@
     position: fixed;
     align-items: center;
     justify-content: center;
-    background: rgba(18,18,18,0.85);
+    background: rgba(18, 18, 18, 0.85);
 }
 
 .form-card {
-    width: 90%;
-    max-width: 400px;
-    box-sizing: border-box;
+    width: 100%;
+    max-width: 500px;
     color: var(--color-light);
     background-color: var(--secondary-bg-color);
     padding: var(--padding);
@@ -25,15 +24,14 @@
 .form-card input[type="text"],
 .form-card input[type="url"] {
     width: 100%;
-    padding: var(--padding); 
+    box-sizing: border-box;
+    padding: var(--padding);
     margin-bottom: var(--margin);
     border: 1.5px solid var(--input-border);
     border-radius: var(--border-radius);
     background-color: var(--input-bg-color);
     color: var(--color-light);
     font-size: var(--font-size);
-    transition: border-color 0.25s ease;
-    box-sizing: border-box;
 }
 
 .form-card input[type="text"]:focus,
@@ -51,7 +49,7 @@
 
 .form-card h2 {
     margin-top: 0;
-    margin-bottom: 32px;
+    margin-bottom: var(--margin);
 }
 
 .form-actions {
@@ -66,8 +64,6 @@
     border: none;
     min-width: 80px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    box-sizing: border-box;
     font-weight: var(--font-bold);
     background-color: var(--primary-color);
     color: var(--primary-bg-color);
@@ -90,7 +86,6 @@
 
 .form-card input.readonly-field {
     width: 100%;
-    box-sizing: border-box;
     cursor: not-allowed;
     background-color: var(--secondary-bg-color);
     color: var(--input-text-disabled);

@@ -4,7 +4,7 @@
     --font-size-md: 16px;
     --font-bold: 600;
 
-    --primary-bg-color: #121212; 
+    --primary-bg-color: #121212;
     --secondary-bg-color: #1f1f1f;
     --color-light: #e0e0e0;
 
@@ -19,7 +19,7 @@
     --input-border-focus: var(--primary-button);
     --input-border-disabled: #333;
     --input-text-disabled: #888;
-    
+
     --padding: 12px;
     --margin: 12px;
     --border-radius: 12px;
@@ -91,4 +91,3 @@ body {
     padding: var(--padding);
     color: var(--color-light);
 }
-

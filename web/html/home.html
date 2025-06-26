@@ -26,7 +26,6 @@
 
     <body hx-ext="response-targets">
         <div id="wrapper">
-            <!-- Top Toolbar -->
             <div class="toolbar">
                 <div class="search-wrapper">
                     <input
@@ -45,12 +44,12 @@
 
                 <button
                     class="button-primary"
-                    hx-get="/components/form/create"
-                    hx-target="#modal"
-                    hx-swap="innerHTML"
                     aria-label="Create new link"
                     type="button"
                     title="Add new link"
+                    hx-get="/components/form/create"
+                    hx-target="#modal"
+                    hx-swap="innerHTML"
                 >
                     <i class="bi bi-plus-circle button-icon"></i> Add Link
                 </button>
