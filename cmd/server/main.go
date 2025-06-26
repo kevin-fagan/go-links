@@ -15,7 +15,7 @@ var (
 func init() {
 	var err error
 
-	sqlite, err = repository.Connect("compass-db")
+	sqlite, err = repository.Connect("golinks-db")
 	if err != nil {
 		log.Fatal(err)
 	}

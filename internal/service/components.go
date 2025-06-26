@@ -37,7 +37,25 @@ func (cs *ComponentService) LinkTable(g *gin.Context) {
 		return
 	}
 
-	g.HTML(http.StatusOK, "table.html", links)
+	count, err := cs.linkRepository.Count()
+	if err != nil {
+		g.String(http.StatusBadRequest, "error retrieving links")
+		return
+	}
+
+	g.HTML(http.StatusOK, "table.html", gin.H{
+		"Links": &links,
+		"Results": gin.H{
+			"Current": min(count, (page+1)*pageSize),
+			"Total":   count,
+		},
+		"Page": gin.H{
+			"Size":     5,
+			"Current":  page,
+			"Previous": page - 1,
+			"Next":     page + 1,
+		},
+	})
 }
 
 func (cs *ComponentService) FormCreate(g *gin.Context) {

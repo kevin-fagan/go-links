@@ -1,60 +1,112 @@
-<table 
-    id="links-table" 
-    hx-get="/components/table?page=0&pageSize=25" 
+<table
+    id="links-table"
+    class="links-table"
+    hx-get="/components/table?page={{ .Page.Current }}&pageSize={{ .Page.Size}}"
     hx-trigger="refresh from:body"
     hx-swap="outerHTML"
-    class="links-table"
 >
     <thead class="links-table-head">
         <tr>
             <th scope="col" class="th-left">Short URL</th>
             <th scope="col" class="th-left">Long URL</th>
-            <th scope="col" class="th-right">Visits</th>
+            <th scope="col" class="th-left">Visits</th>
             <th scope="col" class="th-left">Last Updated</th>
             <th scope="col" class="th-empty"></th>
         </tr>
     </thead>
 
-    {{range .}}
-    <tbody>
-        <tr class="links-table-row" 
-            onmouseover="this.style.background='#222'" 
-            onmouseout="this.style.background='transparent'">
-            <td class="td-left">{{.ShortURL}}</td>
-            <td class="td-left">{{.LongURL}}</td>
-            <td class="td-right">{{.Visits}}</td>
-            <td class="td-left">{{.LastUpdated}}</td>
-            <td class="td-right">
-                <button 
-                    hx-get="/components/form/update/{{ .ShortURL }}" 
-                    hx-target="#modal" 
-                    hx-swap="innerHTML"
-                    aria-label="Update link {{ .ShortURL }}"
-                    class="btn-edit"
-                    onmouseover="this.style.background='rgba(100, 181, 246, 0.2)'"
-                    onmouseout="this.style.background='transparent'">
-                    <!-- Pencil icon (edit) -->
-                    <svg xmlns="http://www.w3.org/2000/svg" height="18" width="18" fill="currentColor" viewBox="0 0 24 24" >
-                      <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM21.71 7.04a1.003 1.003 0 0 0 0-1.41l-2.34-2.34a1.003 1.003 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-                    </svg>
-                </button>
+    {{ range .Links }}
+        <tbody>
+            <tr
+                class="links-table-row"
+                onmouseover="this.style.background='#222'"
+                onmouseout="this.style.background='transparent'"
+            >
+                <td class="td-left">{{ .ShortURL }}</td>
+                <td>{{ .LongURL }}</td>
+                <td class="td-left">{{ .Visits }}</td>
+                <td>{{ .LastUpdated }}</td>
+                <td class="td-right">
+                    <button
+                        hx-get="/components/form/update/{{ .ShortURL }}"
+                        hx-target="#modal"
+                        hx-swap="innerHTML"
+                        aria-label="Update link {{ .ShortURL }}"
+                        class="btn-edit"
+                        onmouseover="this.style.background='rgba(100, 181, 246, 0.2)'"
+                        onmouseout="this.style.background='transparent'"
+                    >
+                        <!-- Pencil icon (edit) -->
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="18"
+                            width="18"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM21.71 7.04a1.003 1.003 0 0 0 0-1.41l-2.34-2.34a1.003 1.003 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                            />
+                        </svg>
+                    </button>
 
-                <button 
-                    hx-get="/components/form/delete/{{ .ShortURL }}" 
-                    hx-target="#modal" 
-                    hx-swap="innerHTML"
-                    aria-label="Delete link {{ .ShortURL }}"
-                    class="btn-delete"
-                    onmouseover="this.style.background='rgba(239, 83, 80, 0.2)'"
-                    onmouseout="this.style.background='transparent'">
-                    <!-- Trash icon (delete) -->
-                    <svg xmlns="http://www.w3.org/2000/svg" height="18" width="18" fill="currentColor" viewBox="0 0 24 24" >
-                      <path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-4.5l-1-1z"/>
-                    </svg>
-                </button>
-            </td>
-        </tr>
-    </tbody>
-    {{end}}
+                    <button
+                        hx-get="/components/form/delete/{{ .ShortURL }}"
+                        hx-target="#modal"
+                        hx-swap="innerHTML"
+                        aria-label="Delete link {{ .ShortURL }}"
+                        class="btn-delete"
+                        onmouseover="this.style.background='rgba(239, 83, 80, 0.2)'"
+                        onmouseout="this.style.background='transparent'"
+                    >
+                        <!-- Trash icon (delete) -->
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="18"
+                            width="18"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-4.5l-1-1z" />
+                        </svg>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    {{ end }}
 </table>
 
+<div class="pagination-toolbar">
+    <div style="margin-left: auto; display: flex; gap: 0.5rem">
+        <div class="pagination-count" >
+            {{ .Results.Current }} of
+            {{ .Results.Total }}
+        </div>
+
+        <button
+            class="button-pagination"
+            hx-get="/components/table?page={{ .Page.Previous }}&pageSize={{ .Page.Size}}"
+            {{ if eq .Page.Current 0 }}disabled{{ end }}
+            hx-target="#links-table"
+            hx-swap="innerHTML"
+            aria-label="Previous Page"
+            type="button"
+            title="Previous"
+        >
+            <i class="bi bi-chevron-left"></i>
+        </button>
+
+        <button
+            class="button-pagination"
+            hx-get="/components/table?page={{ .Page.Next }}&pageSize={{ .Page.Size }}"
+            {{ if eq .Results.Current .Results.Total }}disabled{{ end }}
+            hx-target="#links-table"
+            hx-swap="innerHTML"
+            aria-label="Next Page"
+            type="button"
+            title="Next"
+        >
+            <i class="bi bi-chevron-right"></i>
+        </button>
+    </div>
+</div>

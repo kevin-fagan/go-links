@@ -1,1 +1,1 @@
-## Go Link
+## Go Links

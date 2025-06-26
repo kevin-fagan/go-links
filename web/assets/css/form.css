@@ -1,103 +1,101 @@
 .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(18, 18, 18, 0.85); 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999; 
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    z-index: 9999;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    background: rgba(18,18,18,0.85);
 }
 
 .form-card {
-  background-color: #1f1f1f;
-  color: #e0e0e0;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.7);
-  width: 90%;
-  max-width: 400px;
-  box-sizing: border-box;
+    width: 90%;
+    max-width: 400px;
+    box-sizing: border-box;
+    color: var(--color-light);
+    background-color: var(--secondary-bg-color);
+    padding: var(--padding);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
 }
 
 .form-card input[type="text"],
 .form-card input[type="url"] {
-  width: 100%;
-  padding: 0.5rem 0.75rem;
-  margin-bottom: 1rem;
-  border: 1.5px solid #444;
-  border-radius: 8px;
-  background-color: #121212;
-  color: #e0e0e0;
-  font-size: 1rem;
-  transition: border-color 0.25s ease;
-  box-sizing: border-box;
+    width: 100%;
+    padding: var(--padding); 
+    margin-bottom: var(--margin);
+    border: 1.5px solid var(--input-border);
+    border-radius: var(--border-radius);
+    background-color: var(--input-bg-color);
+    color: var(--color-light);
+    font-size: var(--font-size);
+    transition: border-color 0.25s ease;
+    box-sizing: border-box;
 }
 
 .form-card input[type="text"]:focus,
 .form-card input[type="url"]:focus {
-  outline: none;
-  border-color: #64b5f6;
-  background-color: #181818;
+    outline: none;
+    border-color: var(--input-border-focus);
+    background-color: var(--input-bg-focus);
 }
 
 .form-card label {
-  display: block;
-  margin-bottom: 0.25rem;
-  font-weight: 600;
+    display: block;
+    margin-bottom: var(--margin);
+    font-weight: var(--font-bold);
 }
 
 .form-card h2 {
-  margin-top: 0;
-  margin-bottom: 1rem;
+    margin-top: 0;
+    margin-bottom: 32px;
 }
 
 .form-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-  margin-top: 1rem;
-  align-items: center;
+    display: flex;
+    gap: var(--margin);
+    margin-top: var(--margin);
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .form-card button {
-  min-width: 80px;
-  background-color: #64b5f6;
-  color: #121212;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-  box-sizing: border-box;
+    border: none;
+    min-width: 80px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-sizing: border-box;
+    font-weight: var(--font-bold);
+    background-color: var(--primary-color);
+    color: var(--primary-bg-color);
+    border-radius: var(--border-radius);
+    padding: var(--padding);
+    font-size: var(--font-size-md);
 }
 
 .form-card button:hover {
-  background-color: #42a5f5;
+    background-color: var(--primary-color);
 }
 
 .form-card button[type="button"] {
-  background-color: #ef5350;
-  color: #fff;
+    background-color: var(--primary-color);
 }
 
 .form-card button[type="button"]:hover {
-  background-color: #d43c3a;
+    background-color: var(--secondary-color);
 }
 
 .form-card input.readonly-field {
-    background-color: #1a1a1a;
-    color: #888;
-    border: 1.5px solid #333;
-    cursor: not-allowed;
-    padding: 0.5rem 0.75rem;
-    border-radius: 8px;
-    font-size: 1rem;
     width: 100%;
     box-sizing: border-box;
+    cursor: not-allowed;
+    background-color: var(--secondary-bg-color);
+    color: var(--input-text-disabled);
+    border: 1.5px solid var(--input-border-disabled);
+    padding: var(--padding);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-md);
 }
-

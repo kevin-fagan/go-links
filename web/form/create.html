@@ -1,38 +1,22 @@
 <div class="modal" id="create-form">
-  <form 
-    hx-post="/links" 
-    hx-target="#modal" 
-    hx-target-error="#modal"
-    hx-swap="innerHTML" 
-    class="form-card">
+    <form
+        hx-post="/links"
+        hx-target="#modal"
+        hx-target-error="#modal"
+        hx-swap="innerHTML"
+        class="form-card"
+    >
+        <h2>Create URL</h2>
 
-    <h2>Create URL</h2>
+        <label for="short">Short URL</label>
+        <input type="text" id="short-url" name="short-url" required />
 
-    <label for="short">Short URL</label>
-    <input 
-        type="text" 
-        id="short-url" 
-        name="short-url" 
-        required />
+        <label for="long">Long URL</label>
+        <input type="url" id="long-url" name="long-url" required />
 
-    <label for="long">Long URL</label>
-    <input 
-        type="url" 
-        id="long-url" 
-        name="long-url" 
-        required />
-
-    <div class="form-actions">
-      <button 
-        type="button" 
-        hx-get="/components/form/clear">
-        Cancel
-      </button>
-
-      <button type="submit"> 
-          Save
-      </button>
-    </div>
-  </form>
+        <div class="form-actions">
+            <button type="button" hx-get="/components/form/clear">Cancel</button>
+            <button type="submit">Save</button>
+        </div>
+    </form>
 </div>
-

@@ -10,9 +10,6 @@ import (
 var (
 	ErrLinkNotFound      = errors.New("link not found")
 	ErrLinkAlreadyExists = errors.New("link already exists")
-
-	ErrNegativePage     = errors.New("'page' cannot be negative")
-	ErrNegativePageSize = errors.New("'pageSize' cannot be negative")
 )
 
 type LinkRepository struct {
@@ -45,6 +42,18 @@ func (l *LinkRepository) IncrementVisits(short string) error {
 	return nil
 }
 
+func (l *LinkRepository) Count() (int, error) {
+	statement := `SELECT COUNT(*) FROM links;`
+
+	var count int
+	err := l.sql.QueryRow(statement).Scan(&count)
+	if err != nil {
+		return 0, err
+	}
+
+	return count, nil
+}
+
 func (l *LinkRepository) GetLink(short string) (*model.Link, error) {
 	statement := `
 	SELECT short_name, long_name, visits, last_updated
@@ -63,6 +72,9 @@ func (l *LinkRepository) GetLink(short string) (*model.Link, error) {
 }
 
 func (l *LinkRepository) GetLinks(page, pageSize int) ([]model.Link, error) {
+	page = max(0, page)
+	pageSize = max(0, pageSize)
+
 	statement := `
 	SELECT short_name, long_name, visits, last_updated
 	FROM links

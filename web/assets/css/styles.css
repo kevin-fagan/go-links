@@ -1,56 +1,94 @@
+:root {
+    --font: "Roboto", sans-serif;
+    --font-size-sm: 12px;
+    --font-size-md: 16px;
+    --font-bold: 600;
+
+    --primary-bg-color: #121212; 
+    --secondary-bg-color: #1f1f1f;
+    --color-light: #e0e0e0;
+
+    --primary-color: #64b5f6;
+    --secondary-color: #ef5250;
+
+    --hover-bg-color: #3a3a3a;
+
+    --input-bg-color: #121212;
+    --input-bg-focus: #181818;
+    --input-border: #444;
+    --input-border-focus: var(--primary-button);
+    --input-border-disabled: #333;
+    --input-text-disabled: #888;
+    
+    --padding: 12px;
+    --margin: 12px;
+    --border-radius: 12px;
+
+    --box-shadow: 0 3px 8px rgba(0, 0, 0, 0.7);
+}
+
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #121212;
-    color: #e0e0e0;
-    margin: 0;
-    padding: 2rem 0;
+    font-family: var(--font);
+    background-color: var(--primary-bg-color);
 }
 
 #wrapper {
-  max-width: 900px;
-  margin: 0 auto;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 .button-pagination {
-  background-color: #2a2a2a;
-  color: #e0e0e0;
-  border: none;
-  border-radius: 6px;
-  padding: 0.4rem 0.6rem;
-  font-size: 1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  transition: background-color 0.25s ease;
+    background-color: var(--secondary-bg-color);
+    color: #e0e0e0;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: var(--padding);
+    font-size: var(--font-size-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.25s ease;
 }
 
 .button-pagination:hover {
-  background-color: #3a3a3a;
+    background-color: var(--hover-bg-color);
 }
 
 .button-pagination i {
-  font-size: 1rem;
+    font-size: var(--font-size-md);
 }
 
 .button-primary {
-  background-color: #64b5f6;
-  color: #121212;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  padding: 0.35rem 0.8rem;
-  cursor: pointer;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  transition: background-color 0.3s ease;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: background-color 0.25s ease;
+    cursor: pointer;
+    font-weight: var(--font-bold);
+    background-color: var(--primary-color);
+    color: var(--primary-bg-color);
+    border-radius: var(--border-radius);
+    padding: var(--padding);
+    font-size: var(--font-size-md);
 }
 
 .button-primary:hover {
-  background-color: #42a5f5;
+    background-color: var(--secondary-button);
 }
 
 .button-icon {
-  font-size: 1.1rem;
+    font-size: var(--font-size-md);
 }
+
+.button-pagination:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.pagination-count {
+    padding: var(--padding);
+    color: var(--color-light);
+}
+

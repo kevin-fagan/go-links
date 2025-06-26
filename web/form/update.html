@@ -1,41 +1,30 @@
 <div class="modal" id="update-form">
-  <form 
-    hx-post="/links/{{ .ShortURL }}" 
-    hx-target="#modal" 
-    hx-target-error="#modal"
-    hx-swap="innerHTML" 
-    class="form-card">
+    <form
+        hx-post="/links/{{ .ShortURL }}"
+        hx-target="#modal"
+        hx-target-error="#modal"
+        hx-swap="innerHTML"
+        class="form-card"
+    >
+        <h2>Update URL</h2>
 
-    <h2>Update URL</h2>
+        <label for="short">Short URL</label>
+        <input
+            type="text"
+            id="short-url"
+            name="short-url"
+            value="{{ .ShortURL }}"
+            class="readonly-field"
+            readonly
+            required
+        />
 
-    <label for="short">Short URL</label>
-    <input 
-        type="text" 
-        id="short-url" 
-        name="short-url" 
-        value="{{ .ShortURL}}" 
-        class="readonly-field"
-        readonly
-        required />
+        <label for="long">Long URL</label>
+        <input type="url" id="long-url" name="long-url" value="{{ .LongURL }}" required />
 
-    <label for="long">Long URL</label>
-    <input 
-        type="url" 
-        id="long-url" 
-        name="long-url" 
-        value="{{ .LongURL}}" 
-        required />
-
-    <div class="form-actions">
-      <button 
-        type="button" 
-        hx-get="/components/form/clear">
-        Cancel
-      </button>
-
-      <button type="submit">
-          Save
-      </button>
-    </div>
-  </form>
+        <div class="form-actions">
+            <button type="button" hx-get="/components/form/clear">Cancel</button>
+            <button type="submit">Save</button>
+        </div>
+    </form>
 </div>
