@@ -16,16 +16,6 @@
     background-color: var(--secondary-bg-color);
 }
 
-.th-left {
-    text-align: left;
-    padding: var(--padding);
-}
-
-.th-right {
-    text-align: right;
-    padding: var(--padding);
-}
-
 .links-table-row {
     border-radius: var(--border-radius);
     transition: background 0.25s ease;
@@ -33,6 +23,11 @@
 
 .links-table-row:hover {
     background: #222;
+}
+
+.th-left {
+    text-align: left;
+    padding: var(--padding);
 }
 
 .td-right {
@@ -43,30 +38,4 @@
 .td-left {
     text-align: left;
     padding: var(--padding);
-}
-
-.btn-edit {
-    color: var(--primary-color);
-    margin-right: var(--margin);
-    background: none;
-    border: none;
-    cursor: pointer;
-    vertical-align: middle;
-    padding: var(--padding);
-    border-radius: var(--border-radius);
-    margin-right: var(--margin);
-    transition: background 0.25s ease;
-}
-
-.btn-delete {
-    color: var(--secondary-color);
-    margin-right: var(--margin);
-    background: none;
-    border: none;
-    cursor: pointer;
-    vertical-align: middle;
-    padding: var(--padding);
-    border-radius: var(--border-radius);
-    margin-right: var(--margin);
-    transition: background 0.25s ease;
 }

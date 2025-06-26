@@ -1,0 +1,79 @@
+.button-row-edit {
+    color: var(--primary-color);
+    background: none;
+    border: none;
+    cursor: pointer;
+    vertical-align: middle;
+    padding: var(--padding);
+    border-radius: var(--border-radius);
+    margin-right: var(--margin);
+    transition: background 0.25s ease;
+}
+
+.button-row-edit:hover {
+    background: rgba(100, 181, 246, 0.2);
+}
+
+.button-row-delete {
+    color: var(--secondary-color);
+    margin-right: var(--margin);
+    background: none;
+    border: none;
+    cursor: pointer;
+    vertical-align: middle;
+    padding: var(--padding);
+    border-radius: var(--border-radius);
+    margin-right: var(--margin);
+    transition: background 0.25s ease;
+}
+
+.button-row-delete:hover {
+    background: rgba(239, 83, 80, 0.2);
+}
+
+.button-add-link {
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: background-color 0.25s ease;
+    cursor: pointer;
+    font-weight: var(--font-bold);
+    background-color: var(--primary-color);
+    color: var(--primary-bg-color);
+    border-radius: var(--border-radius);
+    padding: var(--padding);
+    font-size: var(--font-size-md);
+}
+
+.button-add-link:hover {
+    background-color: var(--secondary-button);
+}
+
+.button-pagination {
+    background-color: var(--secondary-bg-color);
+    color: #e0e0e0;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: var(--padding);
+    font-size: var(--font-size-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.25s ease;
+}
+
+.button-pagination:hover {
+    background-color: var(--hover-bg-color);
+}
+
+.button-pagination:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.button-pagination-page-tracker {
+    padding: var(--padding);
+    color: var(--color-light);
+}

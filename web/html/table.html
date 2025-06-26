@@ -28,22 +28,9 @@
                         hx-target="#modal"
                         hx-swap="innerHTML"
                         aria-label="Update link {{ .ShortURL }}"
-                        class="btn-edit"
-                        onmouseover="this.style.background='rgba(100, 181, 246, 0.2)'"
-                        onmouseout="this.style.background='transparent'"
+                        class="button-row-edit"
                     >
-                        <!-- Pencil icon (edit) -->
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            height="18"
-                            width="18"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM21.71 7.04a1.003 1.003 0 0 0 0-1.41l-2.34-2.34a1.003 1.003 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-                            />
-                        </svg>
+                        <i class="bi bi-pencil"></i>
                     </button>
 
                     <button
@@ -51,20 +38,9 @@
                         hx-target="#modal"
                         hx-swap="innerHTML"
                         aria-label="Delete link {{ .ShortURL }}"
-                        class="btn-delete"
-                        onmouseover="this.style.background='rgba(239, 83, 80, 0.2)'"
-                        onmouseout="this.style.background='transparent'"
+                        class="button-row-delete"
                     >
-                        <!-- Trash icon (delete) -->
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            height="18"
-                            width="18"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-4.5l-1-1z" />
-                        </svg>
+                        <i class="bi bi-trash"></i>
                     </button>
                 </td>
             </tr>
@@ -74,7 +50,7 @@
 
 <div class="toolbar">
     <div style="margin-left: auto; display: flex; gap: 0.5rem">
-        <div class="pagination-count">
+        <div class="button-pagination-page-tracker">
             {{ .Results.Current }} of
             {{ .Results.Total }}
         </div>

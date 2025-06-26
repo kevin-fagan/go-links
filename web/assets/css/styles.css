@@ -32,62 +32,7 @@ body {
     background-color: var(--primary-bg-color);
 }
 
-#wrapper {
+.home-container {
     max-width: 900px;
     margin: 0 auto;
-}
-
-.button-pagination {
-    background-color: var(--secondary-bg-color);
-    color: #e0e0e0;
-    border: none;
-    border-radius: var(--border-radius);
-    padding: var(--padding);
-    font-size: var(--font-size-md);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    transition: background-color 0.25s ease;
-}
-
-.button-pagination:hover {
-    background-color: var(--hover-bg-color);
-}
-
-.button-pagination i {
-    font-size: var(--font-size-md);
-}
-
-.button-primary {
-    border: none;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    transition: background-color 0.25s ease;
-    cursor: pointer;
-    font-weight: var(--font-bold);
-    background-color: var(--primary-color);
-    color: var(--primary-bg-color);
-    border-radius: var(--border-radius);
-    padding: var(--padding);
-    font-size: var(--font-size-md);
-}
-
-.button-primary:hover {
-    background-color: var(--secondary-button);
-}
-
-.button-icon {
-    font-size: var(--font-size-md);
-}
-
-.button-pagination:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-.pagination-count {
-    padding: var(--padding);
-    color: var(--color-light);
 }

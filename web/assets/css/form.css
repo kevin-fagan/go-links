@@ -48,8 +48,8 @@
 }
 
 .form-card h2 {
-    margin-top: 0;
-    margin-bottom: var(--margin);
+    margin-top: 0px;
+    margin-bottom: 24px;
 }
 
 .form-actions {

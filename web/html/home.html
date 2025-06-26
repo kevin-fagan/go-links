@@ -5,16 +5,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Go Links</title>
 
-        <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.5/dist/htmx.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/htmx-ext-response-targets@2.0.2"></script>
+        <script src="/assets/js/htmx.min.js"></script>
+        <script src="/assets/js/htmx-ex-response-targets.js"></script>
+
+        <link href="/assets/fonts/boostrap-icons.woff2" rel="stylesheet" />
+        <link href="/assets/fonts/roboto.woff2" rel="stylesheet" />
 
         <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
-            rel="stylesheet"
         />
 
         <link rel="stylesheet" href="/assets/css/styles.css" />
@@ -22,12 +21,14 @@
         <link rel="stylesheet" href="/assets/css/table.css" />
         <link rel="stylesheet" href="/assets/css/search.css" />
         <link rel="stylesheet" href="/assets/css/toolbar.css" />
+        <link rel="stylesheet" href="/assets/css/button.css" />
     </head>
 
     <body hx-ext="response-targets">
-        <div id="wrapper">
+        <div class="home-container">
+            <!-- Toolbar Container-->
             <div class="toolbar">
-                <div class="search-wrapper">
+                <div class="search-container">
                     <input
                         type="search"
                         name="search"
@@ -43,7 +44,7 @@
                 </div>
 
                 <button
-                    class="button-primary"
+                    class="button-add-link"
                     aria-label="Create new link"
                     type="button"
                     title="Add new link"
@@ -51,7 +52,7 @@
                     hx-target="#modal"
                     hx-swap="innerHTML"
                 >
-                    <i class="bi bi-plus-circle button-icon"></i> Add Link
+                    <i class="bi bi-plus-circle"></i> Add Link
                 </button>
             </div>
 
