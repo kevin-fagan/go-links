@@ -9,7 +9,10 @@
     --color-light: #e0e0e0;
 
     --primary-color: #64b5f6;
-    --secondary-color: #ef5250;
+    --primary-color-hover: #42a5f5;
+
+    --danger-color: #ef5250;
+    --danger-color-hover: #e53935;
 
     --hover-bg-color: #3a3a3a;
 
@@ -34,6 +37,6 @@ body {
 
 .home-container {
     margin: 0 auto;
-    min-width: 900px;
-    max-width: 900px;
+    min-width: 1100px;
+    max-width: 1100px;
 }

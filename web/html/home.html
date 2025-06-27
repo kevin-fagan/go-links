@@ -7,8 +7,6 @@
 
         <script src="/assets/js/htmx.min.js"></script>
         <script src="/assets/js/htmx-ex-response-targets.js"></script>
-
-        <link href="/assets/fonts/boostrap-icons.woff2" rel="stylesheet" />
         <link href="/assets/fonts/roboto.woff2" rel="stylesheet" />
 
         <link
@@ -32,15 +30,13 @@
                     <input
                         type="search"
                         name="search"
-                        placeholder="Search..."
                         id="search-links"
-                        autocomplete="off"
                         class="search-input"
+                        placeholder="Search..."
                         hx-get="/components/table"
                         hx-target="#links-table"
-                        hx-params="serialize"
+                        hx-trigger="keyup changed delay:125ms"
                     />
-                    <i class="bi bi-search search-icon"></i>
                 </div>
 
                 <button

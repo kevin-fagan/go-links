@@ -1,5 +1,6 @@
 .links-table {
     width: 100%;
+    table-layout: fixed;
     border-spacing: 0;
     border-collapse: separate;
     overflow: hidden;

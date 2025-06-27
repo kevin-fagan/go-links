@@ -73,15 +73,15 @@
 }
 
 .form-card button:hover {
-    background-color: var(--primary-color);
+    background-color: var(--primary-color-hover);
 }
 
 .form-card button[type="button"] {
-    background-color: var(--primary-color);
+    background-color: var(--danger-color);
 }
 
 .form-card button[type="button"]:hover {
-    background-color: var(--secondary-color);
+    background-color: var(--danger-color-hover);
 }
 
 .form-card input.readonly-field {

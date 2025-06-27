@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"database/sql"
 	"errors"
 
 	"github.com/kevin-fagan/go-links/internal/model"
@@ -42,11 +43,22 @@ func (l *LinkRepository) IncrementVisits(short string) error {
 	return nil
 }
 
-func (l *LinkRepository) Count() (int, error) {
-	statement := `SELECT COUNT(*) FROM links;`
-
+func (l *LinkRepository) Count(search string) (int, error) {
+	var statement string
 	var count int
-	err := l.sql.QueryRow(statement).Scan(&count)
+	var err error
+
+	if search == "" {
+		statement = `SELECT COUNT(*) FROM links;`
+		err = l.sql.QueryRow(statement).Scan(&count)
+	} else {
+		pattern := "%" + search + "%"
+		statement = `
+			SELECT COUNT(*) FROM links
+			WHERE short_name LIKE ? OR long_name LIKE ?`
+		err = l.sql.QueryRow(statement, pattern, pattern).Scan(&count)
+	}
+
 	if err != nil {
 		return 0, err
 	}
@@ -71,31 +83,42 @@ func (l *LinkRepository) GetLink(short string) (*model.Link, error) {
 	return &link, nil
 }
 
-func (l *LinkRepository) GetLinks(page, pageSize int) ([]model.Link, error) {
-	page = max(0, page)
-	pageSize = max(0, pageSize)
+func (l *LinkRepository) GetLinks(search string, page, pageSize int) ([]model.Link, error) {
+	var statement string
+	var rows *sql.Rows
+	var err error
 
-	statement := `
-	SELECT short_name, long_name, visits, last_updated
-	FROM links
-	LIMIT ? OFFSET ?;
-	`
+	if search == "" {
+		statement = `
+			SELECT short_name, long_name, visits, last_updated
+			FROM links
+			ORDER BY visits DESC
+			LIMIT ? OFFSET ?;`
+		rows, err = l.sql.Query(statement, pageSize, pageSize*page)
+	} else {
+		pattern := "%" + search + "%"
+		statement = `
+			SELECT short_name, long_name, visits, last_updated
+			FROM links
+			WHERE short_name LIKE ? OR long_name LIKE ?
+			ORDER BY visits DESC
+			LIMIT ? OFFSET ?;`
+		rows, err = l.sql.Query(statement, pattern, pattern, pageSize, pageSize*page)
+	}
 
-	var links []model.Link
-
-	rows, err := l.sql.Query(statement, pageSize, pageSize*page)
 	if err != nil {
 		return nil, err
 	}
+
 	defer rows.Close()
 
+	var links []model.Link
 	for rows.Next() {
 		var link model.Link
 		err := rows.Scan(&link.ShortURL, &link.LongURL, &link.Visits, &link.LastUpdated)
 		if err != nil {
 			return nil, err
 		}
-
 		links = append(links, link)
 	}
 

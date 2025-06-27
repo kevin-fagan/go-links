@@ -15,7 +15,7 @@
 }
 
 .button-row-delete {
-    color: var(--secondary-color);
+    color: var(--danger-color);
     margin-right: var(--margin);
     background: none;
     border: none;
@@ -47,7 +47,7 @@
 }
 
 .button-add-link:hover {
-    background-color: var(--secondary-button);
+    background-color: var(--primary-color-hover);
 }
 
 .button-pagination {

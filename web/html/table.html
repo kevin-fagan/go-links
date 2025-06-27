@@ -3,26 +3,28 @@
     class="links-table"
     hx-get="/components/table?page={{ .Page.Current }}&pageSize={{ .Page.Size }}"
     hx-trigger="refresh from:body"
-    hx-swap="outerHTML"
+    hx-swap="innerHTML"
 >
     <thead class="links-table-head">
         <tr>
-            <th scope="col" class="th-left">Short URL</th>
-            <th scope="col" class="th-left">Long URL</th>
-            <th scope="col" class="th-left">Visits</th>
-            <th scope="col" class="th-left">Last Updated</th>
-            <th scope="col" class="th-empty"></th>
+            <th style="width: 200px;" scope="col" class="th-left">Short URL</th>
+            <th style="width: 300px;" scope="col" class="th-left">Long URL</th>
+            <th style="width: 50px;" scope="col" class="th-left">Visits</th>
+            <th style="width: 150px;" scope="col" class="th-left">Last Updated</th>
+            <th style="width: 150px;" scope="col" class="th-empty"></th>
         </tr>
     </thead>
 
     {{ range .Links }}
         <tbody>
             <tr class="links-table-row">
-                <td class="td-left">{{ .ShortURL }}</td>
-                <td>{{ .LongURL }}</td>
-                <td class="td-left">{{ .Visits }}</td>
-                <td>{{ .LastUpdated }}</td>
-                <td class="td-right">
+                <td style="width: 200px;" class="td-left">{{ .ShortURL }}</td>
+                <td style="width: 300px;" class="td-left">
+                    {{ .LongURL }}
+                </td>
+                <td style="width: 50px;" class="td-left">{{ .Visits }}</td>
+                <td style="width: 150px;" class="td-left">{{ .LastUpdated | formatDate }}</td>
+                <td style="width: 150px;" class="td-right">
                     <button
                         hx-get="/components/form/update/{{ .ShortURL }}"
                         hx-target="#modal"
@@ -51,7 +53,7 @@
 <div class="toolbar">
     <div style="margin-left: auto; display: flex; gap: 0.5rem">
         <div class="button-pagination-page-tracker">
-            {{ .Results.Current }} of
+            {{ .Results.Start }}-{{ .Results.End }} of
             {{ .Results.Total }}
         </div>
 
@@ -71,7 +73,7 @@
         <button
             class="button-pagination"
             hx-get="/components/table?page={{ .Page.Next }}&pageSize={{ .Page.Size }}"
-            {{ if eq .Results.Current .Results.Total }}disabled{{ end }}
+            {{ if eq .Results.End .Results.Total }}disabled{{ end }}
             hx-target="#links-table"
             hx-swap="innerHTML"
             aria-label="Next Page"
