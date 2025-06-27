@@ -18,8 +18,10 @@
     {{ range .Links }}
         <tbody>
             <tr class="links-table-row">
-                <td style="width: 200px;" class="td-left">{{ .ShortURL }}</td>
-                <td style="width: 300px;" class="td-left">
+                <td style="width: 200px; word-wrap: break-word;" class="td-left">
+                    {{ .ShortURL }}
+                </td>
+                <td style="width: 300px; word-wrap: break-word;" class="td-left">
                     {{ .LongURL }}
                 </td>
                 <td style="width: 50px;" class="td-left">{{ .Visits }}</td>
