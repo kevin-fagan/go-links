@@ -1,8 +1,8 @@
 <table
-    id="links-table"
     class="links-table"
     hx-get="/components/table?page={{ .Page.Current }}&pageSize={{ .Page.Size }}"
     hx-trigger="refresh from:body"
+    hx-target="#links-table"
     hx-swap="innerHTML"
 >
     <thead class="links-table-head">
