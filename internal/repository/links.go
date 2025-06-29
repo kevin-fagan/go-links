@@ -27,7 +27,7 @@ func (l *LinkRepository) IncrementVisits(short string) error {
 	statement := `
 	UPDATE links
 	SET visits = visits + 1
-	WHERE short_name = ?; 
+	WHERE short_url = ?; 
 	`
 
 	results, err := l.sql.Exec(statement, short)
@@ -55,7 +55,7 @@ func (l *LinkRepository) Count(search string) (int, error) {
 		pattern := "%" + search + "%"
 		statement = `
 			SELECT COUNT(*) FROM links
-			WHERE short_name LIKE ? OR long_name LIKE ?`
+			WHERE short_url LIKE ? OR long_url LIKE ?`
 		err = l.sql.QueryRow(statement, pattern, pattern).Scan(&count)
 	}
 
@@ -68,9 +68,9 @@ func (l *LinkRepository) Count(search string) (int, error) {
 
 func (l *LinkRepository) GetLink(short string) (*model.Link, error) {
 	statement := `
-	SELECT short_name, long_name, visits, last_updated
+	SELECT short_url, long_url, visits, last_updated
 	FROM links
-	WHERE short_name = ?
+	WHERE short_url = ?
 	`
 
 	var link model.Link
@@ -90,7 +90,7 @@ func (l *LinkRepository) GetLinks(search string, page, pageSize int) ([]model.Li
 
 	if search == "" {
 		statement = `
-			SELECT short_name, long_name, visits, last_updated
+			SELECT short_url, long_url, visits, last_updated
 			FROM links
 			ORDER BY visits DESC
 			LIMIT ? OFFSET ?;`
@@ -98,9 +98,9 @@ func (l *LinkRepository) GetLinks(search string, page, pageSize int) ([]model.Li
 	} else {
 		pattern := "%" + search + "%"
 		statement = `
-			SELECT short_name, long_name, visits, last_updated
+			SELECT short_url, long_url, visits, last_updated
 			FROM links
-			WHERE short_name LIKE ? OR long_name LIKE ?
+			WHERE short_url LIKE ? OR long_url LIKE ?
 			ORDER BY visits DESC
 			LIMIT ? OFFSET ?;`
 		rows, err = l.sql.Query(statement, pattern, pattern, pageSize, pageSize*page)
@@ -127,7 +127,7 @@ func (l *LinkRepository) GetLinks(search string, page, pageSize int) ([]model.Li
 
 func (l *LinkRepository) CreateLink(short, long string) error {
 	statement := `
-	INSERT INTO links (short_name, long_name)
+	INSERT INTO links (short_url, long_url)
 	VALUES (?, ?);
 	`
 
@@ -145,7 +145,7 @@ func (l *LinkRepository) CreateLink(short, long string) error {
 func (l *LinkRepository) DeleteLink(short string) error {
 	statement := `
 	DELETE FROM links 
-	WHERE short_name = ?;
+	WHERE short_url = ?;
 	`
 
 	results, err := l.sql.Exec(statement, short)
@@ -164,8 +164,8 @@ func (l *LinkRepository) DeleteLink(short string) error {
 func (l *LinkRepository) UpdateLink(short, long string) error {
 	statement := `
 	UPDATE links
-	SET long_name = ?
-	WHERE short_name = ?;
+	SET long_url = ?
+	WHERE short_url = ?;
 	`
 
 	results, err := l.sql.Exec(statement, long, short)

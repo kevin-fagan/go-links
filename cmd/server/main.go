@@ -32,6 +32,7 @@ func main() {
 
 	router.LoadHTMLGlob("web/**/*.html")
 	router.Static("/assets", "./web/assets")
+	router.StaticFile("/favicon.ico", "./web/assets/images/favicon.ico")
 
 	root := router.Group("/")
 	routes.AddHomeRoutes(root)
