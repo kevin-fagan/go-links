@@ -9,4 +9,4 @@ Instead of sharing or having to rember long, complex URLs, you can create short 
 - ⚡ Fast and lightweight with minimal dependencies
 - 🔒 Fully self-hosted — you maintain complete control over your data and links
 
-![Screenshot from 2025-06-29 20-22-27](https://github.com/user-attachments/assets/e76a215a-c252-4194-a9ea-3d49d5929145)
+![ui-example](https://github.com/user-attachments/assets/e76a215a-c252-4194-a9ea-3d49d5929145)
