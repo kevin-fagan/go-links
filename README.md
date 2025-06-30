@@ -2,9 +2,10 @@
   <img src="https://github.com/user-attachments/assets/beffcad9-83c8-43a0-859c-af0eadb22150" alt="golinks-icon" width="150" />
 </p>
 
-Go Links is a lightweight, self-hosted application for creating easy-to-remember vanity URLs — perfect for teams, internal tools, or personal projects. 
-Instead of sharing long, complex links, create short aliases like go/standup, go/jira, or go/mockups to quickly access frequently used resources.
-- 🌐 Simple, memorable vanity URLs (e.g. go/meet, go/design-doc)
+Go Links is a lightweight, self-hosted application for creating easy-to-remember vanity URLs — great for teams, internal tools, or personal projects. 
+Instead of sharing or remembering long, complex links, you can create short aliases such as `go/standup`, `go/jira`, or `go/mockups`.
+
+- 🌐 Vanity URLs
 - ⚡ Fast and lightweight — minimal dependencies
 - 🔒 Self-hosted — you control your data and links
 
