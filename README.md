@@ -7,6 +7,8 @@ Instead of sharing or having to rember long, complex URLs, you can create short 
 
 - 🌐 Easy-to-use vanity URLs
 - ⚡ Fast and lightweight with minimal dependencies
+- 📝 Built-in audit logging — every link change is recorded for traceability
 - 🔒 Fully self-hosted — you maintain complete control over your data and links
 
+  
 ![ui-example](https://github.com/user-attachments/assets/e76a215a-c252-4194-a9ea-3d49d5929145)
