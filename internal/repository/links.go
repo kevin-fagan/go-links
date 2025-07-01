@@ -5,7 +5,6 @@ import (
 	"errors"
 
 	"github.com/kevin-fagan/go-links/internal/model"
-	"github.com/mattn/go-sqlite3"
 )
 
 var (
@@ -23,7 +22,7 @@ func NewLinkRepository(ctx *SQLContext) *LinkRepository {
 	}
 }
 
-func (l *LinkRepository) IncrementVisits(short string) error {
+func (l *LinkRepository) IncVisits(short string) error {
 	statement := `
 	UPDATE links
 	SET visits = visits + 1
@@ -44,9 +43,11 @@ func (l *LinkRepository) IncrementVisits(short string) error {
 }
 
 func (l *LinkRepository) Count(search string) (int, error) {
-	var statement string
-	var count int
-	var err error
+	var (
+		count     int
+		statement string
+		err       error
+	)
 
 	if search == "" {
 		statement = `SELECT COUNT(*) FROM links;`
@@ -126,16 +127,18 @@ func (l *LinkRepository) GetLinks(search string, page, pageSize int) ([]model.Li
 }
 
 func (l *LinkRepository) CreateLink(short, long string) error {
-	statement := `
-	INSERT INTO links (short_url, long_url)
-	VALUES (?, ?);
-	`
-
-	_, err := l.sql.Exec(statement, short, long)
-	if err == sqlite3.ErrConstraintUnique {
-		return ErrLinkAlreadyExists
-	}
+	tx, err := l.sql.Begin()
 	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	err = l.createLink(tx, short, long)
+	if err != nil {
+		return err
+	}
+
+	if err := tx.Commit(); err != nil {
 		return err
 	}
 
@@ -143,40 +146,95 @@ func (l *LinkRepository) CreateLink(short, long string) error {
 }
 
 func (l *LinkRepository) DeleteLink(short string) error {
-	statement := `
-	DELETE FROM links 
-	WHERE short_url = ?;
-	`
+	tx, err := l.sql.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
 
-	results, err := l.sql.Exec(statement, short)
+	err = l.deleteLink(tx, short)
 	if err != nil {
 		return err
 	}
 
-	rows, _ := results.RowsAffected()
-	if rows == 0 {
-		return ErrLinkNotFound
+	if err := tx.Commit(); err != nil {
+		return err
 	}
 
 	return nil
 }
 
 func (l *LinkRepository) UpdateLink(short, long string) error {
-	statement := `
-	UPDATE links
-	SET long_url = ?
-	WHERE short_url = ?;
-	`
+	tx, err := l.sql.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
 
-	results, err := l.sql.Exec(statement, long, short)
+	err = l.updateLink(tx, short, long)
 	if err != nil {
 		return err
 	}
 
-	rows, _ := results.RowsAffected()
-	if rows == 0 {
-		return ErrLinkNotFound
+	if err := tx.Commit(); err != nil {
+		return err
 	}
 
 	return nil
+}
+
+func (l *LinkRepository) createLink(tx *sql.Tx, short, long string) error {
+	_, err := tx.Exec(`
+		INSERT INTO links (short_url, long_url)
+		VALUES (?, ?);`, short, long)
+
+	if err != nil {
+		return err
+	}
+
+	return l.logAudit(tx, short, long, model.Action("CREATE"))
+}
+
+func (l *LinkRepository) deleteLink(tx *sql.Tx, short string) error {
+	var long string
+	err := tx.QueryRow(`
+		SELECT long_url 
+		FROM links 
+		WHERE short_url = ?;`, short).Scan(&long)
+
+	if err != nil {
+		return err
+	}
+
+	_, err = tx.Exec(`
+		DELETE FROM links 
+		WHERE short_url = ?;`, short)
+
+	if err != nil {
+		return err
+	}
+
+	return l.logAudit(tx, short, long, model.Action("DELETE"))
+}
+
+func (l *LinkRepository) updateLink(tx *sql.Tx, short, long string) error {
+	_, err := tx.Exec(`
+		UPDATE links
+		SET long_url = ?
+		WHERE short_url = ?;`, long, short)
+
+	if err != nil {
+		return err
+	}
+
+	return l.logAudit(tx, short, long, model.Action("UPDATE"))
+
+}
+
+func (l *LinkRepository) logAudit(tx *sql.Tx, short, long string, action model.Action) error {
+	_, err := tx.Exec(`
+	INSERT INTO audit (short_url, long_url, action)
+	VALUES (?, ?, ?);`, short, long, action)
+
+	return err
 }
