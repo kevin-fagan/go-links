@@ -30,9 +30,19 @@ func main() {
 		"formatDate": formatDate,
 	})
 
-	router.LoadHTMLGlob("web/**/*.html")
 	router.Static("/assets", "./web/assets")
 	router.StaticFile("/favicon.ico", "./web/assets/images/favicon.ico")
+
+	router.LoadHTMLFiles(
+		"web/html/home.html",
+		"web/html/modal/clear.html",
+		"web/html/modal/create.html",
+		"web/html/modal/delete.html",
+		"web/html/modal/error.html",
+		"web/html/modal/update.html",
+		"web/html/table/links.html",
+		"web/html/table/audit.html",
+	)
 
 	root := router.Group("/")
 	routes.AddHomeRoutes(root)

@@ -31,6 +31,6 @@ func (rs *RedirectService) Redirect(g *gin.Context) {
 		return
 	}
 
-	rs.linkRepository.IncVisits(short)
+	rs.linkRepository.CountLinkVisit(short)
 	g.Redirect(http.StatusFound, link.LongURL)
 }

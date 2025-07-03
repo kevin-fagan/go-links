@@ -33,29 +33,33 @@
                         id="search-links"
                         class="search-input"
                         placeholder="Search..."
-                        hx-get="/components/table"
+                        hx-get="/components/table/links"
                         hx-target="#links-table"
                         hx-trigger="keyup changed delay:125ms"
                     />
                 </div>
 
                 <button
-                    class="button-add-link"
-                    aria-label="Create new link"
+                    class="button-icon"
                     type="button"
-                    title="Add new link"
                     hx-get="/components/form/create"
                     hx-target="#modal"
                     hx-swap="innerHTML"
                 >
-                    <i class="bi bi-plus-circle"></i> Add Link
+                   <i class="bi bi-plus-lg"></i> 
+                </button>
+                <button
+                    class="button-icon"
+                    type="button"
+                >
+                    <i class="bi bi-journal-text"></i>
                 </button>
             </div>
 
             <!-- Table Container-->
             <div
                 id="links-table"
-                hx-get="/components/table?page=0&pageSize=5"
+                hx-get="/components/table/links?page=0&pageSize=5"
                 hx-trigger="load"
                 hx-swap="innerHTML"
             ></div>

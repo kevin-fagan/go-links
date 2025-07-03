@@ -31,14 +31,10 @@
     background: rgba(239, 83, 80, 0.2);
 }
 
-.button-add-link {
+.button-icon {
     border: none;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
     transition: background-color 0.25s ease;
     cursor: pointer;
-    font-weight: var(--font-bold);
     background-color: var(--primary-color);
     color: var(--primary-bg-color);
     border-radius: var(--border-radius);
@@ -46,12 +42,12 @@
     font-size: var(--font-size-md);
 }
 
-.button-add-link:hover {
+.button-icon:hover {
     background-color: var(--primary-color-hover);
 }
 
 .button-pagination {
-    background-color: var(--secondary-bg-color);
+    background-color: var(--primary-fg-background);
     color: #e0e0e0;
     border: none;
     border-radius: var(--border-radius);

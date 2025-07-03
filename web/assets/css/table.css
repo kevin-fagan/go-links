@@ -7,14 +7,13 @@
     margin-top: var(--margin);
     border-radius: var(--border-radius);
     font-size: var(--font-size-md);
-    background-color: var(--primary-bg-color);
+    background-color: var(--secondary-bg-color);
     color: var(--color-light);
-    box-shadow: var(--box-shadow);
 }
 
 .links-table-head {
     color: var(--color-light);
-    background-color: var(--secondary-bg-color);
+    background-color: var(--primary-fg-color);
 }
 
 .links-table-row {

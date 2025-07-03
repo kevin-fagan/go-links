@@ -22,12 +22,11 @@ func NewLinkRepository(ctx *SQLContext) *LinkRepository {
 	}
 }
 
-func (l *LinkRepository) IncVisits(short string) error {
+func (l *LinkRepository) CountLinkVisit(short string) error {
 	statement := `
-	UPDATE links
-	SET visits = visits + 1
-	WHERE short_url = ?; 
-	`
+		UPDATE links
+		SET visits = visits + 1
+		WHERE short_url = ?;`
 
 	results, err := l.sql.Exec(statement, short)
 	if err != nil {
@@ -42,39 +41,14 @@ func (l *LinkRepository) IncVisits(short string) error {
 	return nil
 }
 
-func (l *LinkRepository) Count(search string) (int, error) {
-	var (
-		count     int
-		statement string
-		err       error
-	)
-
-	if search == "" {
-		statement = `SELECT COUNT(*) FROM links;`
-		err = l.sql.QueryRow(statement).Scan(&count)
-	} else {
-		pattern := "%" + search + "%"
-		statement = `
-			SELECT COUNT(*) FROM links
-			WHERE short_url LIKE ? OR long_url LIKE ?`
-		err = l.sql.QueryRow(statement, pattern, pattern).Scan(&count)
-	}
-
-	if err != nil {
-		return 0, err
-	}
-
-	return count, nil
-}
-
 func (l *LinkRepository) GetLink(short string) (*model.Link, error) {
 	statement := `
-	SELECT short_url, long_url, visits, last_updated
-	FROM links
-	WHERE short_url = ?
-	`
+		SELECT short_url, long_url, visits, last_updated
+		FROM links
+		WHERE short_url = ?`
 
 	var link model.Link
+
 	row := l.sql.QueryRow(statement, short)
 	err := row.Scan(&link.ShortURL, &link.LongURL, &link.Visits, &link.LastUpdated)
 	if err != nil {
@@ -84,106 +58,143 @@ func (l *LinkRepository) GetLink(short string) (*model.Link, error) {
 	return &link, nil
 }
 
-func (l *LinkRepository) GetLinks(search string, page, pageSize int) ([]model.Link, error) {
-	var statement string
-	var rows *sql.Rows
-	var err error
+func (l *LinkRepository) GetLinks(search string, page, pageSize int) ([]model.Link, int, error) {
+	var (
+		count int
+		links []model.Link
+		err   error
+	)
 
 	if search == "" {
-		statement = `
-			SELECT short_url, long_url, visits, last_updated
-			FROM links
-			ORDER BY visits DESC
-			LIMIT ? OFFSET ?;`
-		rows, err = l.sql.Query(statement, pageSize, pageSize*page)
+		err = l.withTx(func(tx *sql.Tx) error {
+			links, err = l.getLinksTx(tx, page, pageSize)
+			if err != nil {
+				return err
+			}
+
+			count, err = l.countLinksTx(tx)
+			if err != nil {
+				return err
+			}
+
+			return nil
+		})
 	} else {
-		pattern := "%" + search + "%"
-		statement = `
-			SELECT short_url, long_url, visits, last_updated
-			FROM links
-			WHERE short_url LIKE ? OR long_url LIKE ?
-			ORDER BY visits DESC
-			LIMIT ? OFFSET ?;`
-		rows, err = l.sql.Query(statement, pattern, pattern, pageSize, pageSize*page)
+		err = l.withTx(func(tx *sql.Tx) error {
+			links, err = l.getLinksSearchTx(tx, search, page, pageSize)
+			if err != nil {
+				return err
+			}
+
+			count, err = l.countLinksSearchTx(tx, search)
+			if err != nil {
+				return err
+			}
+
+			return nil
+		})
 	}
+
+	if err != nil {
+		return nil, 0, err
+	}
+
+	return links, count, nil
+}
+
+func (l *LinkRepository) CreateLink(short, long string) error {
+	return l.withTx(func(tx *sql.Tx) error {
+		return l.createLinkTx(tx, short, long)
+	})
+}
+
+func (l *LinkRepository) DeleteLink(short string) error {
+	return l.withTx(func(tx *sql.Tx) error {
+		return l.deleteLinkTx(tx, short)
+	})
+}
+
+func (l *LinkRepository) UpdateLink(short, long string) error {
+	return l.withTx(func(tx *sql.Tx) error {
+		return l.updateLinkTx(tx, short, long)
+	})
+}
+
+func (l *LinkRepository) getLinksTx(tx *sql.Tx, page, pageSize int) ([]model.Link, error) {
+	var (
+		rows *sql.Rows
+		err  error
+	)
+
+	rows, err = tx.Query(`
+		SELECT short_url, long_url, visits, last_updated
+		FROM links
+		ORDER BY visits DESC
+		LIMIT ? OFFSET ?;`, pageSize, pageSize*page)
 
 	if err != nil {
 		return nil, err
 	}
 
 	defer rows.Close()
-
-	var links []model.Link
-	for rows.Next() {
-		var link model.Link
-		err := rows.Scan(&link.ShortURL, &link.LongURL, &link.Visits, &link.LastUpdated)
-		if err != nil {
-			return nil, err
-		}
-		links = append(links, link)
-	}
-
-	return links, nil
+	return l.iterateLinkRows(rows)
 }
 
-func (l *LinkRepository) CreateLink(short, long string) error {
+func (l *LinkRepository) getLinksSearchTx(tx *sql.Tx, search string, page, pageSize int) ([]model.Link, error) {
+	var (
+		rows *sql.Rows
+		err  error
+	)
+
+	pattern := "%" + search + "%"
+	rows, err = tx.Query(`
+			SELECT short_url, long_url, visits, last_updated
+			FROM links
+			WHERE short_url LIKE ? OR long_url LIKE ?
+			ORDER BY visits DESC
+			LIMIT ? OFFSET ?;`, pattern, pattern, pageSize, pageSize*page)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+	return l.iterateLinkRows(rows)
+}
+
+func (l *LinkRepository) withTx(fn func(tx *sql.Tx) error) error {
 	tx, err := l.sql.Begin()
 	if err != nil {
 		return err
 	}
+
 	defer tx.Rollback()
 
-	err = l.createLink(tx, short, long)
-	if err != nil {
+	if err := fn(tx); err != nil {
 		return err
 	}
 
-	if err := tx.Commit(); err != nil {
-		return err
-	}
-
-	return nil
+	return tx.Commit()
 }
 
-func (l *LinkRepository) DeleteLink(short string) error {
-	tx, err := l.sql.Begin()
-	if err != nil {
-		return err
-	}
-	defer tx.Rollback()
+func (l *LinkRepository) countLinksTx(tx *sql.Tx) (int, error) {
+	var count int
+	err := tx.QueryRow(`SELECT COUNT(*) FROM links;`).Scan(&count)
 
-	err = l.deleteLink(tx, short)
-	if err != nil {
-		return err
-	}
-
-	if err := tx.Commit(); err != nil {
-		return err
-	}
-
-	return nil
+	return count, err
 }
 
-func (l *LinkRepository) UpdateLink(short, long string) error {
-	tx, err := l.sql.Begin()
-	if err != nil {
-		return err
-	}
-	defer tx.Rollback()
+func (l *LinkRepository) countLinksSearchTx(tx *sql.Tx, search string) (int, error) {
+	var count int
+	pattern := "%" + search + "%"
+	err := tx.QueryRow(`
+		SELECT COUNT(*) FROM links
+		WHERE short_url LIKE ? OR long_url LIKE ?;`, pattern, pattern).Scan(&count)
 
-	err = l.updateLink(tx, short, long)
-	if err != nil {
-		return err
-	}
-
-	if err := tx.Commit(); err != nil {
-		return err
-	}
-
-	return nil
+	return count, err
 }
 
-func (l *LinkRepository) createLink(tx *sql.Tx, short, long string) error {
+func (l *LinkRepository) createLinkTx(tx *sql.Tx, short, long string) error {
 	_, err := tx.Exec(`
 		INSERT INTO links (short_url, long_url)
 		VALUES (?, ?);`, short, long)
@@ -192,10 +203,10 @@ func (l *LinkRepository) createLink(tx *sql.Tx, short, long string) error {
 		return err
 	}
 
-	return l.logAudit(tx, short, long, model.Action("CREATE"))
+	return l.logAuditTx(tx, short, long, "CREATE")
 }
 
-func (l *LinkRepository) deleteLink(tx *sql.Tx, short string) error {
+func (l *LinkRepository) deleteLinkTx(tx *sql.Tx, short string) error {
 	var long string
 	err := tx.QueryRow(`
 		SELECT long_url 
@@ -214,10 +225,10 @@ func (l *LinkRepository) deleteLink(tx *sql.Tx, short string) error {
 		return err
 	}
 
-	return l.logAudit(tx, short, long, model.Action("DELETE"))
+	return l.logAuditTx(tx, short, long, "DELETE")
 }
 
-func (l *LinkRepository) updateLink(tx *sql.Tx, short, long string) error {
+func (l *LinkRepository) updateLinkTx(tx *sql.Tx, short, long string) error {
 	_, err := tx.Exec(`
 		UPDATE links
 		SET long_url = ?
@@ -227,14 +238,30 @@ func (l *LinkRepository) updateLink(tx *sql.Tx, short, long string) error {
 		return err
 	}
 
-	return l.logAudit(tx, short, long, model.Action("UPDATE"))
+	return l.logAuditTx(tx, short, long, "UPDATE")
 
 }
 
-func (l *LinkRepository) logAudit(tx *sql.Tx, short, long string, action model.Action) error {
+func (l *LinkRepository) logAuditTx(tx *sql.Tx, short, long, action string) error {
 	_, err := tx.Exec(`
 	INSERT INTO audit (short_url, long_url, action)
 	VALUES (?, ?, ?);`, short, long, action)
 
 	return err
+}
+
+func (l *LinkRepository) iterateLinkRows(rows *sql.Rows) ([]model.Link, error) {
+	var links []model.Link
+
+	for rows.Next() {
+		var link model.Link
+		err := rows.Scan(&link.ShortURL, &link.LongURL, &link.Visits, &link.LastUpdated)
+		if err != nil {
+			return nil, err
+		}
+
+		links = append(links, link)
+	}
+
+	return links, nil
 }

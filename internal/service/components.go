@@ -30,13 +30,11 @@ func (cs *ComponentService) LinkTable(g *gin.Context) {
 	}
 
 	search := g.Query("search")
-	links, err := cs.linkRepository.GetLinks(search, page, pageSize)
+	links, count, err := cs.linkRepository.GetLinks(search, page, pageSize)
 	if err != nil {
 		g.HTML(http.StatusBadRequest, "error.html", "unable to retrieve links")
 		return
 	}
-
-	count, _ := cs.linkRepository.Count(search)
 
 	start := 0
 	if count != 0 {
@@ -45,7 +43,7 @@ func (cs *ComponentService) LinkTable(g *gin.Context) {
 
 	end := min(count, (page+1)*pageSize)
 
-	g.HTML(http.StatusOK, "table.html", gin.H{
+	g.HTML(http.StatusOK, "links.html", gin.H{
 		"Links": &links,
 		"Results": gin.H{
 			"Start": start,

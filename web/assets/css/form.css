@@ -15,10 +15,9 @@
     width: 100%;
     max-width: 500px;
     color: var(--color-light);
-    background-color: var(--secondary-bg-color);
+    background-color: var(--primary-fg-color);
     padding: var(--padding);
     border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
 }
 
 .form-card input[type="text"],

@@ -4,14 +4,17 @@
     --font-size-md: 16px;
     --font-bold: 600;
 
-    --primary-bg-color: #121212;
-    --secondary-bg-color: #1f1f1f;
-    --color-light: #e0e0e0;
+    --primary-bg-color: #16171b;
+    --secondary-bg-color: #101114;
+    --primary-fg-color: #27272a;
+    --secondary-fg-color: ##27272a;
 
-    --primary-color: #64b5f6;
+    --color-light: #fff;
+
+    --primary-color:#1c90e3;
     --primary-color-hover: #42a5f5;
 
-    --danger-color: #ef5250;
+    --danger-color: #C0392B;
     --danger-color-hover: #e53935;
 
     --hover-bg-color: #3a3a3a;
@@ -26,8 +29,6 @@
     --padding: 12px;
     --margin: 12px;
     --border-radius: 8px;
-
-    --box-shadow: 0 3px 8px rgba(0, 0, 0, 0.7);
 }
 
 body {
