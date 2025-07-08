@@ -2,7 +2,6 @@ package repository
 
 import (
 	"database/sql"
-	"fmt"
 
 	"github.com/kevin-fagan/go-links/internal/model"
 )
@@ -28,8 +27,6 @@ func (l *LinkRepository) GetAudit(page, pageSize int, search string) ([]model.Au
 		return nil
 	})
 
-	fmt.Println(err)
-
 	return audits, count, nil
 }
 
@@ -41,14 +38,14 @@ func (l *LinkRepository) getAuditTx(tx *sql.Tx, page, pageSize int, search strin
 
 	if search == "" {
 		rows, err = tx.Query(`
-		SELECT short_url, long_url, action, timestamp
+		SELECT short_url, long_url, action, client_ip, timestamp
 		FROM audit
 		ORDER BY timestamp DESC
 		LIMIT ? OFFSET ?;`, pageSize, pageSize*page)
 	} else {
 		pattern := "%" + search + "%"
 		rows, err = tx.Query(`
-			SELECT short_url, long_url, action, timestamp
+			SELECT short_url, long_url, action, client_ip, timestamp
 			FROM audit
 			WHERE short_url LIKE ? OR long_url LIKE ?
 			ORDER BY timestamp DESC
@@ -64,7 +61,7 @@ func (l *LinkRepository) getAuditTx(tx *sql.Tx, page, pageSize int, search strin
 	var audits []model.Audit
 	for rows.Next() {
 		var audit model.Audit
-		err := rows.Scan(&audit.ShortURL, &audit.LongURL, &audit.Action, &audit.Timestamp)
+		err := rows.Scan(&audit.ShortURL, &audit.LongURL, &audit.Action, &audit.ClientIP, &audit.Timestamp)
 		if err != nil {
 			return nil, err
 		}
@@ -92,10 +89,10 @@ func (l *LinkRepository) countAuditTx(tx *sql.Tx, search string) (int, error) {
 	}
 }
 
-func (l *LinkRepository) createAuditTx(tx *sql.Tx, short, long, action string) error {
+func (l *LinkRepository) createAuditTx(tx *sql.Tx, short, long, clientIP, action string) error {
 	_, err := tx.Exec(`
-	INSERT INTO audit (short_url, long_url, action)
-	VALUES (?, ?, ?);`, short, long, action)
+	INSERT INTO audit (short_url, long_url, client_ip, action)
+	VALUES (?, ?, ?, ?);`, short, long, clientIP, action)
 
 	return err
 }

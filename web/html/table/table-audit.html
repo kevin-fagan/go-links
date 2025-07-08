@@ -10,11 +10,12 @@
             <th style="width: 200px;" scope="col" class="th-left">Short URL</th>
             <th style="width: 300px;" scope="col" class="th-left">Long URL</th>
             <th style="width: 50px;" scope="col" class="th-left">Action</th>
+            <th style="width: 150px;" scope="col" class="th-left">Client IP</th>
             <th style="width: 150px;" scope="col" class="th-left">Timestamp</th>
         </tr>
     </thead>
 
-    {{ range .Links }}
+    {{ range .Audit }}
         <tbody>
             <tr class="table-row">
                 <td style="width: 200px; word-wrap: break-word;" class="td-left">
@@ -24,6 +25,7 @@
                     {{ .LongURL }}
                 </td>
                 <td style="width: 50px;" class="td-left">{{ .Action }}</td>
+                <td style="width: 150px;" class="td-left">{{ .ClientIP }}</td>
                 <td style="width: 150px;" class="td-left">{{ .Timestamp | formatDate }}</td>
             </tr>
         </tbody>

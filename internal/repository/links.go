@@ -82,21 +82,21 @@ func (l *LinkRepository) GetLinks(search string, page, pageSize int) ([]model.Li
 	return links, count, nil
 }
 
-func (l *LinkRepository) CreateLink(short, long string) error {
+func (l *LinkRepository) CreateLink(short, long, clientIP string) error {
 	return l.withTx(func(tx *sql.Tx) error {
-		return l.createLinkTx(tx, short, long)
+		return l.createLinkTx(tx, short, long, clientIP)
 	})
 }
 
-func (l *LinkRepository) DeleteLink(short string) error {
+func (l *LinkRepository) DeleteLink(short, clientIP string) error {
 	return l.withTx(func(tx *sql.Tx) error {
-		return l.deleteLinkTx(tx, short)
+		return l.deleteLinkTx(tx, short, clientIP)
 	})
 }
 
-func (l *LinkRepository) UpdateLink(short, long string) error {
+func (l *LinkRepository) UpdateLink(short, long, clientIP string) error {
 	return l.withTx(func(tx *sql.Tx) error {
-		return l.updateLinkTx(tx, short, long)
+		return l.updateLinkTx(tx, short, long, clientIP)
 	})
 }
 
@@ -174,7 +174,7 @@ func (l *LinkRepository) countLinkTx(tx *sql.Tx, search string) (int, error) {
 	}
 }
 
-func (l *LinkRepository) createLinkTx(tx *sql.Tx, short, long string) error {
+func (l *LinkRepository) createLinkTx(tx *sql.Tx, short, long, clientIP string) error {
 	_, err := tx.Exec(`
 		INSERT INTO links (short_url, long_url)
 		VALUES (?, ?);`, short, long)
@@ -183,10 +183,10 @@ func (l *LinkRepository) createLinkTx(tx *sql.Tx, short, long string) error {
 		return err
 	}
 
-	return l.logAuditTx(tx, short, long, "CREATE")
+	return l.createAuditTx(tx, short, long, clientIP, "CREATE")
 }
 
-func (l *LinkRepository) deleteLinkTx(tx *sql.Tx, short string) error {
+func (l *LinkRepository) deleteLinkTx(tx *sql.Tx, short, clientIP string) error {
 	var long string
 	err := tx.QueryRow(`
 		SELECT long_url 
@@ -205,10 +205,10 @@ func (l *LinkRepository) deleteLinkTx(tx *sql.Tx, short string) error {
 		return err
 	}
 
-	return l.logAuditTx(tx, short, long, "DELETE")
+	return l.createAuditTx(tx, short, long, clientIP, "DELETE")
 }
 
-func (l *LinkRepository) updateLinkTx(tx *sql.Tx, short, long string) error {
+func (l *LinkRepository) updateLinkTx(tx *sql.Tx, short, long, clientIP string) error {
 	_, err := tx.Exec(`
 		UPDATE links
 		SET long_url = ?
@@ -218,14 +218,6 @@ func (l *LinkRepository) updateLinkTx(tx *sql.Tx, short, long string) error {
 		return err
 	}
 
-	return l.logAuditTx(tx, short, long, "UPDATE")
+	return l.createAuditTx(tx, short, long, clientIP, "UPDATE")
 
-}
-
-func (l *LinkRepository) logAuditTx(tx *sql.Tx, short, long, action string) error {
-	_, err := tx.Exec(`
-	INSERT INTO audit (short_url, long_url, action)
-	VALUES (?, ?, ?);`, short, long, action)
-
-	return err
 }

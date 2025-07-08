@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS audit (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
     short_url   TEXT NOT NULL, 
     long_url    TEXT NOT NULL,
+    client_ip   TEXT NOT NULL,
     action      TEXT NOT NULL CHECK(action IN ('CREATE', 'UPDATE', 'DELETE')),
     timestamp   DATETIME DEFAULT CURRENT_TIMESTAMP
 );

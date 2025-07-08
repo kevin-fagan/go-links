@@ -22,15 +22,15 @@ func (ls *LinkService) CreateLink(g *gin.Context) {
 	long := g.PostForm("long-url")
 
 	if short == "" || long == "" {
-		g.HTML(http.StatusBadRequest, "error.html", gin.H{
+		g.HTML(http.StatusBadRequest, "modal-error.html", gin.H{
 			"Message": "missing short or long URL",
 		})
 		return
 	}
 
-	err := ls.linkRepository.CreateLink(short, long)
+	err := ls.linkRepository.CreateLink(short, long, g.ClientIP())
 	if err != nil {
-		g.HTML(http.StatusBadRequest, "error.html", gin.H{
+		g.HTML(http.StatusBadRequest, "modal-error.html", gin.H{
 			"Message": err.Error(),
 		})
 		return
@@ -45,15 +45,15 @@ func (ls *LinkService) UpdateLink(g *gin.Context) {
 	long := g.PostForm("long-url")
 
 	if short == "" || long == "" {
-		g.HTML(http.StatusBadRequest, "error.html", gin.H{
+		g.HTML(http.StatusBadRequest, "modal-error.html", gin.H{
 			"Message": "missing short or long URL",
 		})
 		return
 	}
 
-	err := ls.linkRepository.UpdateLink(short, long)
+	err := ls.linkRepository.UpdateLink(short, long, g.ClientIP())
 	if err != nil {
-		g.HTML(http.StatusBadRequest, "error.html", gin.H{
+		g.HTML(http.StatusBadRequest, "modal-error.html", gin.H{
 			"Message": err.Error(),
 		})
 		return
@@ -65,10 +65,10 @@ func (ls *LinkService) UpdateLink(g *gin.Context) {
 
 func (ls *LinkService) DeleteLink(g *gin.Context) {
 	short := g.Param("link")
-	err := ls.linkRepository.DeleteLink(short)
+	err := ls.linkRepository.DeleteLink(short, g.ClientIP())
 
 	if err != nil {
-		g.HTML(http.StatusBadRequest, "error.html", gin.H{
+		g.HTML(http.StatusBadRequest, "modal-error.html", gin.H{
 			"Message": err.Error(),
 		})
 		return

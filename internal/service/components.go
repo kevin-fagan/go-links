@@ -32,7 +32,7 @@ func (cs *ComponentService) AuditTable(g *gin.Context) {
 	search := g.Query("search")
 	audits, count, err := cs.linkRepository.GetAudit(page, pageSize, search)
 	if err != nil {
-		g.HTML(http.StatusBadRequest, "error.html", "unable to retrieve audits")
+		g.HTML(http.StatusBadRequest, "modal-error.html", "unable to retrieve audits")
 		return
 	}
 
@@ -44,7 +44,7 @@ func (cs *ComponentService) AuditTable(g *gin.Context) {
 	end := min(count, (page+1)*pageSize)
 
 	g.HTML(http.StatusOK, "table-audit.html", gin.H{
-		"Links": &audits,
+		"Audit": &audits,
 		"Results": gin.H{
 			"Start": start,
 			"End":   end,
@@ -73,7 +73,7 @@ func (cs *ComponentService) LinkTable(g *gin.Context) {
 	search := g.Query("search")
 	links, count, err := cs.linkRepository.GetLinks(search, page, pageSize)
 	if err != nil {
-		g.HTML(http.StatusBadRequest, "error.html", "unable to retrieve links")
+		g.HTML(http.StatusBadRequest, "modal-error.html", "unable to retrieve links")
 		return
 	}
 
