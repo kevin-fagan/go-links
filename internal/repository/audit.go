@@ -72,6 +72,14 @@ func (l *LinkRepository) getAuditTx(tx *sql.Tx, page, pageSize int, search strin
 	return audits, nil
 }
 
+func (l *LinkRepository) createAuditTx(tx *sql.Tx, short, long, clientIP, action string) error {
+	_, err := tx.Exec(`
+	INSERT INTO audit (short_url, long_url, client_ip, action)
+	VALUES (?, ?, ?, ?);`, short, long, clientIP, action)
+
+	return err
+}
+
 func (l *LinkRepository) countAuditTx(tx *sql.Tx, search string) (int, error) {
 	var count int
 
@@ -87,12 +95,4 @@ func (l *LinkRepository) countAuditTx(tx *sql.Tx, search string) (int, error) {
 
 		return count, err
 	}
-}
-
-func (l *LinkRepository) createAuditTx(tx *sql.Tx, short, long, clientIP, action string) error {
-	_, err := tx.Exec(`
-	INSERT INTO audit (short_url, long_url, client_ip, action)
-	VALUES (?, ?, ?, ?);`, short, long, clientIP, action)
-
-	return err
 }

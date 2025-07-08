@@ -11,8 +11,9 @@ func AddComponentRoutes(rg *gin.RouterGroup, sqlite *repository.SQLContext) {
 
 	rg.GET("/components/table/links", cs.LinkTable)
 	rg.GET("/components/table/audit", cs.AuditTable)
-	rg.GET("/components/form/clear", cs.FormClear)
-	rg.GET("/components/form/create", cs.FormCreate)
-	rg.GET("/components/form/update/:link", cs.FormUpdate)
-	rg.GET("/components/form/delete/:link", cs.FormDelete)
+
+	rg.GET("/components/modal/clear", cs.ModalClear)
+	rg.GET("/components/modal/create", cs.ModalCreate)
+	rg.GET("/components/modal/update/:link", cs.ModalUpdate)
+	rg.GET("/components/modal/delete/:link", cs.ModalDelete)
 }

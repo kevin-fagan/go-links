@@ -7,18 +7,24 @@ import (
 	"github.com/kevin-fagan/go-links/internal/repository"
 )
 
+// RedirectService handles the logic for redirecting short URLs
+// to their corresponding long URLs. It uses LinkRepository
+// to fetch link data and track visits.
 type RedirectService struct {
 	linkRepository repository.LinkRepository
 }
 
+// NewRedirectService initializes a RedirectService with the given database context.
 func NewRedirectService(ctx *repository.SQLContext) *RedirectService {
 	return &RedirectService{
 		linkRepository: *repository.NewLinkRepository(ctx),
 	}
 }
 
+// Redirect resolves a short URL to its long URL,
+// counts the visit, and issues a 302 redirect.
 func (rs *RedirectService) Redirect(g *gin.Context) {
-	short := g.Param("link")
+	short := g.Param(paramLink)
 
 	link, err := rs.linkRepository.GetLink(short)
 	if err == repository.ErrLinkNotFound {

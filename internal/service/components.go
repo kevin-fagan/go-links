@@ -8,16 +8,20 @@ import (
 	"github.com/kevin-fagan/go-links/internal/repository"
 )
 
+// ComponentService provides HTTP handlers for rendering modals and tables
+// related to links and audit records. It depends on a LinkRepository for data access.
 type ComponentService struct {
 	linkRepository repository.LinkRepository
 }
 
+// NewComponentService creates and returns a new ComponentService using the provided SQL context.
 func NewComponentService(ctx *repository.SQLContext) *ComponentService {
 	return &ComponentService{
 		linkRepository: *repository.NewLinkRepository(ctx),
 	}
 }
 
+// TODO: Simplify
 func (cs *ComponentService) AuditTable(g *gin.Context) {
 	page, err := strconv.Atoi(g.DefaultQuery("page", "0"))
 	if err != nil || page < 0 {
@@ -59,6 +63,7 @@ func (cs *ComponentService) AuditTable(g *gin.Context) {
 	})
 }
 
+// TODO: Simplify
 func (cs *ComponentService) LinkTable(g *gin.Context) {
 	page, err := strconv.Atoi(g.DefaultQuery("page", "0"))
 	if err != nil || page < 0 {
@@ -100,16 +105,20 @@ func (cs *ComponentService) LinkTable(g *gin.Context) {
 	})
 }
 
-func (cs *ComponentService) FormCreate(g *gin.Context) {
+// ModalCreate renders the modal used for creating a new link.
+func (cs *ComponentService) ModalCreate(g *gin.Context) {
 	g.HTML(http.StatusOK, "modal-create.html", gin.H{})
 }
 
-func (cs *ComponentService) FormClear(g *gin.Context) {
+// ModalClear renders an empty modal to clear HTML content via HTMX.
+func (cs *ComponentService) ModalClear(g *gin.Context) {
 	g.HTML(http.StatusOK, "modal-clear.html", gin.H{})
 }
 
-func (cs *ComponentService) FormUpdate(g *gin.Context) {
-	short := g.Param("link")
+// ModalUpdate renders the delete modal for a specific short link.
+// Responds with 400 Bad Request if the link cannot be retrieved.
+func (cs *ComponentService) ModalUpdate(g *gin.Context) {
+	short := g.Param(paramLink)
 
 	link, err := cs.linkRepository.GetLink(short)
 	if err != nil {
@@ -120,8 +129,10 @@ func (cs *ComponentService) FormUpdate(g *gin.Context) {
 	g.HTML(http.StatusOK, "modal-update.html", &link)
 }
 
-func (cs *ComponentService) FormDelete(g *gin.Context) {
-	short := g.Param("link")
+// ModalDelete renders the delete modal for a specific short link.
+// Responds with 400 Bad Request if the link cannot be retrieved.
+func (cs *ComponentService) ModalDelete(g *gin.Context) {
+	short := g.Param(paramLink)
 
 	link, err := cs.linkRepository.GetLink(short)
 	if err != nil {

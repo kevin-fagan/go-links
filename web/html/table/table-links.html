@@ -28,7 +28,7 @@
                 <td style="width: 150px;" class="td-left">{{ .LastUpdated | formatDate }}</td>
                 <td style="width: 150px;" class="td-right">
                     <button
-                        hx-get="/components/form/update/{{ .ShortURL }}"
+                        hx-get="/components/modal/update/{{ .ShortURL }}"
                         hx-target="#modal"
                         hx-swap="innerHTML"
                         aria-label="Update link {{ .ShortURL }}"
@@ -38,7 +38,7 @@
                     </button>
 
                     <button
-                        hx-get="/components/form/delete/{{ .ShortURL }}"
+                        hx-get="/components/modal/delete/{{ .ShortURL }}"
                         hx-target="#modal"
                         hx-swap="innerHTML"
                         aria-label="Delete link {{ .ShortURL }}"

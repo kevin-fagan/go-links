@@ -157,23 +157,6 @@ func (l *LinkRepository) getLinksTx(tx *sql.Tx, page, pageSize int, search strin
 	return links, nil
 }
 
-func (l *LinkRepository) countLinkTx(tx *sql.Tx, search string) (int, error) {
-	var count int
-
-	if search == "" {
-		err := tx.QueryRow(`SELECT COUNT(*) FROM links;`).Scan(&count)
-		return count, err
-	} else {
-		pattern := "%" + search + "%"
-
-		err := tx.QueryRow(`
-		SELECT COUNT(*) FROM links
-		WHERE short_url LIKE ? OR long_url LIKE ?;`, pattern, pattern).Scan(&count)
-
-		return count, err
-	}
-}
-
 func (l *LinkRepository) createLinkTx(tx *sql.Tx, short, long, clientIP string) error {
 	_, err := tx.Exec(`
 		INSERT INTO links (short_url, long_url)
@@ -220,4 +203,21 @@ func (l *LinkRepository) updateLinkTx(tx *sql.Tx, short, long, clientIP string) 
 
 	return l.createAuditTx(tx, short, long, clientIP, "UPDATE")
 
+}
+
+func (l *LinkRepository) countLinkTx(tx *sql.Tx, search string) (int, error) {
+	var count int
+
+	if search == "" {
+		err := tx.QueryRow(`SELECT COUNT(*) FROM links;`).Scan(&count)
+		return count, err
+	} else {
+		pattern := "%" + search + "%"
+
+		err := tx.QueryRow(`
+		SELECT COUNT(*) FROM links
+		WHERE short_url LIKE ? OR long_url LIKE ?;`, pattern, pattern).Scan(&count)
+
+		return count, err
+	}
 }

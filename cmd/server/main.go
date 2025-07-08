@@ -3,11 +3,11 @@ package main
 import (
 	"log"
 	"text/template"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/kevin-fagan/go-links/internal/repository"
 	"github.com/kevin-fagan/go-links/internal/routes"
+	"github.com/kevin-fagan/go-links/internal/tmpl"
 )
 
 var (
@@ -27,25 +27,12 @@ func main() {
 	router := gin.Default()
 
 	router.SetFuncMap(template.FuncMap{
-		"formatDate": formatDate,
+		"formatDate": tmpl.FormatDate,
 	})
 
 	router.Static("/assets", "./web/assets")
 	router.StaticFile("/favicon.ico", "./web/assets/images/favicon.ico")
-
-	router.LoadHTMLFiles(
-		"web/html/page/page-links.html",
-		"web/html/page/page-audit.html",
-
-		"web/html/table/table-links.html",
-		"web/html/table/table-audit.html",
-
-		"web/html/modal/modal-clear.html",
-		"web/html/modal/modal-create.html",
-		"web/html/modal/modal-delete.html",
-		"web/html/modal/modal-error.html",
-		"web/html/modal/modal-update.html",
-	)
+	router.LoadHTMLGlob("web/html/**/*.html")
 
 	root := router.Group("/")
 	routes.AddHomeRoutes(root)
@@ -54,8 +41,4 @@ func main() {
 	routes.AddComponentRoutes(root, sqlite)
 
 	router.Run("localhost:8080")
-}
-
-func formatDate(t time.Time) string {
-	return t.Format("02 Jan 2006 15:04")
 }
