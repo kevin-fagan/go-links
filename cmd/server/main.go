@@ -36,13 +36,15 @@ func main() {
 	router.LoadHTMLFiles(
 		"web/html/pages/page-links.html",
 		"web/html/pages/page-audit.html",
+
 		"web/html/table/table-links.html",
 		"web/html/table/table-audit.html",
-		"web/html/modal/clear.html",
-		"web/html/modal/create.html",
-		"web/html/modal/delete.html",
-		"web/html/modal/error.html",
-		"web/html/modal/update.html",
+
+		"web/html/modal/modal-clear.html",
+		"web/html/modal/modal-create.html",
+		"web/html/modal/modal-delete.html",
+		"web/html/modal/modal-error.html",
+		"web/html/modal/modal-update.html",
 	)
 
 	root := router.Group("/")

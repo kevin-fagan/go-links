@@ -2,7 +2,7 @@
     class="table"
     hx-get="/components/table/links?page={{ .Page.Current }}&pageSize={{ .Page.Size }}"
     hx-trigger="refresh from:body"
-    hx-target="#links-table"
+    hx-target="#table-links"
     hx-swap="innerHTML"
 >
     <thead class="table-head">
@@ -63,7 +63,7 @@
             class="button-pagination"
             hx-get="/components/table/links?page={{ .Page.Previous }}&pageSize={{ .Page.Size }}"
             {{ if eq .Page.Current 0 }}disabled{{ end }}
-            hx-target="#links-table"
+            hx-target="#table-links"
             hx-swap="innerHTML"
             aria-label="Previous Page"
             type="button"
@@ -76,7 +76,7 @@
             class="button-pagination"
             hx-get="/components/table/links?page={{ .Page.Next }}&pageSize={{ .Page.Size }}"
             {{ if eq .Results.End .Results.Total }}disabled{{ end }}
-            hx-target="#links-table"
+            hx-target="#table-links"
             hx-swap="innerHTML"
             aria-label="Next Page"
             type="button"

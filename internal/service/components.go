@@ -101,11 +101,11 @@ func (cs *ComponentService) LinkTable(g *gin.Context) {
 }
 
 func (cs *ComponentService) FormCreate(g *gin.Context) {
-	g.HTML(http.StatusOK, "create.html", gin.H{})
+	g.HTML(http.StatusOK, "modal-create.html", gin.H{})
 }
 
 func (cs *ComponentService) FormClear(g *gin.Context) {
-	g.HTML(http.StatusOK, "clear.html", gin.H{})
+	g.HTML(http.StatusOK, "modal-clear.html", gin.H{})
 }
 
 func (cs *ComponentService) FormUpdate(g *gin.Context) {
@@ -117,7 +117,7 @@ func (cs *ComponentService) FormUpdate(g *gin.Context) {
 		return
 	}
 
-	g.HTML(http.StatusOK, "update.html", &link)
+	g.HTML(http.StatusOK, "modal-update.html", &link)
 }
 
 func (cs *ComponentService) FormDelete(g *gin.Context) {
@@ -129,5 +129,5 @@ func (cs *ComponentService) FormDelete(g *gin.Context) {
 		return
 	}
 
-	g.HTML(http.StatusOK, "delete.html", &link)
+	g.HTML(http.StatusOK, "modal-delete.html", &link)
 }

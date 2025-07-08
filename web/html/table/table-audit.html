@@ -2,7 +2,7 @@
     class="table"
     hx-get="/components/table/audit?page={{ .Page.Current }}&pageSize={{ .Page.Size }}"
     hx-trigger="refresh from:body"
-    hx-target="#audit-table"
+    hx-target="#table-audit"
     hx-swap="innerHTML"
 >
     <thead class="table-head">
@@ -41,7 +41,7 @@
             class="button-pagination"
             hx-get="/components/table/audit?page={{ .Page.Previous }}&pageSize={{ .Page.Size }}"
             {{ if eq .Page.Current 0 }}disabled{{ end }}
-            hx-target="#audit-table"
+            hx-target="#table-audit"
             hx-swap="innerHTML"
             aria-label="Previous Page"
             type="button"
@@ -54,7 +54,7 @@
             class="button-pagination"
             hx-get="/components/table/audit?page={{ .Page.Next }}&pageSize={{ .Page.Size }}"
             {{ if eq .Results.End .Results.Total }}disabled{{ end }}
-            hx-target="#audit-table"
+            hx-target="#table-audit"
             hx-swap="innerHTML"
             aria-label="Next Page"
             type="button"
