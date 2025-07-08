@@ -7,13 +7,6 @@ import (
 	"github.com/kevin-fagan/go-links/internal/repository"
 )
 
-const (
-	formLong  = "long-url"
-	formShort = "short-url"
-
-	paramLink = "link"
-)
-
 // LinkService provides business logic for creating, updating, and deleting shortened links.
 // It relies on a LinkRepository for persistent storage.
 type LinkService struct {
@@ -30,8 +23,8 @@ func NewLinkService(ctx *repository.SQLContext) *LinkService {
 // CreateLink handles HTTP POST requests to create a new shortened link.
 // On error, returns an error modal, otherwise triggers a UI refresh.
 func (ls *LinkService) CreateLink(g *gin.Context) {
-	long := g.PostForm(formLong)
-	short := g.PostForm(formShort)
+	long := g.PostForm("long-url")
+	short := g.PostForm("short-url")
 
 	if short == "" || long == "" {
 		triggerModalError(g, "missing short or long URL")
@@ -50,8 +43,8 @@ func (ls *LinkService) CreateLink(g *gin.Context) {
 // UpdateLink handles HTTP POST requests to update an existing shortened link.
 // On error, returns an error modal, otherwise triggers a UI refresh.
 func (ls *LinkService) UpdateLink(g *gin.Context) {
-	long := g.PostForm(formLong)
-	short := g.PostForm(formShort)
+	long := g.PostForm("long-url")
+	short := g.PostForm("short-url")
 
 	if short == "" || long == "" {
 		triggerModalError(g, "missing short or long URL")
@@ -70,7 +63,7 @@ func (ls *LinkService) UpdateLink(g *gin.Context) {
 // DeleteLink handles HTTP DELETE requests to update an existing shortened link.
 // On error, returns an error modal, otherwise triggers a UI refresh.
 func (ls *LinkService) DeleteLink(g *gin.Context) {
-	short := g.Param(paramLink)
+	short := g.Param("link")
 
 	err := ls.linkRepository.DeleteLink(short, g.ClientIP())
 	if err != nil {

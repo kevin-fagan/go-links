@@ -24,7 +24,7 @@ func NewRedirectService(ctx *repository.SQLContext) *RedirectService {
 // Redirect resolves a short URL to its long URL,
 // counts the visit, and issues a 302 redirect.
 func (rs *RedirectService) Redirect(g *gin.Context) {
-	short := g.Param(paramLink)
+	short := g.Param("link")
 
 	link, err := rs.linkRepository.GetLink(short)
 	if err == repository.ErrLinkNotFound {

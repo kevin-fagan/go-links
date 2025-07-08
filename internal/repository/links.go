@@ -58,7 +58,7 @@ func (l *LinkRepository) GetLink(short string) (*model.Link, error) {
 	return &link, nil
 }
 
-func (l *LinkRepository) GetLinks(search string, page, pageSize int) ([]model.Link, int, error) {
+func (l *LinkRepository) GetLinks(page, pageSize int, search string) ([]model.Link, int, error) {
 	var (
 		count int
 		links []model.Link
