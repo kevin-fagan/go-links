@@ -1,11 +1,11 @@
 <table
-    class="links-table"
+    class="table"
     hx-get="/components/table/links?page={{ .Page.Current }}&pageSize={{ .Page.Size }}"
     hx-trigger="refresh from:body"
     hx-target="#links-table"
     hx-swap="innerHTML"
 >
-    <thead class="links-table-head">
+    <thead class="table-head">
         <tr>
             <th style="width: 200px;" scope="col" class="th-left">Short URL</th>
             <th style="width: 300px;" scope="col" class="th-left">Long URL</th>
@@ -17,7 +17,7 @@
 
     {{ range .Links }}
         <tbody>
-            <tr class="links-table-row">
+            <tr class="table-row">
                 <td style="width: 200px; word-wrap: break-word;" class="td-left">
                     {{ .ShortURL }}
                 </td>

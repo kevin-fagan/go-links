@@ -1,0 +1,66 @@
+<table
+    class="table"
+    hx-get="/components/table/audit?page={{ .Page.Current }}&pageSize={{ .Page.Size }}"
+    hx-trigger="refresh from:body"
+    hx-target="#audit-table"
+    hx-swap="innerHTML"
+>
+    <thead class="table-head">
+        <tr>
+            <th style="width: 200px;" scope="col" class="th-left">Short URL</th>
+            <th style="width: 300px;" scope="col" class="th-left">Long URL</th>
+            <th style="width: 50px;" scope="col" class="th-left">Action</th>
+            <th style="width: 150px;" scope="col" class="th-left">Timestamp</th>
+        </tr>
+    </thead>
+
+    {{ range .Links }}
+        <tbody>
+            <tr class="table-row">
+                <td style="width: 200px; word-wrap: break-word;" class="td-left">
+                    {{ .ShortURL }}
+                </td>
+                <td style="width: 300px; word-wrap: break-word;" class="td-left">
+                    {{ .LongURL }}
+                </td>
+                <td style="width: 50px;" class="td-left">{{ .Action }}</td>
+                <td style="width: 150px;" class="td-left">{{ .Timestamp | formatDate }}</td>
+            </tr>
+        </tbody>
+    {{ end }}
+</table>
+
+<div class="toolbar">
+    <div style="margin-left: auto; display: flex; gap: 0.5rem">
+        <div class="button-pagination-page-tracker">
+            {{ .Results.Start }}-{{ .Results.End }} of
+            {{ .Results.Total }}
+        </div>
+
+        <button
+            class="button-pagination"
+            hx-get="/components/table/audit?page={{ .Page.Previous }}&pageSize={{ .Page.Size }}"
+            {{ if eq .Page.Current 0 }}disabled{{ end }}
+            hx-target="#audit-table"
+            hx-swap="innerHTML"
+            aria-label="Previous Page"
+            type="button"
+            title="Previous"
+        >
+            <i class="bi bi-chevron-left"></i>
+        </button>
+
+        <button
+            class="button-pagination"
+            hx-get="/components/table/audit?page={{ .Page.Next }}&pageSize={{ .Page.Size }}"
+            {{ if eq .Results.End .Results.Total }}disabled{{ end }}
+            hx-target="#audit-table"
+            hx-swap="innerHTML"
+            aria-label="Next Page"
+            type="button"
+            title="Next"
+        >
+            <i class="bi bi-chevron-right"></i>
+        </button>
+    </div>
+</div>

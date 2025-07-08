@@ -8,5 +8,7 @@ import (
 func AddHomeRoutes(rg *gin.RouterGroup) {
 	hs := service.NewHomeService()
 
-	rg.GET("/home", hs.HomePage)
+	rg.GET("/home", hs.LinkPage)
+	rg.GET("/home/links", hs.LinkPage)
+	rg.GET("/home/audit", hs.AuditPage)
 }

@@ -34,14 +34,15 @@ func main() {
 	router.StaticFile("/favicon.ico", "./web/assets/images/favicon.ico")
 
 	router.LoadHTMLFiles(
-		"web/html/home.html",
+		"web/html/pages/page-links.html",
+		"web/html/pages/page-audit.html",
+		"web/html/table/table-links.html",
+		"web/html/table/table-audit.html",
 		"web/html/modal/clear.html",
 		"web/html/modal/create.html",
 		"web/html/modal/delete.html",
 		"web/html/modal/error.html",
 		"web/html/modal/update.html",
-		"web/html/table/links.html",
-		"web/html/table/audit.html",
 	)
 
 	root := router.Group("/")

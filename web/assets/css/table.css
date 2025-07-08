@@ -1,4 +1,4 @@
-.links-table {
+.table {
     width: 100%;
     table-layout: fixed;
     border-spacing: 0;
@@ -11,17 +11,17 @@
     color: var(--color-light);
 }
 
-.links-table-head {
+.table-head {
     color: var(--color-light);
     background-color: var(--primary-fg-color);
 }
 
-.links-table-row {
+.table-row {
     border-radius: var(--border-radius);
     transition: background 0.25s ease;
 }
 
-.links-table-row:hover {
+.table-row:hover {
     background: #222;
 }
 

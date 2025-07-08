@@ -18,6 +18,47 @@ func NewComponentService(ctx *repository.SQLContext) *ComponentService {
 	}
 }
 
+func (cs *ComponentService) AuditTable(g *gin.Context) {
+	page, err := strconv.Atoi(g.DefaultQuery("page", "0"))
+	if err != nil || page < 0 {
+		page = 0
+	}
+
+	pageSize, err := strconv.Atoi(g.DefaultQuery("pageSize", "5"))
+	if err != nil || pageSize < 0 {
+		pageSize = 5
+	}
+
+	search := g.Query("search")
+	audits, count, err := cs.linkRepository.GetAudit(page, pageSize, search)
+	if err != nil {
+		g.HTML(http.StatusBadRequest, "error.html", "unable to retrieve audits")
+		return
+	}
+
+	start := 0
+	if count != 0 {
+		start = max(0, page*pageSize+1)
+	}
+
+	end := min(count, (page+1)*pageSize)
+
+	g.HTML(http.StatusOK, "table-audit.html", gin.H{
+		"Links": &audits,
+		"Results": gin.H{
+			"Start": start,
+			"End":   end,
+			"Total": count,
+		},
+		"Page": gin.H{
+			"Size":     5,
+			"Current":  page,
+			"Previous": page - 1,
+			"Next":     page + 1,
+		},
+	})
+}
+
 func (cs *ComponentService) LinkTable(g *gin.Context) {
 	page, err := strconv.Atoi(g.DefaultQuery("page", "0"))
 	if err != nil || page < 0 {
@@ -43,7 +84,7 @@ func (cs *ComponentService) LinkTable(g *gin.Context) {
 
 	end := min(count, (page+1)*pageSize)
 
-	g.HTML(http.StatusOK, "links.html", gin.H{
+	g.HTML(http.StatusOK, "table-links.html", gin.H{
 		"Links": &links,
 		"Results": gin.H{
 			"Start": start,
