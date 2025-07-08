@@ -34,8 +34,8 @@ func main() {
 	router.StaticFile("/favicon.ico", "./web/assets/images/favicon.ico")
 
 	router.LoadHTMLFiles(
-		"web/html/pages/page-links.html",
-		"web/html/pages/page-audit.html",
+		"web/html/page/page-links.html",
+		"web/html/page/page-audit.html",
 
 		"web/html/table/table-links.html",
 		"web/html/table/table-audit.html",
