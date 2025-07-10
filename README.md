@@ -6,9 +6,7 @@ Go Links is a lightweight, self-hosted application for creating easy-to-remember
 Instead of sharing or having to rember long, complex URLs, you can create short aliases such as `go/standup` or `go/jira`.
 
 - 🌐 Easy-to-use vanity URLs
+- 📤 Ability to export your data 
 - ⚡ Fast and lightweight with minimal dependencies
-- 📝 Built-in audit logging — every link change is recorded for traceability
+- 📝 Built-in audit trail — every link change is recorded for traceability
 - 🔒 Fully self-hosted — you maintain complete control over your data and links
-
-  
-![ui-example](https://github.com/user-attachments/assets/e76a215a-c252-4194-a9ea-3d49d5929145)
