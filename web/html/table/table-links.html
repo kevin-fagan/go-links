@@ -7,46 +7,51 @@
 >
     <thead class="table-head">
         <tr>
-            <th style="width: 200px;" scope="col" class="th-left">
+            <th style="width: 25%;" scope="col" class="th-left">
                 <div>
                     <i class="bi bi-link-45deg"></i>
                     Short URL
                 </div>
             </th>
-            <th style="width: 300px;" scope="col" class="th-left">
+            <th style="width: 40%;" scope="col" class="th-left">
                 <div>
                     <i class="bi bi-link-45deg"></i>
                     Long URL
                 </div>
             </th>
-            <th style="width: 75px;" scope="col" class="th-left">
+            <th style="width: 1%;" scope="col" class="th-left">
                 <div>
                     <i class="bi bi-person"></i>
                     Visits
                 </div>
             </th>
-            <th style="width: 150px;" scope="col" class="th-left">
+            <th style="width: 10%;" scope="col" class="th-left">
                 <div>
                     <i class="bi bi-calendar"></i>
                     Updated
                 </div>
             </th>
-            <th style="width: 150px;" scope="col" class="th-empty"></th>
+            <th style="width: 1%;" scope="col" class="th-left">
+                <div>
+                    <i class="bi bi-gear"></i>
+                    Action
+                </div>
+            </th>
         </tr>
     </thead>
 
     {{ range .Links }}
         <tbody>
             <tr class="table-row">
-                <td style="width: 200px; word-wrap: break-word;" class="td-left">
+                <td style="width: 38%; word-wrap: break-word;" class="td-left">
                     {{ .ShortURL }}
                 </td>
-                <td style="width: 300px; word-wrap: break-word;" class="td-left">
+                <td style="width: 50%; word-wrap: break-word;" class="td-left">
                     {{ .LongURL }}
                 </td>
-                <td style="width: 75px;" class="td-left">{{ .Visits }}</td>
-                <td style="width: 150px;" class="td-left">{{ .LastUpdated | formatDate }}</td>
-                <td style="width: 150px;" class="td-right">
+                <td style="width: 1%;" class="td-left">{{ .Visits }}</td>
+                <td style="width: 10%;" class="td-left">{{ .LastUpdated | formatDate }}</td>
+                <td style="width: 1%;" class="td-right">
                     <button
                         hx-get="/components/modal/update/{{ .ShortURL }}"
                         hx-target="#modal"

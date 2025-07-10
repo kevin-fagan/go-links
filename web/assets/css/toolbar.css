@@ -6,6 +6,7 @@
     padding: var(--padding);
     margin-top: 10px;
     margin-bottom: 10px;
+    border-radius: var(--border-radius);
 }
 
 .toolbar-actions {

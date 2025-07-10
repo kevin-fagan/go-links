@@ -8,21 +8,15 @@
     <thead class="table-head">
         <tr>
             <th style="width: 200px;" scope="col" class="th-left">
-                <div>
+                <span>
                     <i class="bi bi-link-45deg"></i>
                     Short URL
-                </div>
+                </span>
             </th>
             <th style="width: 300px;" scope="col" class="th-left">
                 <div>
                     <i class="bi bi-link-45deg"></i>
                     Long URL
-                </div>
-            </th>
-            <th style="width: 75px;" scope="col" class="th-left">
-                <div>
-                    <i class="bi bi-gear"></i>
-                    Action
                 </div>
             </th>
             <th style="width: 150px;" scope="col" class="th-left">
@@ -37,6 +31,12 @@
                     Timestamp
                 </div>
             </th>
+            <th style="width: 75px;" scope="col" class="th-left">
+                <div>
+                    <i class="bi bi-gear"></i>
+                    Action
+                </div>
+            </th>
         </tr>
     </thead>
 
@@ -49,12 +49,11 @@
                 <td style="width: 300px; word-wrap: break-word;" class="td-left">
                     {{ .LongURL }}
                 </td>
+                <td style="width: 150px;" class="td-left">{{ .ClientIP }}</td>
+                <td style="width: 150px;" class="td-left">{{ .Timestamp | formatDate }}</td>
                 <td style="width: 75px;" class="td-left">
                     <span class="{{ .Action | formatChip }}">{{ .Action }}</span>
                 </td>
-
-                <td style="width: 150px;" class="td-left">{{ .ClientIP }}</td>
-                <td style="width: 150px;" class="td-left">{{ .Timestamp | formatDate }}</td>
             </tr>
         </tbody>
     {{ end }}
