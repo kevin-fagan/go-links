@@ -28,6 +28,7 @@ func main() {
 
 	router.SetFuncMap(template.FuncMap{
 		"formatDate": tmpl.FormatDate,
+		"formatChip": tmpl.FormatChip,
 	})
 
 	router.Static("/assets", "./web/assets")

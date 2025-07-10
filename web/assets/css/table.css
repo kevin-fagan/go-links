@@ -1,19 +1,12 @@
 .table {
     width: 100%;
     table-layout: fixed;
-    border-spacing: 0;
-    border-collapse: separate;
-    overflow: hidden;
-    margin-top: var(--margin);
-    border-radius: var(--border-radius);
-    font-size: var(--font-size-md);
-    background-color: var(--secondary-bg-color);
-    color: var(--color-light);
+    color: var(--dark-white);
 }
 
 .table-head {
-    color: var(--color-light);
-    background-color: var(--primary-fg-color);
+    color: var(--dark-white);
+    background-color: var(--foreground);
 }
 
 .table-row {

@@ -2,9 +2,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--primary-fg-color);
-    border-radius: var(--border-radius);
+    background-color: var(--foreground);
     padding: var(--padding);
-    margin-top: var(--margin);
-    margin-bottom: var(--margin);
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.toolbar-actions {
+    margin-left: var(--margin);
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
 }
