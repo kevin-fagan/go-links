@@ -1,11 +1,11 @@
-.toolbar {
+.toolbar-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: var(--foreground);
     padding: var(--padding);
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: var(--margin);
+    margin-bottom: var(--margin);
     border-radius: var(--border-radius);
 }
 

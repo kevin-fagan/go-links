@@ -3,7 +3,7 @@
     --background: #16171b;
     --foreground: #27272a;
 
-    --white: rgba(255, 255, 255, 0.4);
+    --white: rgba(255, 255, 255, 0.1);
     --green: rgba(74, 222, 128, 0.1);
     --blue: rgba(100, 181, 246, 0.1);
     --yellow: rgba(255, 174, 66, 0.1);
@@ -51,9 +51,10 @@ html {
     padding: 0;
 }
 
-.main-container {
+.content-container {
     display: flex;
     flex-direction: column;
     margin-left: 70px;
     margin-right: 10px;
+    width: 100%;
 }

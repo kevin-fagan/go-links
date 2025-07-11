@@ -19,34 +19,27 @@
         <link rel="stylesheet" href="/assets/css/form.css" />
         <link rel="stylesheet" href="/assets/css/table.css" />
         <link rel="stylesheet" href="/assets/css/search.css" />
-        <link rel="stylesheet" href="/assets/css/button.css" />
     </head>
 
     <body hx-ext="response-targets">
         <aside class="sidebar-container">
-            <img style="margin: 20px 10px 20px 10px; width: 40px;" src="/assets/images/logo.png" />
-            <button
-                class="sidebar-button active"
-                title="Links"
-                hx-get="/home/links"
-                hx-target="body"
-                hx-swap="innerHTML"
-            >
+            <img class="sidebar-logo" src="/assets/images/logo.png" />
+            <button class="sidebar-button active" title="Links">
                 <i class="bi bi-house"></i>
             </button>
             <button
-                active
                 class="sidebar-button"
                 title="Logs"
                 hx-get="/home/audit"
                 hx-target="body"
                 hx-swap="innerHTML"
+                hx-push-url="true"
             >
                 <i class="bi bi-journals"></i>
             </button>
         </aside>
-        <div id="main-container" class="main-container" style="width: 100%;">
-            <div class="toolbar">
+        <div class="content-container">
+            <div class="toolbar-container">
                 <input
                     type="search"
                     name="search"

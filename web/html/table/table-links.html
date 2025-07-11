@@ -7,35 +7,20 @@
 >
     <thead class="table-head">
         <tr>
-            <th style="width: 25%;" scope="col" class="th-left">
-                <span>
-                    <i class="bi bi-link-45deg"></i>
-                    Short URL
-                </span>
+            <th style="width: 38%;" scope="col" class="th-left">
+                <span><i class="bi bi-link-45deg"></i>&nbsp;Short URL</span>
             </th>
-            <th style="width: 40%;" scope="col" class="th-left">
-                <span>
-                    <i class="bi bi-link-45deg"></i>
-                    Long URL
-                </span>
+            <th style="width: 50%;" scope="col" class="th-left">
+                <span><i class="bi bi-link-45deg"></i>&nbsp;Long URL</span>
             </th>
             <th style="width: 1%;" scope="col" class="th-left">
-                <span>
-                    <i class="bi bi-person"></i>
-                    Visits
-                </span>
+                <span><i class="bi bi-person"></i>&nbsp;Visits</span>
             </th>
             <th style="width: 10%;" scope="col" class="th-left">
-                <span>
-                    <i class="bi bi-calendar"></i>
-                    Updated
-                </span>
+                <span><i class="bi bi-calendar"></i>&nbsp;Updated</span>
             </th>
             <th style="width: 1%;" scope="col" class="th-left">
-                <span>
-                    <i class="bi bi-gear"></i>
-                    Action
-                </span>
+                <span><i class="bi bi-gear"></i>&nbsp;Action</span>
             </th>
         </tr>
     </thead>
@@ -50,8 +35,8 @@
                     {{ .LongURL }}
                 </td>
                 <td style="width: 1%;" class="td-left">{{ .Visits }}</td>
-                <td style="width: 10%;" class="td-left">{{ .LastUpdated | formatDate }}</td>
-                <td style="width: 1%;" class="td-right">
+                <td style="width: 10%;" class="td-left">{{ .LastUpdated | FormatDate }}</td>
+                <td style="width: 1%;" class="td-left">
                     <button
                         hx-get="/components/modal/update/{{ .ShortURL }}"
                         hx-target="#modal"
@@ -77,7 +62,7 @@
     {{ end }}
 </table>
 
-<div class="toolbar">
+<div class="toolbar-container">
     <div style="margin-left: auto; display: flex; gap: 0.5rem">
         <div class="button-pagination-page-tracker">
             {{ .Results.Start }}-{{ .Results.End }} of

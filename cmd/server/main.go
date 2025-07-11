@@ -27,8 +27,8 @@ func main() {
 	router := gin.Default()
 
 	router.SetFuncMap(template.FuncMap{
-		"formatDate": tmpl.FormatDate,
-		"formatChip": tmpl.FormatChip,
+		"FormatDate": tmpl.FormatDate,
+		"FormatChip": tmpl.FormatChip,
 	})
 
 	router.Static("/assets", "./web/assets")

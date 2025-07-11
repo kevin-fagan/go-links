@@ -8,34 +8,19 @@
     <thead class="table-head">
         <tr>
             <th style="width: 200px;" scope="col" class="th-left">
-                <span>
-                    <i class="bi bi-link-45deg"></i>
-                    Short URL
-                </span>
+                <span><i class="bi bi-link-45deg"></i>&nbsp;Short URL</span>
             </th>
             <th style="width: 300px;" scope="col" class="th-left">
-                <span>
-                    <i class="bi bi-link-45deg"></i>
-                    Long URL
-                </span>
+                <span><i class="bi bi-link-45deg"></i>&nbsp;Long URL</span>
             </th>
             <th style="width: 150px;" scope="col" class="th-left">
-                <span>
-                    <i class="bi bi-globe"></i>
-                    Client IP
-                </span>
+                <span><i class="bi bi-globe"></i>&nbsp;Client IP</span>
             </th>
             <th style="width: 150px;" scope="col" class="th-left">
-                <span>
-                    <i class="bi bi-calendar"></i>
-                    Timestamp
-                </span>
+                <span><i class="bi bi-calendar"></i>&nbsp;Timestamp</span>
             </th>
             <th style="width: 75px;" scope="col" class="th-left">
-                <span>
-                    <i class="bi bi-gear"></i>
-                    Action
-                </span>
+                <span><i class="bi bi-gear"></i>&nbsp;Action</span>
             </th>
         </tr>
     </thead>
@@ -50,16 +35,16 @@
                     {{ .LongURL }}
                 </td>
                 <td style="width: 150px;" class="td-left">{{ .ClientIP }}</td>
-                <td style="width: 150px;" class="td-left">{{ .Timestamp | formatDate }}</td>
+                <td style="width: 150px;" class="td-left">{{ .Timestamp | FormatDate }}</td>
                 <td style="width: 75px;" class="td-left">
-                    <span class="{{ .Action | formatChip }}">{{ .Action }}</span>
+                    <span class="{{ .Action | FormatChip }}">{{ .Action }}</span>
                 </td>
             </tr>
         </tbody>
     {{ end }}
 </table>
 
-<div class="toolbar">
+<div class="toolbar-container">
     <div style="margin-left: auto; display: flex; gap: 0.5rem">
         <div class="button-pagination-page-tracker">
             {{ .Results.Start }}-{{ .Results.End }} of

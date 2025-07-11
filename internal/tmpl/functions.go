@@ -11,6 +11,9 @@ func FormatDate(t time.Time) string {
 	return t.Format("02 Jan 2006 15:04")
 }
 
+// FormatChip returns a CSS class name corresponding to the given action type.
+// It maps "CREATE", "UPDATE", and "DELETE" strings to predefined chip class names
+// used for styling status indicators in the UI.
 func FormatChip(s string) template.CSS {
 	switch s {
 	case "CREATE":
