@@ -1,26 +1,75 @@
-<div>
-    <div class="toolbar">
-        <input
-            type="search"
-            name="search"
-            class="search-input"
-            placeholder="Search logs..."
-            hx-get="/components/table/audit"
-            hx-target="#table-audit"
-            hx-trigger="keyup changed delay:125ms"
-        />
-        <div class="toolbar-actions">
-            <button class="button-icon" type="button">
-                <i class="bi bi-download"></i>
-            </button>
-        </div>
-    </div>
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Go Links</title>
 
-    <div
-        id="table-audit"
-        hx-get="/components/table/audit"
-        hx-target="#table-audit"
-        hx-trigger="load"
-        hx-swap="innerHTML"
-    ></div>
-</div>
+        <script src="/assets/js/htmx.min.js"></script>
+        <script src="/assets/js/htmx-ex-response-targets.js"></script>
+
+        <!--prettier-ignore-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"/>
+        <!--prettier-ignore-->
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"/>
+
+        <link rel="stylesheet" href="/assets/css/styles.css" />
+        <link rel="stylesheet" href="/assets/css/sidebar.css" />
+        <link rel="stylesheet" href="/assets/css/toolbar.css" />
+        <link rel="stylesheet" href="/assets/css/form.css" />
+        <link rel="stylesheet" href="/assets/css/table.css" />
+        <link rel="stylesheet" href="/assets/css/search.css" />
+        <link rel="stylesheet" href="/assets/css/button.css" />
+    </head>
+
+    <body hx-ext="response-targets">
+        <aside class="sidebar-container">
+            <img style="margin: 20px 10px 20px 10px; width: 40px;" src="/assets/images/logo.png" />
+            <button
+                class="sidebar-button"
+                title="Links"
+                hx-get="/home/links"
+                hx-target="body"
+                hx-swap="innerHTML"
+            >
+                <i class="bi bi-house"></i>
+            </button>
+            <button
+                class="sidebar-button active"
+                title="Logs"
+                hx-get="/home/audit"
+                hx-target="body"
+                hx-swap="innerHTML"
+            >
+                <i class="bi bi-journals"></i>
+            </button>
+        </aside>
+        <div id="main-container" class="main-container" style="width: 100%;">
+            <div class="toolbar">
+                <input
+                    type="search"
+                    name="search"
+                    class="search-input"
+                    placeholder="Search logs..."
+                    hx-get="/components/table/audit"
+                    hx-target="#table-audit"
+                    hx-trigger="keyup changed delay:125ms"
+                />
+                <div class="toolbar-actions">
+                    <button class="button-icon" type="button">
+                        <i class="bi bi-download"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div
+                id="table-audit"
+                hx-get="/components/table/audit"
+                hx-target="#table-audit"
+                hx-trigger="load"
+                hx-swap="innerHTML"
+            ></div>
+        </div>
+        <div id="modal"></div>
+    </body>
+</html>

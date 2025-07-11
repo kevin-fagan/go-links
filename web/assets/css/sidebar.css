@@ -28,11 +28,12 @@
     justify-content: center;
 }
 
-.sidebar-button:hover {
+.sidebar-button.active {
     background-color: rgba(255, 255, 255, 0.1);
     transform: scale(1.1);
 }
 
-.sidebar-button:active {
-    transform: scale(0.95);
+.sidebar-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
 }

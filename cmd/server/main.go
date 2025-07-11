@@ -36,7 +36,7 @@ func main() {
 	router.LoadHTMLGlob("web/html/**/*.html")
 
 	root := router.Group("/")
-	routes.AddHomeRoutes(root)
+	routes.AddPageRoute(root)
 	routes.AddLinksRoutes(root, sqlite)
 	routes.AddRedirectRoutes(root, sqlite)
 	routes.AddComponentRoutes(root, sqlite)
