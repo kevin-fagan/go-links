@@ -9,5 +9,5 @@ Instead of sharing or having to rember long, complex URLs, you can create short 
 - 📤 Ability to export your data 
 - 🏷️ Tag your links to help with organization
 - ⚡ Fast and lightweight with minimal dependencies
-- 📝 Built-in audit trail — every link change is recorded for traceability
+- 📝 Built-in audit trail — every change is recorded for traceability
 - 🔒 Fully self-hosted — you maintain complete control over your data and links
