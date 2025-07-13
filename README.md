@@ -10,3 +10,6 @@ Instead of sharing or having to rember long, complex URLs, you can create short 
 - ⚡ Fast and lightweight with minimal dependencies
 - 📝 Built-in audit trail — every change is recorded for traceability
 - 🔒 Fully self-hosted — you maintain complete control over your data and links
+
+
+![home-page](./assets/home-page-example.png)

@@ -81,7 +81,7 @@ func renderTable[T any](g *gin.Context, fetchData func(page, pageSize int, searc
 
 	pageSize, err := strconv.Atoi(g.Query("pageSize"))
 	if err != nil || pageSize <= 0 {
-		pageSize = 25
+		pageSize = 10
 	}
 
 	search := g.Query("search")

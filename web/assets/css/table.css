@@ -118,6 +118,8 @@
 
 .chip-delete {
     display: flex;
+    margin-top: 5px;
+    margin-bottom: 5px;
     align-items: center;
     justify-content: center;
     padding: 4px 10px;
@@ -132,6 +134,8 @@
 }
 
 .chip-update {
+    margin-top: 5px;
+    margin-bottom: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -147,6 +151,8 @@
 }
 
 .chip-create {
+    margin-top: 5px;
+    margin-bottom: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
