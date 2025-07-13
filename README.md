@@ -7,7 +7,6 @@ Instead of sharing or having to rember long, complex URLs, you can create short 
 
 - 🌐 Easy-to-use vanity URLs
 - 📤 Ability to export your data 
-- 🏷️ Tag your links to help with organization
 - ⚡ Fast and lightweight with minimal dependencies
 - 📝 Built-in audit trail — every change is recorded for traceability
 - 🔒 Fully self-hosted — you maintain complete control over your data and links
