@@ -19,6 +19,11 @@ Go Links is not a new concept. It's been used within tech companies for years to
 
 But why should something as simple as a URL redirect require a subscription?! I originally built this for myself, but I figured others might find it useful too. So... here we are. Open and free.
 
+## Setup
+
+Docker and configuration files are coming soon. For now, getting started is easy!
+1. `make setup` (assuming you have sqlite3 insalled)
+2. `make run`
 
 ## Roadmap
 
