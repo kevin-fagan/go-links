@@ -15,9 +15,7 @@ Instead of sharing or having to rember long, complex URLs, you can create short 
 
 ## Motivation
 
-Go Links is not a new concept. It's been used within tech companies for years to simplify internal URL sharing. However, there doesn’t seem to be a great open-source version available. Most options are either poorly maintained or locked behind a paywall.
-
-But why should something as simple as a URL redirect require a subscription?! I originally built this for myself, but I figured others might find it useful too. So... here we are. Open and free.
+Go Links is not a new concept. It's been used within tech companies for years to simplify internal URL sharing. But, there doesn’t seem to be a great open-source version available. Most options are either poorly maintained or are locked behind a paywall. And why should someone have to pay for something as simple as a URL redirect? So I decided to make my own "Go Links" with hopes that others may find it useful.  
 
 ## Setup
 
