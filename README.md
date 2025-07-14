@@ -6,7 +6,6 @@ Go Links is a lightweight, self-hosted application for creating easy-to-remember
 Instead of sharing or having to rember long, complex URLs, you can create short aliases such as `go/standup` or `go/jira`.
 
 - 🌐 Easy-to-use vanity URLs
-- 📤 Ability to export your data 
 - ⚡ Fast and lightweight with minimal dependencies
 - 📝 Built-in audit trail — every change is recorded for traceability
 - 🔒 Fully self-hosted — you maintain complete control over your data and links
@@ -23,7 +22,8 @@ But why should something as simple as a URL redirect require a subscription?! I 
 
 ## Roadmap
 
-This project is still in early development. Planned features include:
+This project is still in early development and is missing some basic features such as proper error handling and logging. Planned features include:
 
 - 🏷️ Tagging system
+- 📤 Ability to export your data 
 - 🔐 Authentication / Permissions
