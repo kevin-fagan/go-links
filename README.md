@@ -21,7 +21,7 @@ But why should something as simple as a URL redirect require a subscription?! I 
 
 ## Setup
 
-Docker and configuration files are coming soon. For now, getting started is easy!
+Docker and configuration files are coming soon. Still, getting the project to run locally is easy!
 1. `make setup` (assuming you have sqlite3 insalled)
 2. `make run`
 
