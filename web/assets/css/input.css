@@ -1,0 +1,27 @@
+input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--padding);
+    border: 1.5px solid var(--input-border);
+    border-radius: var(--border-radius);
+    background-color: var(--background);
+    color: var(--dark-white);
+    font-size: var(--font-size);
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--input-border-focus);
+    background-color: var(--background);
+}
+
+input.readonly {
+    width: 100%;
+    cursor: not-allowed;
+    background-color: var(--background);
+    color: var(--input-text-disabled);
+    border: 1.5px solid var(--input-border-disabled);
+    padding: var(--padding);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-md);
+}

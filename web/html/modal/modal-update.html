@@ -14,7 +14,7 @@
             id="short-url"
             name="short-url"
             value="{{ .ShortURL }}"
-            class="readonly-field"
+            class="readonly"
             readonly
             required
         />
@@ -22,9 +22,9 @@
         <label for="long">Long URL</label>
         <input type="url" id="long-url" name="long-url" value="{{ .LongURL }}" required />
 
-        <div class="form-actions">
-            <button type="button" hx-get="/components/modal/clear">Cancel</button>
-            <button type="submit">Save</button>
+        <div class="form-actions-container">
+            <button class="secondary-button" hx-get="/components/modal/clear">Cancel</button>
+            <button class="primary-button" type="submit">Save</button>
         </div>
     </form>
 </div>

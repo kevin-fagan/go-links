@@ -8,9 +8,9 @@
     >
         <h2>Delete URL</h2>
         <p>Are you sure you want to delete <strong>{{ .ShortURL }}</strong>?</p>
-        <div class="form-actions">
-            <button type="button" hx-get="/components/modal/clear">Cancel</button>
-            <button type="submit">Delete</button>
+        <div class="form-actions-container">
+            <button class="secondary-button" hx-get="/components/modal/clear">Cancel</button>
+            <button class="danger-button" type="submit">Delete</button>
         </div>
     </form>
 </div>
