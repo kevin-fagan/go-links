@@ -3,5 +3,5 @@ run:
 
 setup:
 	go mod download
-	sqlite3 golinks.db < setup.sql
+	sqlite3 golinks-db < setup.sql
 
