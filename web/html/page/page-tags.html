@@ -35,7 +35,17 @@
             >
                 <i class="bi bi-house"></i>
             </button>
-            <button class="sidebar-button active" title="Logs">
+            <button class="sidebar-button active" title="Tags">
+                <i class="bi bi-tag"></i>
+            </button>
+            <button
+                class="sidebar-button"
+                title="Logs"
+                hx-get="/home/logs"
+                hx-target="body"
+                hx-swap="innerHTML"
+                hx-push-url="true"
+            >
                 <i class="bi bi-journals"></i>
             </button>
         </aside>
@@ -45,12 +55,21 @@
                     type="search"
                     name="search"
                     class="search-input"
-                    placeholder="Search logs..."
-                    hx-get="/components/table/audit"
-                    hx-target="#table-audit"
+                    placeholder="Search links..."
+                    hx-get="/components/table/tags"
+                    hx-target="#table-links"
                     hx-trigger="keyup changed delay:125ms"
                 />
                 <div class="toolbar-actions">
+                    <button
+                        class="button-icon"
+                        type="button"
+                        hx-get="/components/modal/create"
+                        hx-target="#modal"
+                        hx-swap="innerHTML"
+                    >
+                        <i class="bi bi-plus-lg"></i>
+                    </button>
                     <button class="button-icon" type="button">
                         <i class="bi bi-download"></i>
                     </button>
@@ -58,13 +77,13 @@
             </div>
 
             <div
-                id="table-audit"
-                hx-get="/components/table/audit"
-                hx-target="#table-audit"
+                id="table-links"
+                hx-get="/components/table/tags"
+                hx-target="#table-links"
                 hx-trigger="load"
                 hx-swap="innerHTML"
             ></div>
+            <div id="modal"></div>
         </div>
-        <div id="modal"></div>
     </body>
 </html>

@@ -1,28 +1,23 @@
-package service
+package links
 
 import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/kevin-fagan/go-links/internal/repository"
+	"github.com/kevin-fagan/go-links/internal/db"
 )
 
-// LinkService provides business logic for creating, updating, and deleting shortened links.
-// It relies on a LinkRepository for persistent storage.
-type LinkService struct {
-	linkRepository repository.LinkRepository
+type Service struct {
+	repository Repository
 }
 
-// NewLinkService initializes a LinkService with a database context.
-func NewLinkService(ctx *repository.SQLContext) *LinkService {
-	return &LinkService{
-		linkRepository: *repository.NewLinkRepository(ctx),
-	}
+func NewService(ctx *db.SQLiteContext) *Service {
+	return &Service{repository: *NewRepository(ctx)}
 }
 
-// CreateLink handles HTTP POST requests to create a new shortened link.
+// Create handles HTTP POST requests to create a new shortened link.
 // On error, returns an error modal, otherwise triggers a UI refresh.
-func (ls *LinkService) CreateLink(g *gin.Context) {
+func (s *Service) Create(g *gin.Context) {
 	long := g.PostForm("long-url")
 	short := g.PostForm("short-url")
 
@@ -31,7 +26,7 @@ func (ls *LinkService) CreateLink(g *gin.Context) {
 		return
 	}
 
-	err := ls.linkRepository.CreateLink(short, long, g.ClientIP())
+	err := s.repository.Create(short, long, g.ClientIP())
 	if err != nil {
 		triggerModalError(g, err.Error())
 		return
@@ -40,9 +35,9 @@ func (ls *LinkService) CreateLink(g *gin.Context) {
 	triggerRefresh(g)
 }
 
-// UpdateLink handles HTTP POST requests to update an existing shortened link.
+// Update handles HTTP POST requests to update an existing shortened link.
 // On error, returns an error modal, otherwise triggers a UI refresh.
-func (ls *LinkService) UpdateLink(g *gin.Context) {
+func (s *Service) Update(g *gin.Context) {
 	long := g.PostForm("long-url")
 	short := g.PostForm("short-url")
 
@@ -51,7 +46,7 @@ func (ls *LinkService) UpdateLink(g *gin.Context) {
 		return
 	}
 
-	err := ls.linkRepository.UpdateLink(short, long, g.ClientIP())
+	err := s.repository.Update(short, long, g.ClientIP())
 	if err != nil {
 		triggerModalError(g, err.Error())
 		return
@@ -60,18 +55,36 @@ func (ls *LinkService) UpdateLink(g *gin.Context) {
 	triggerRefresh(g)
 }
 
-// DeleteLink handles HTTP DELETE requests to update an existing shortened link.
+// Delete handles HTTP DELETE requests to update an existing shortened link.
 // On error, returns an error modal, otherwise triggers a UI refresh.
-func (ls *LinkService) DeleteLink(g *gin.Context) {
+func (s *Service) Delete(g *gin.Context) {
 	short := g.Param("link")
 
-	err := ls.linkRepository.DeleteLink(short, g.ClientIP())
+	err := s.repository.Delete(short, g.ClientIP())
 	if err != nil {
 		triggerModalError(g, err.Error())
 		return
 	}
 
 	triggerRefresh(g)
+}
+
+func (s *Service) Redirect(g *gin.Context) {
+	short := g.Param("link")
+
+	link, err := s.repository.Read(short)
+	if err == ErrLinkNotFound {
+		g.JSON(http.StatusNotFound, gin.H{"error": err})
+		return
+	}
+
+	if err != nil {
+		g.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
+	}
+
+	s.repository.CountVisit(short)
+	g.Redirect(http.StatusFound, link.LongURL)
 }
 
 // triggerRefresh sends an HTMX trigger header to instruct the client to refresh UI components,

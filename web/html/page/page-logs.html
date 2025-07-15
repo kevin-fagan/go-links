@@ -25,7 +25,14 @@
     <body hx-ext="response-targets">
         <aside class="sidebar-container">
             <img class="sidebar-logo" src="/assets/images/logo.png" />
-            <button class="sidebar-button active" title="Links">
+            <button
+                class="sidebar-button"
+                title="Links"
+                hx-get="/home/links"
+                hx-target="body"
+                hx-swap="innerHTML"
+                hx-push-url="true"
+            >
                 <i class="bi bi-house"></i>
             </button>
             <button
@@ -38,14 +45,7 @@
             >
                 <i class="bi bi-tag"></i>
             </button>
-            <button
-                class="sidebar-button"
-                title="Logs"
-                hx-get="/home/logs"
-                hx-target="body"
-                hx-swap="innerHTML"
-                hx-push-url="true"
-            >
+            <button class="sidebar-button active" title="Logs">
                 <i class="bi bi-journals"></i>
             </button>
         </aside>
@@ -55,21 +55,12 @@
                     type="search"
                     name="search"
                     class="search-input"
-                    placeholder="Search links..."
-                    hx-get="/components/table/links"
-                    hx-target="#table-links"
+                    placeholder="Search logs..."
+                    hx-get="/components/table/logs"
+                    hx-target="#table-logs"
                     hx-trigger="keyup changed delay:125ms"
                 />
                 <div class="toolbar-actions">
-                    <button
-                        class="button-icon"
-                        type="button"
-                        hx-get="/components/modal/create"
-                        hx-target="#modal"
-                        hx-swap="innerHTML"
-                    >
-                        <i class="bi bi-plus-lg"></i>
-                    </button>
                     <button class="button-icon" type="button">
                         <i class="bi bi-download"></i>
                     </button>
@@ -77,13 +68,13 @@
             </div>
 
             <div
-                id="table-links"
-                hx-get="/components/table/links"
-                hx-target="#table-links"
+                id="table-logs"
+                hx-get="/components/table/logs"
+                hx-target="#table-logs"
                 hx-trigger="load"
                 hx-swap="innerHTML"
             ></div>
-            <div id="modal"></div>
         </div>
+        <div id="modal"></div>
     </body>
 </html>

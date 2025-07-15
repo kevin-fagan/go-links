@@ -1,8 +1,8 @@
 <table
     class="table"
-    hx-get="/components/table/audit?page={{ .Page.Current }}&pageSize={{ .Page.Size }}"
+    hx-get="/components/table/logs?page={{ .Page.Current }}&pageSize={{ .Page.Size }}"
     hx-trigger="refresh from:body"
-    hx-target="#table-audit"
+    hx-target="#table-logs"
     hx-swap="innerHTML"
 >
     <thead class="table-head">
@@ -25,7 +25,7 @@
         </tr>
     </thead>
 
-    {{ range .Audit }}
+    {{ range .Logs }}
         <tbody>
             <tr class="table-row">
                 <td style="width: 200px; word-wrap: break-word;" class="td-left">
@@ -53,9 +53,9 @@
 
         <button
             class="button-pagination"
-            hx-get="/components/table/audit?page={{ .Page.Previous }}&pageSize={{ .Page.Size }}"
+            hx-get="/components/table/logs?page={{ .Page.Previous }}&pageSize={{ .Page.Size }}"
             {{ if eq .Page.Current 0 }}disabled{{ end }}
-            hx-target="#table-audit"
+            hx-target="#table-logs"
             hx-swap="innerHTML"
             aria-label="Previous Page"
             type="button"
@@ -66,9 +66,9 @@
 
         <button
             class="button-pagination"
-            hx-get="/components/table/audit?page={{ .Page.Next }}&pageSize={{ .Page.Size }}"
+            hx-get="/components/table/logs?page={{ .Page.Next }}&pageSize={{ .Page.Size }}"
             {{ if eq .Results.End .Results.Total }}disabled{{ end }}
-            hx-target="#table-audit"
+            hx-target="#table-logs"
             hx-swap="innerHTML"
             aria-label="Next Page"
             type="button"
