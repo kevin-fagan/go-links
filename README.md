@@ -25,8 +25,9 @@ Docker and configuration files are coming soon. Still, getting the project to ru
 
 ## Roadmap
 
-This project is still in early development and is missing some basic features such as proper error handling and logging. Planned features include:
+This project is still in early development and is missing some basic features such as proper error handling and logging. Additional planned features include:
 
-- 🏷️ (In Progress) Tagging system
-- 📤 (In Progress) Ability to export your data 
+- 🏷️ Tagging system
+- 📤 Ability to export your data 
 - 🔐 Authentication / Permissions
+- 🎨 UI Update using Tailwind CSS  
