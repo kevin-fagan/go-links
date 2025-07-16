@@ -2,9 +2,25 @@ package logs
 
 import (
 	"database/sql"
+	"time"
 
 	"github.com/kevin-fagan/go-links/internal/db"
 )
+
+type Logs struct {
+	// ShortURL is only populated in the logs when a change is made to a link
+	ShortURL string
+	// LongURL is only populated in the logs when a change is made to a link
+	LongURL string
+	// Tag is only populated in the logs when a change is made to a tag
+	Tag string
+	// Actions describes the operation performed (create, update, delete) on a link or tag
+	Action string
+	// ClientIP is the IP address of the user who triggered the action. (OAuth not yet supported.)
+	ClientIP string
+	// Timestamp records when this log entry was created.
+	Timestamp time.Time
+}
 
 type Repository struct {
 	*db.SQLiteContext
@@ -14,6 +30,9 @@ func NewRepository(ctx *db.SQLiteContext) *Repository {
 	return &Repository{ctx}
 }
 
+// ReadAll retrieves a set of logs from the repository along with the total matching count.
+// The results are paginated based on the provided page number, page size, and optional search query.
+// If an error occurs, any changes are rolled back and the error is returned.
 func (r *Repository) ReadAll(page, pageSize int, search string) ([]Logs, int, error) {
 	var (
 		count int
@@ -38,6 +57,8 @@ func (r *Repository) ReadAll(page, pageSize int, search string) ([]Logs, int, er
 	return logs, count, nil
 }
 
+// ReadAllTx is a SQL transaction that retrieves a set of logs
+// The results are paginated based on the provided page number, page size, and optional search query.
 func (r *Repository) ReadTx(tx *sql.Tx, page, pageSize int, search string) ([]Logs, error) {
 	var (
 		rows *sql.Rows
@@ -87,6 +108,7 @@ func (r *Repository) ReadTx(tx *sql.Tx, page, pageSize int, search string) ([]Lo
 	return logs, nil
 }
 
+// CreateTx is a SQL transaction that creates a log entry
 func (r *Repository) CreateTx(tx *sql.Tx, short, long, tag, clientIP, action string) error {
 	_, err := tx.Exec(`
 	INSERT INTO logs (short_url, long_url, tag, client_ip, action)
@@ -95,6 +117,8 @@ func (r *Repository) CreateTx(tx *sql.Tx, short, long, tag, clientIP, action str
 	return err
 }
 
+// CountTx is a SQL transaction that returns the numbers of results found
+// If search is not empty, it will be used as part of the SQL query
 func (r *Repository) CountTx(tx *sql.Tx, search string) (int, error) {
 	var count int
 

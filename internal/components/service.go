@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/kevin-fagan/go-links/internal/db"
+	"github.com/kevin-fagan/go-links/internal/htmx"
 	"github.com/kevin-fagan/go-links/internal/links"
 	"github.com/kevin-fagan/go-links/internal/logs"
 	"github.com/kevin-fagan/go-links/internal/tags"
@@ -99,7 +100,7 @@ func renderTable[T any](g *gin.Context, fetchData func(page, pageSize int, searc
 	// Fetch total count (using a minimal fetch) to calculate page bounds
 	_, totalCount, err := fetchData(0, 1, search)
 	if err != nil {
-		triggerModalError(g, err.Error())
+		htmx.ModalError(g, err.Error())
 		return
 	}
 
@@ -112,7 +113,7 @@ func renderTable[T any](g *gin.Context, fetchData func(page, pageSize int, searc
 	// Fething the real page data
 	data, count, err := fetchData(page, pageSize, search)
 	if err != nil {
-		triggerModalError(g, err.Error())
+		htmx.ModalError(g, err.Error())
 		return
 	}
 
@@ -145,12 +146,4 @@ func renderTable[T any](g *gin.Context, fetchData func(page, pageSize int, searc
 	}
 
 	g.HTML(http.StatusOK, templateName, dataMap)
-}
-
-// triggerModalError renders a modal-error.html template displaying the provided error message.
-// Used to inform users of validation or repository errors.
-func triggerModalError(g *gin.Context, message string) {
-	g.HTML(http.StatusBadRequest, "modal-error.html", gin.H{
-		"Message": message,
-	})
 }

@@ -3,6 +3,7 @@ package links
 import (
 	"database/sql"
 	"errors"
+	"time"
 
 	"github.com/kevin-fagan/go-links/internal/db"
 	"github.com/kevin-fagan/go-links/internal/logs"
@@ -13,6 +14,17 @@ var (
 	ErrLinkAlreadyExists = errors.New("link already exists")
 )
 
+type Link struct {
+	// ShortURL is the vanity URL used for routing (e.g. "go/github")
+	ShortURL string
+	// LongURL is the destination URL users are redirect to
+	LongURL string
+	// Visits is the number of times the short URL has been visited
+	Visits int
+	// LastUpdated is the timestamp of the most change to the link
+	LastUpdated time.Time
+}
+
 type Repository struct {
 	*db.SQLiteContext
 	logs logs.Repository
@@ -22,6 +34,7 @@ func NewRepository(ctx *db.SQLiteContext) *Repository {
 	return &Repository{ctx, *logs.NewRepository(ctx)}
 }
 
+// CountVisits increments the amount a times a short URL has been visited
 func (r *Repository) CountVisit(short string) error {
 	statement := `
 		UPDATE links
@@ -41,6 +54,7 @@ func (r *Repository) CountVisit(short string) error {
 	return nil
 }
 
+// Read will read a single link from the repository. An error is returned if one occurs
 func (r *Repository) Read(short string) (*Link, error) {
 	statement := `
 		SELECT short_url, long_url, visits, last_updated
@@ -58,6 +72,9 @@ func (r *Repository) Read(short string) (*Link, error) {
 	return &link, nil
 }
 
+// ReadAll retrieves a set of links from the repository along with the total matching count.
+// The results are paginated based on the provided page number, page size, and optional search query.
+// If an error occurs, any changes are rolled back and the error is returned.
 func (r *Repository) ReadAll(page, pageSize int, search string) ([]Link, int, error) {
 	var (
 		count int
@@ -82,24 +99,32 @@ func (r *Repository) ReadAll(page, pageSize int, search string) ([]Link, int, er
 	return links, count, nil
 }
 
+// Create will create a link. Addtionally, a log entry will be created reflecting the operation.
+// If an error occurs, any changes are rolled back and the error is returned
 func (r *Repository) Create(short, long, clientIP string) error {
 	return r.WithTx(func(tx *sql.Tx) error {
 		return r.CreateTx(tx, short, long, clientIP)
 	})
 }
 
+// Delete will delete a link. Addtionally, a log entry will be created reflecting the operation.
+// If an error occurs, any changes are rolled back and the error is returned
 func (r *Repository) Delete(short, clientIP string) error {
 	return r.WithTx(func(tx *sql.Tx) error {
 		return r.DeleteTx(tx, short, clientIP)
 	})
 }
 
+// Update will update a link. Addtionally, a log entry will be created reflecting the operation.
+// If an error occurs, any changes are rolled back and the error is returned
 func (r *Repository) Update(short, long, clientIP string) error {
 	return r.WithTx(func(tx *sql.Tx) error {
 		return r.UpdateTx(tx, short, long, clientIP)
 	})
 }
 
+// ReadAllTx is a SQL transaction that retrieves a set of links
+// The results are paginated based on the provided page number, page size, and optional search query.
 func (r *Repository) ReadAllTx(tx *sql.Tx, page, pageSize int, search string) ([]Link, error) {
 	var (
 		rows *sql.Rows
@@ -142,6 +167,8 @@ func (r *Repository) ReadAllTx(tx *sql.Tx, page, pageSize int, search string) ([
 	return links, nil
 }
 
+// CreateTx is a SQL transaction that creates a link. Additionally, a log entry will
+// be created relfecting the operation
 func (r *Repository) CreateTx(tx *sql.Tx, short, long, clientIP string) error {
 	_, err := tx.Exec(`
 		INSERT INTO links (short_url, long_url)
@@ -154,6 +181,8 @@ func (r *Repository) CreateTx(tx *sql.Tx, short, long, clientIP string) error {
 	return r.logs.CreateTx(tx, short, long, "", clientIP, "CREATE")
 }
 
+// DeleteTx is a SQL transaction that deletes a link. Additionally, a log entry will
+// be created relfecting the operation
 func (r *Repository) DeleteTx(tx *sql.Tx, short, clientIP string) error {
 	var long string
 	err := tx.QueryRow(`
@@ -176,6 +205,8 @@ func (r *Repository) DeleteTx(tx *sql.Tx, short, clientIP string) error {
 	return r.logs.CreateTx(tx, short, long, "", clientIP, "DELETE")
 }
 
+// UpdateTx is a SQL transaction that updates a link. Additionally, a log entry will
+// be created relfecting the operation
 func (r *Repository) UpdateTx(tx *sql.Tx, short, long, clientIP string) error {
 	_, err := tx.Exec(`
 		UPDATE links
@@ -189,6 +220,8 @@ func (r *Repository) UpdateTx(tx *sql.Tx, short, long, clientIP string) error {
 	return r.logs.CreateTx(tx, short, long, "", clientIP, "UPDATE")
 }
 
+// CountTx is a SQL transaction that returns the numbers of results found.
+// If search is not empty, it will be used as part of the SQL query
 func (r *Repository) CountTx(tx *sql.Tx, search string) (int, error) {
 	var count int
 

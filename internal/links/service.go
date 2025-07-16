@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/kevin-fagan/go-links/internal/db"
+	"github.com/kevin-fagan/go-links/internal/htmx"
 )
 
 type Service struct {
@@ -22,17 +23,17 @@ func (s *Service) Create(g *gin.Context) {
 	short := g.PostForm("short-url")
 
 	if short == "" || long == "" {
-		triggerModalError(g, "missing short or long URL")
+		htmx.ModalError(g, "missing short or long url")
 		return
 	}
 
 	err := s.repository.Create(short, long, g.ClientIP())
 	if err != nil {
-		triggerModalError(g, err.Error())
+		htmx.ModalError(g, err.Error())
 		return
 	}
 
-	triggerRefresh(g)
+	htmx.Refresh(g)
 }
 
 // Update handles HTTP POST requests to update an existing shortened link.
@@ -42,17 +43,17 @@ func (s *Service) Update(g *gin.Context) {
 	short := g.PostForm("short-url")
 
 	if short == "" || long == "" {
-		triggerModalError(g, "missing short or long URL")
+		htmx.ModalError(g, "missing short or long url")
 		return
 	}
 
 	err := s.repository.Update(short, long, g.ClientIP())
 	if err != nil {
-		triggerModalError(g, err.Error())
+		htmx.ModalError(g, err.Error())
 		return
 	}
 
-	triggerRefresh(g)
+	htmx.Refresh(g)
 }
 
 // Delete handles HTTP DELETE requests to update an existing shortened link.
@@ -62,11 +63,11 @@ func (s *Service) Delete(g *gin.Context) {
 
 	err := s.repository.Delete(short, g.ClientIP())
 	if err != nil {
-		triggerModalError(g, err.Error())
+		htmx.ModalError(g, err.Error())
 		return
 	}
 
-	triggerRefresh(g)
+	htmx.Refresh(g)
 }
 
 func (s *Service) Redirect(g *gin.Context) {
@@ -85,19 +86,4 @@ func (s *Service) Redirect(g *gin.Context) {
 
 	s.repository.CountVisit(short)
 	g.Redirect(http.StatusFound, link.LongURL)
-}
-
-// triggerRefresh sends an HTMX trigger header to instruct the client to refresh UI components,
-// then renders the modal-clear.html template to close any open modal dialogs.
-func triggerRefresh(g *gin.Context) {
-	g.Header("HX-Trigger", "refresh")
-	g.HTML(http.StatusOK, "modal-clear.html", gin.H{})
-}
-
-// triggerModalError renders a modal-error.html template displaying the provided error message.
-// Used to inform users of validation or repository errors.
-func triggerModalError(g *gin.Context, message string) {
-	g.HTML(http.StatusBadRequest, "modal-error.html", gin.H{
-		"Message": message,
-	})
 }

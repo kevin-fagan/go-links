@@ -2,13 +2,23 @@ package tags
 
 import (
 	"database/sql"
+	"time"
 
 	"github.com/kevin-fagan/go-links/internal/db"
 	"github.com/kevin-fagan/go-links/internal/logs"
 )
 
+type Tag struct {
+	// Name is the label assigned to the tag (e.g., Social).
+	Name string
+	// Color is the tag's display color in HEX format (e.g., #FFFFFF).
+	Color string
+	// LastUpdated indicates the last time the tag was modified (e.g., Name or Color change).
+	LastUpdated time.Time
+}
+
 type Repository struct {
-	*db.SQLiteContext
+	db   *db.SQLiteContext
 	logs logs.Repository
 }
 
@@ -16,6 +26,7 @@ func NewRepository(ctx *db.SQLiteContext) *Repository {
 	return &Repository{ctx, *logs.NewRepository(ctx)}
 }
 
+// Read will read a single tag from the repository. An error is returned if one occurs
 func (r *Repository) Read(name string) (*Tag, error) {
 	statement := `
 		SELECT name, color, last_updated
@@ -24,7 +35,7 @@ func (r *Repository) Read(name string) (*Tag, error) {
 
 	var tag Tag
 
-	row := r.QueryRow(statement, name)
+	row := r.db.QueryRow(statement, name)
 	err := row.Scan(&tag.Name, &tag.Color, &tag.LastUpdated)
 	if err != nil {
 		return nil, err
@@ -33,6 +44,9 @@ func (r *Repository) Read(name string) (*Tag, error) {
 	return &tag, nil
 }
 
+// ReadAll retrieves a set of tags from the repository along with the total matching count.
+// The results are paginated based on the provided page number, page size, and optional search query.
+// If an error occurs, any changes are rolled back and the error is returned.
 func (r *Repository) ReadAll(page, pageSize int, search string) ([]Tag, int, error) {
 	var (
 		count int
@@ -40,8 +54,8 @@ func (r *Repository) ReadAll(page, pageSize int, search string) ([]Tag, int, err
 		err   error
 	)
 
-	err = r.WithTx(func(tx *sql.Tx) error {
-		tags, err = r.readTagsTx(tx, page, pageSize, search)
+	err = r.db.WithTx(func(tx *sql.Tx) error {
+		tags, err = r.ReadAllTx(tx, page, pageSize, search)
 		if err != nil {
 			return err
 		}
@@ -57,25 +71,33 @@ func (r *Repository) ReadAll(page, pageSize int, search string) ([]Tag, int, err
 	return tags, count, nil
 }
 
+// Create will create a tag. Addtionally, a log entry will be created reflecting the operation.
+// If an error occurs, any changes are rolled back and the error is returned
 func (r *Repository) Create(name, color, clientIP string) error {
-	return r.WithTx(func(tx *sql.Tx) error {
+	return r.db.WithTx(func(tx *sql.Tx) error {
 		return r.CreateTx(tx, name, color, clientIP)
 	})
 }
 
+// Delete will delete a tag. Additionally, a log entry will be created reflecting the operation.
+// If an error occurs, any changes are rolled back and the error is returned
 func (r *Repository) Delete(name, color, clientIP string) error {
-	return r.WithTx(func(tx *sql.Tx) error {
+	return r.db.WithTx(func(tx *sql.Tx) error {
 		return r.DeleteTx(tx, name, clientIP)
 	})
 }
 
+// Update will update a tag. Additionally, a log entry will be created reflecting the operation.
+// If an error occurs, any changes are rolled back and the error is returned
 func (r *Repository) Update(name, color, clientIP string) error {
-	return r.WithTx(func(tx *sql.Tx) error {
+	return r.db.WithTx(func(tx *sql.Tx) error {
 		return r.UpdateTx(tx, name, color, clientIP)
 	})
 }
 
-func (r *Repository) readTagsTx(tx *sql.Tx, page, pageSize int, search string) ([]Tag, error) {
+// ReadAllTx is a SQL transaction that retrieves a set of tags
+// The results are paginated based on the provided page number, page size, and optional search query.
+func (r *Repository) ReadAllTx(tx *sql.Tx, page, pageSize int, search string) ([]Tag, error) {
 	var (
 		rows *sql.Rows
 		err  error
@@ -117,6 +139,8 @@ func (r *Repository) readTagsTx(tx *sql.Tx, page, pageSize int, search string) (
 	return tags, nil
 }
 
+// CreateTx is a SQL transaction that creates a tag. Additionally, a log entry will
+// be created relfecting the operation
 func (r *Repository) CreateTx(tx *sql.Tx, name, color, clientIP string) error {
 	_, err := tx.Exec(`
 		INSERT INTO tags (name, color)
@@ -129,6 +153,8 @@ func (r *Repository) CreateTx(tx *sql.Tx, name, color, clientIP string) error {
 	return r.logs.CreateTx(tx, "", "", name, clientIP, "CREATE")
 }
 
+// DeleteTx is a SQL transaction that deletes a tag. Additionally, a log entry will
+// be created relfecting the operation
 func (r *Repository) DeleteTx(tx *sql.Tx, name, clientIP string) error {
 	var tagName string
 	err := tx.QueryRow(`
@@ -151,6 +177,8 @@ func (r *Repository) DeleteTx(tx *sql.Tx, name, clientIP string) error {
 	return r.logs.CreateTx(tx, "", "", tagName, clientIP, "DELETE")
 }
 
+// UpdateTx is a SQL transaction that updates a tag. Additionally, a log entry will
+// be created relfecting the operation
 func (r *Repository) UpdateTx(tx *sql.Tx, name, color, clientIP string) error {
 	_, err := tx.Exec(`
 		UPDATE tags
@@ -164,6 +192,8 @@ func (r *Repository) UpdateTx(tx *sql.Tx, name, color, clientIP string) error {
 	return r.logs.CreateTx(tx, "", "", name, clientIP, "UPDATE")
 }
 
+// CountTx is a SQL transaction that returns the numbers of results found.
+// If search is not empty, it will be used as part of the SQL query
 func (r *Repository) CountTx(tx *sql.Tx, search string) (int, error) {
 	var count int
 
