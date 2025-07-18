@@ -17,10 +17,8 @@
     htmx.defineExtension("response-targets", {
         init: function (r) {
             ((e = r),
-                void 0 === htmx.config.responseTargetUnsetsError &&
-                    (htmx.config.responseTargetUnsetsError = !0),
-                void 0 === htmx.config.responseTargetSetsError &&
-                    (htmx.config.responseTargetSetsError = !1),
+                void 0 === htmx.config.responseTargetUnsetsError && (htmx.config.responseTargetUnsetsError = !0),
+                void 0 === htmx.config.responseTargetSetsError && (htmx.config.responseTargetSetsError = !1),
                 void 0 === htmx.config.responseTargetPrefersExisting &&
                     (htmx.config.responseTargetPrefersExisting = !1),
                 void 0 === htmx.config.responseTargetPrefersRetargetHeader &&
@@ -29,8 +27,7 @@
         onEvent: function (s, n) {
             if ("htmx:beforeSwap" === s && n.detail.xhr && 200 !== n.detail.xhr.status) {
                 if (n.detail.target) {
-                    if (htmx.config.responseTargetPrefersExisting)
-                        return ((n.detail.shouldSwap = !0), t(n), !0);
+                    if (htmx.config.responseTargetPrefersExisting) return ((n.detail.shouldSwap = !0), t(n), !0);
                     if (
                         htmx.config.responseTargetPrefersRetargetHeader &&
                         n.detail.xhr.getAllResponseHeaders().match(/HX-Retarget:/i)
@@ -58,10 +55,7 @@
                     for (var o = 0; o < i.length; o++) {
                         var a = "hx-target-" + i[o],
                             g = e.getClosestAttributeValue(t, a);
-                        if (g)
-                            return "this" === g
-                                ? e.findThisElement(t, a)
-                                : e.querySelectorExt(t, g);
+                        if (g) return "this" === g ? e.findThisElement(t, a) : e.querySelectorExt(t, g);
                     }
                     return null;
                 })(n.detail.requestConfig.elt, n.detail.xhr.status);

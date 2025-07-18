@@ -260,10 +260,7 @@ var htmx = (function () {
     }
 
     function i(e) {
-        return (
-            e.matches("script") &&
-            (e.type === "text/javascript" || e.type === "module" || e.type === "")
-        );
+        return e.matches("script") && (e.type === "text/javascript" || e.type === "module" || e.type === "");
     }
 
     function I(e) {
@@ -297,9 +294,7 @@ var htmx = (function () {
             N(r, i.body);
             r.title = i.title;
         } else {
-            const i = L(
-                '<body><template class="internal-htmx-wrapper">' + t + "</template></body>",
-            );
+            const i = L('<body><template class="internal-htmx-wrapper">' + t + "</template></body>");
             r = i.querySelector("template").content;
             r.title = i.title;
             var o = r.querySelector("title");
@@ -492,9 +487,7 @@ var htmx = (function () {
     }
 
     function p(e) {
-        return e instanceof Element || e instanceof Document || e instanceof DocumentFragment
-            ? e
-            : null;
+        return e instanceof Element || e instanceof Document || e instanceof DocumentFragment ? e : null;
     }
 
     function K(e, t, n) {
@@ -863,10 +856,7 @@ var htmx = (function () {
                 if (e.moveBefore) {
                     let e = f("#--htmx-preserve-pantry--");
                     if (e == null) {
-                        te().body.insertAdjacentHTML(
-                            "afterend",
-                            "<div id='--htmx-preserve-pantry--'></div>",
-                        );
+                        te().body.insertAdjacentHTML("afterend", "<div id='--htmx-preserve-pantry--'></div>");
                         e = f("#--htmx-preserve-pantry--");
                     }
                     e.moveBefore(n, null);
@@ -1080,10 +1070,7 @@ var htmx = (function () {
                             if (Array.isArray(l)) {
                                 for (let e = 0; e < l.length; e++) {
                                     const c = l[e];
-                                    if (
-                                        c.nodeType !== Node.TEXT_NODE &&
-                                        c.nodeType !== Node.COMMENT_NODE
-                                    ) {
+                                    if (c.nodeType !== Node.TEXT_NODE && c.nodeType !== Node.COMMENT_NODE) {
                                         o.tasks.push(Le(c));
                                     }
                                 }
@@ -1179,8 +1166,7 @@ var htmx = (function () {
             if (t.elt && !se(t.elt) && ee(t.elt, "id")) {
                 const f = document.getElementById(ee(t.elt, "id"));
                 const a = {
-                    preventScroll:
-                        p.focusScroll !== undefined ? !p.focusScroll : !Q.config.defaultFocusScroll,
+                    preventScroll: p.focusScroll !== undefined ? !p.focusScroll : !Q.config.defaultFocusScroll,
                 };
                 if (f) {
                     if (t.start && f.setSelectionRange) {
@@ -1331,14 +1317,7 @@ var htmx = (function () {
     }
 
     function tt(e, t, n) {
-        return (
-            Ge.exec(e.charAt(0)) &&
-            e !== "true" &&
-            e !== "false" &&
-            e !== "this" &&
-            e !== n &&
-            t !== "."
-        );
+        return Ge.exec(e.charAt(0)) && e !== "true" && e !== "false" && e !== "this" && e !== n && t !== ".";
     }
 
     function nt(r, o, i) {
@@ -1457,12 +1436,7 @@ var htmx = (function () {
                                 var s = rt(o);
                             } else {
                                 var s = O(o, E);
-                                if (
-                                    s === "closest" ||
-                                    s === "find" ||
-                                    s === "next" ||
-                                    s === "previous"
-                                ) {
+                                if (s === "closest" || s === "find" || s === "next" || s === "previous") {
                                     o.shift();
                                     const h = rt(o);
                                     if (h.length > 0) {
@@ -1571,9 +1545,7 @@ var htmx = (function () {
     }
 
     function ut(e) {
-        return (
-            location.hostname === e.hostname && ee(e, "href") && ee(e, "href").indexOf("#") !== 0
-        );
+        return location.hostname === e.hostname && ee(e, "href") && ee(e, "href").indexOf("#") !== 0;
     }
 
     function ft(e) {
@@ -1582,9 +1554,7 @@ var htmx = (function () {
 
     function at(t, n, e) {
         if (
-            (t instanceof HTMLAnchorElement &&
-                ut(t) &&
-                (t.target === "" || t.target === "_self")) ||
+            (t instanceof HTMLAnchorElement && ut(t) && (t.target === "" || t.target === "_self")) ||
             (t.tagName === "FORM" && String(ee(t, "method")).toLowerCase() !== "dialog")
         ) {
             n.boosted = true;
@@ -1643,12 +1613,7 @@ var htmx = (function () {
     }
 
     function dt(e, t) {
-        return (
-            oe(e).boosted &&
-            e instanceof HTMLAnchorElement &&
-            t.type === "click" &&
-            (t.ctrlKey || t.metaKey)
-        );
+        return oe(e).boosted && e instanceof HTMLAnchorElement && t.type === "click" && (t.ctrlKey || t.metaKey);
     }
 
     function pt(e, t, n) {
@@ -1782,14 +1747,9 @@ var htmx = (function () {
             setInterval(function () {
                 if (mt) {
                     mt = false;
-                    ie(
-                        te().querySelectorAll(
-                            "[hx-trigger*='revealed'],[data-hx-trigger*='revealed']",
-                        ),
-                        function (e) {
-                            bt(e);
-                        },
-                    );
+                    ie(te().querySelectorAll("[hx-trigger*='revealed'],[data-hx-trigger*='revealed']"), function (e) {
+                        bt(e);
+                    });
                 }
             }, 200);
         }
@@ -2589,9 +2549,7 @@ var htmx = (function () {
         if (s.lastButtonClicked && !se(s.lastButtonClicked)) {
             s.lastButtonClicked = null;
         }
-        let l =
-            (e instanceof HTMLFormElement && e.noValidate !== true) ||
-            a(e, "hx-validate") === "true";
+        let l = (e instanceof HTMLFormElement && e.noValidate !== true) || a(e, "hx-validate") === "true";
         if (s.lastButtonClicked) {
             l = l && s.lastButtonClicked.formNoValidate !== true;
         }
@@ -2599,11 +2557,7 @@ var htmx = (function () {
             fn(n, o, i, Lt(e), l);
         }
         fn(n, r, i, e, l);
-        if (
-            s.lastButtonClicked ||
-            e.tagName === "BUTTON" ||
-            (e.tagName === "INPUT" && ee(e, "type") === "submit")
-        ) {
+        if (s.lastButtonClicked || e.tagName === "BUTTON" || (e.tagName === "INPUT" && ee(e, "type") === "submit")) {
             const u = s.lastButtonClicked || e;
             const f = ee(u, "name");
             ln(f, u.value, o);
@@ -3728,11 +3682,7 @@ var htmx = (function () {
                 "htmx:responseError",
                 le(
                     {
-                        error:
-                            "Response Status Error Code " +
-                            n.status +
-                            " from " +
-                            e.pathInfo.requestPath,
+                        error: "Response Status Error Code " + n.status + " from " + e.pathInfo.requestPath,
                     },
                     e,
                 ),

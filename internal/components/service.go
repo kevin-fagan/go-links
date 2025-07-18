@@ -29,29 +29,29 @@ func NewService(ctx *db.SQLiteContext) *Service {
 // LogTable retrieves paginated logs records from the repository
 // and renders them into the "table-logs.html" template.
 func (s *Service) LogTable(g *gin.Context) {
-	renderTable(g, s.logs.ReadAll, "table-logs.html", "Logs")
+	renderTable(g, s.logs.ReadAll, "table_logs.html", "Logs")
 }
 
 // LinkTable retrieves paginated link records from the repository
 // and renders them into the "table-links.html" template.
 func (s *Service) LinkTable(g *gin.Context) {
-	renderTable(g, s.links.ReadAll, "table-links.html", "Links")
+	renderTable(g, s.links.ReadAll, "table_links.html", "Links")
 }
 
 // TagTable retrieves paginated link records from the repository
 // and renders them into the "table-links.html" template.
 func (s *Service) TagTable(g *gin.Context) {
-	renderTable(g, s.tags.ReadAll, "table-tags.html", "Tags")
+	renderTable(g, s.tags.ReadAll, "table_tags.html", "Tags")
 }
 
 // ModalCreate renders the modal used for creating a new link.
 func (s *Service) ModalCreate(g *gin.Context) {
-	g.HTML(http.StatusOK, "modal-create.html", gin.H{})
+	g.HTML(http.StatusOK, "create.html", gin.H{})
 }
 
 // ModalClear renders an empty modal to clear HTML content via HTMX.
 func (s *Service) ModalClear(g *gin.Context) {
-	g.HTML(http.StatusOK, "modal-clear.html", gin.H{})
+	g.HTML(http.StatusOK, "clear.html", gin.H{})
 }
 
 // ModalUpdate renders the delete modal for a specific short link.
@@ -65,7 +65,7 @@ func (s *Service) ModalUpdate(g *gin.Context) {
 		return
 	}
 
-	g.HTML(http.StatusOK, "modal-update.html", &link)
+	g.HTML(http.StatusOK, "update.html", &link)
 }
 
 // ModalDelete renders the delete modal for a specific short link.
@@ -79,7 +79,7 @@ func (s *Service) ModalDelete(g *gin.Context) {
 		return
 	}
 
-	g.HTML(http.StatusOK, "modal-delete.html", &link)
+	g.HTML(http.StatusOK, "delete.html", &link)
 }
 
 // renderTable handles paginated fetching and rendering of data using the given fetch function and template.

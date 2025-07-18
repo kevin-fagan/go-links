@@ -17,11 +17,11 @@ func FormatDate(t time.Time) string {
 func FormatChip(s string) template.CSS {
 	switch s {
 	case "CREATE":
-		return "chip-create"
+		return "bg-green-100 text-green-800"
 	case "UPDATE":
-		return "chip-update"
+		return "bg-yellow-100 text-yellow-800"
 	case "DELETE":
-		return "chip-delete"
+		return "bg-red-100 text-red-800"
 	}
 
 	return ""

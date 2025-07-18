@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Go Links</title>
+
+        <script src="/assets/js/htmx@2.0.2.js"></script>
+        <script src="/assets/js/htmx-response@2.0.2.js"></script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="/assets/css/styles.css" />
+    </head>
+
+    <body class="h-screen w-screen bg-gray-100 text-gray-800" hx-ext="response-targets">
+        <div
+            class="fixed top-0 left-0 h-screen w-16 flex flex-col items-center bg-white shadow-lg py-4 space-y-4 border-r border-gray-300"
+        >
+            <div class="w-10 h-10">
+                <img src="/assets/images/logo.png" alt="Logo" class="w-full h-full object-contain" />
+            </div>
+            <button
+                class="w-12 h-12 flex items-center justify-center rounded-xl bg-gray-200 text-blue-600 hover:bg-blue-100 hover:text-blue-700 transition"
+                title="Links"
+                hx-get="/home/links"
+                hx-target="body"
+                hx-swap="innerHTML"
+                hx-push-url="true"
+            >
+                <i class="bi bi-house text-xl"></i>
+            </button>
+            <button
+                class="w-12 h-12 flex items-center justify-center rounded-xl bg-blue-600 text-white shadow-inner transition"
+                title="Tags"
+            >
+                <i class="bi bi-tag text-xl"></i>
+            </button>
+            <button
+                class="w-12 h-12 flex items-center justify-center rounded-xl bg-gray-200 text-blue-600 hover:bg-blue-100 hover:text-blue-700 transition"
+                title="Logs"
+                hx-get="/home/logs"
+                hx-target="body"
+                hx-swap="innerHTML"
+                hx-push-url="true"
+            >
+                <i class="bi bi-journals text-xl"></i>
+            </button>
+        </div>
+
+        <div class="ml-16 h-screen bg-gray-50">
+            <div class="p-4 flex flex-row justify-between items-center">
+                <input
+                    type="search"
+                    name="search"
+                    placeholder="Search tags..."
+                    class="w-full max-w-md px-4 py-2 rounded-md bg-white text-gray-900 placeholder-gray-400 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                    hx-get="/components/table/tags"
+                    hx-target="#table-links"
+                    hx-trigger="keyup changed delay:125ms"
+                />
+
+                <div class="flex flex-row gap-3 ml-4">
+                    <button
+                        type="button"
+                        title="Create New Tag"
+                        hx-get="/components/modal/create"
+                        hx-target="#modal"
+                        hx-swap="innerHTML"
+                        class="w-10 h-10 flex items-center justify-center rounded-md bg-white border border-gray-300 text-blue-600 hover:bg-blue-50 hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                    >
+                        <i class="bi bi-plus-lg text-lg"></i>
+                    </button>
+                    <button
+                        type="button"
+                        title="Download"
+                        class="w-10 h-10 flex items-center justify-center rounded-md bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                    >
+                        <i class="bi bi-download text-lg"></i>
+                    </button>
+                </div>
+            </div>
+            <div
+                class="m-4"
+                id="table-links"
+                hx-get="/components/table/tags"
+                hx-target="#table-links"
+                hx-trigger="load"
+                hx-swap="innerHTML"
+            ></div>
+            <div id="modal"></div>
+        </div>
+    </body>
+</html>

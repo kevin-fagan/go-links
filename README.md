@@ -11,7 +11,10 @@ Instead of sharing or having to rember long, complex URLs, you can create short 
 - 🔒 Fully self-hosted — you maintain complete control over your data and links
 
 
-![home-page](./assets/home-page-example.png)
+
+| Links                                  | Logs                                   |
+| -------------------------------------- | -------------------------------------- |
+| ![link-page](./assets/links-page.png)  | ![logs-page](./assets/logs-page.png)   |
 
 ## Motivation
 
@@ -20,7 +23,7 @@ Go Links is not a new concept. It's been used within tech companies for years to
 ## Setup
 
 Docker and configuration files are coming soon. Still, getting the project to run locally is easy!
-1. `make setup` (assuming you have sqlite3 insalled)
+1. `make setup`
 2. `make run`
 
 ## Roadmap
@@ -30,4 +33,3 @@ This project is still in early development and is missing some basic features su
 - 🏷️ Tagging system
 - 📤 Ability to export your data 
 - 🔐 Authentication / Permissions
-- 🎨 UI Update using Tailwind CSS  

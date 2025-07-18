@@ -36,7 +36,7 @@ func main() {
 
 	// Loading static assets (HTML, CSS, JS)
 	router.Static("/assets", "./web/assets")
-	router.StaticFile("/favicon.ico", "./web/assets/images/favicon.ico")
+	router.StaticFile("/favicon.ico", "./web/assets/images/logo.png")
 	router.LoadHTMLGlob("web/html/**/*.html")
 
 	// Setting up routes (URL paths)

@@ -1,0 +1,50 @@
+<div class="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm" aria-hidden="true"></div>
+<div class="fixed inset-0 z-50 flex items-center justify-center px-4">
+    <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 border border-gray-200">
+        <form
+            id="create-form"
+            hx-post="/links"
+            hx-target="#modal"
+            hx-target-error="#modal"
+            hx-swap="innerHTML"
+            class="space-y-4"
+        >
+            <h2 class="text-xl font-semibold text-gray-800">Create URL</h2>
+
+            <div>
+                <label for="short-url" class="block text-sm font-medium text-gray-700">Short URL</label>
+                <input
+                    type="text"
+                    id="short-url"
+                    name="short-url"
+                    required
+                    class="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                />
+            </div>
+
+            <div>
+                <label for="long-url" class="block text-sm font-medium text-gray-700">Long URL</label>
+                <input
+                    type="url"
+                    id="long-url"
+                    name="long-url"
+                    required
+                    class="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                />
+            </div>
+
+            <div class="flex justify-end gap-3 pt-4">
+                <button
+                    class="px-4 py-2 rounded-md bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200 transition"
+                    type="button"
+                    hx-get="/components/modal/clear"
+                >
+                    Cancel
+                </button>
+                <button class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition" type="submit">
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

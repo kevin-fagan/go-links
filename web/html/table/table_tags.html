@@ -1,0 +1,35 @@
+<table
+    class="min-w-full table-auto border border-gray-300 bg-white shadow-sm rounded-md"
+    hx-get="/components/table/logs?page={{ .Page.Current }}&pageSize={{ .Page.Size }}"
+    hx-trigger="refresh from:body"
+    hx-target="#table-logs"
+    hx-swap="innerHTML"
+>
+    <thead class="bg-gray-100 border-b border-gray-300 text-left text-sm font-semibold text-gray-700">
+        <tr>
+            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-link-45deg mr-1"></i> Short URL</th>
+            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-link-45deg mr-1"></i> Long URL</th>
+            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-globe mr-1"></i> Client IP</th>
+            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-calendar mr-1"></i> Timestamp</th>
+            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-gear mr-1"></i> Action</th>
+        </tr>
+    </thead>
+
+    <tbody class="bg-white divide-y divide-gray-200 text-sm text-gray-800">
+        {{ range .Logs }}
+            <tr class="hover:bg-gray-50 transition">
+                <td class="px-4 py-2 break-words">{{ .ShortURL }}</td>
+                <td class="px-4 py-2 break-words">{{ .LongURL }}</td>
+                <td class="px-4 py-2 whitespace-nowrap">{{ .ClientIP }}</td>
+                <td class="px-4 py-2 whitespace-nowrap">{{ .Timestamp | FormatDate }}</td>
+                <td class="px-4 py-2 whitespace-nowrap">
+                    <span
+                        class="inline-block px-2 py-0.5 text-xs font-semibold rounded-full {{ .Action | FormatChip }}"
+                    >
+                        {{ .Action }}
+                    </span>
+                </td>
+            </tr>
+        {{ end }}
+    </tbody>
+</table>

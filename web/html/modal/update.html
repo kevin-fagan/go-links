@@ -1,0 +1,52 @@
+<div class="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm" aria-hidden="true"></div>
+<div class="fixed inset-0 z-50 flex items-center justify-center px-4 sm:px-6">
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 border border-gray-200">
+        <form
+            hx-post="/links/{{ .ShortURL }}"
+            hx-target="#modal"
+            hx-target-error="#modal"
+            hx-swap="innerHTML"
+            class="space-y-6"
+        >
+            <h2 class="text-2xl font-semibold text-gray-800">Update URL</h2>
+
+            <div>
+                <label for="short-url" class="block text-sm font-medium text-gray-700"> Short URL </label>
+                <input
+                    type="text"
+                    id="short-url"
+                    name="short-url"
+                    value="{{ .ShortURL }}"
+                    readonly
+                    required
+                    class="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed focus:outline-none focus:ring-0 focus:border-gray-300"
+                />
+            </div>
+
+            <div>
+                <label for="long-url" class="block text-sm font-medium text-gray-700"> Long URL </label>
+                <input
+                    type="url"
+                    id="long-url"
+                    name="long-url"
+                    value="{{ .LongURL }}"
+                    required
+                    class="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                />
+            </div>
+
+            <div class="flex justify-end gap-3 pt-2">
+                <button
+                    type="button"
+                    hx-get="/components/modal/clear"
+                    class="px-4 py-2 rounded-md bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200 transition"
+                >
+                    Cancel
+                </button>
+                <button type="submit" class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition">
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
