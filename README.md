@@ -28,7 +28,7 @@ Docker and configuration files are coming soon. Still, getting the project to ru
 
 ## Roadmap
 
-This project is still in early development and is missing some basic features such as proper error handling and logging. Additional planned features include:
+Additional planned features include:
 
 - 🏷️ Tagging system
 - 📤 Ability to export your data 
