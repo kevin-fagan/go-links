@@ -1,0 +1,56 @@
+@font-face {
+    font-display: block;
+    font-family: "bootstrap-icons";
+    src: url("../fonts/bootstrap-icons.woff2") format("woff2");
+}
+
+.bi::before,
+[class^="bi-"]::before,
+[class*=" bi-"]::before {
+    display: inline-block;
+    font-family: bootstrap-icons !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: -0.125em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.bi-tag::before {
+    content: "\f5b0";
+}
+
+.bi-journals::before {
+    content: "\f447";
+}
+
+.bi-house::before {
+    content: "\f425";
+}
+
+.bi-plus-lg::before {
+    content: "\f64d";
+}
+
+.bi-download::before {
+    content: "\f30a";
+}
+
+.bi-chevron-left::before {
+    content: "\f284";
+}
+
+.bi-chevron-right::before {
+    content: "\f285";
+}
+
+.bi-pencil::before {
+    content: "\f4cb";
+}
+
+.bi-trash::before {
+    content: "\f5de";
+}

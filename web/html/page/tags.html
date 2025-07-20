@@ -8,9 +8,8 @@
         <script src="/assets/js/htmx@2.0.2.js"></script>
         <script src="/assets/js/htmx-response@2.0.2.js"></script>
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
-        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
-        <link rel="stylesheet" href="/assets/css/styles.css" />
+        <link rel="stylesheet" href="/assets/css/tailwind.css" />
+        <link rel="stylesheet" href="../../assets/css/bootstrap.css" />
     </head>
 
     <body class="h-screen w-screen bg-gray-100 text-gray-800" hx-ext="response-targets">
@@ -64,7 +63,7 @@
                     <button
                         type="button"
                         title="Create New Tag"
-                        hx-get="/components/modal/create"
+                        hx-get="/components/modal/tags/create"
                         hx-target="#modal"
                         hx-swap="innerHTML"
                         class="w-10 h-10 flex items-center justify-center rounded-md bg-white border border-gray-300 text-blue-600 hover:bg-blue-50 hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
