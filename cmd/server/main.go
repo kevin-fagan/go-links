@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"text/template"
 
 	"github.com/gin-gonic/gin"
@@ -46,6 +47,10 @@ func main() {
 	links.AddRoutes(root, sqlite)
 	tags.AddRoutes(root, sqlite)
 	components.AddRoutes(root, sqlite)
+
+	router.NoRoute(func(ctx *gin.Context) {
+		ctx.HTML(http.StatusNotFound, "404.html", gin.H{})
+	})
 
 	// Starting Gin
 	router.Run("localhost:8080")
