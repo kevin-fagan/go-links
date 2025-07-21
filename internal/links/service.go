@@ -1,6 +1,7 @@
 package links
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -74,8 +75,9 @@ func (s *Service) Redirect(g *gin.Context) {
 	short := g.Param("link")
 
 	link, err := s.repository.Read(short)
+	fmt.Println(err)
 	if err == ErrLinkNotFound {
-		g.JSON(http.StatusNotFound, gin.H{"error": err})
+		g.HTML(http.StatusOK, "404.html", gin.H{})
 		return
 	}
 

@@ -65,6 +65,9 @@ func (r *Repository) Read(short string) (*Link, error) {
 
 	row := r.QueryRow(statement, short)
 	err := row.Scan(&link.ShortURL, &link.LongURL, &link.Visits, &link.LastUpdated)
+	if err == sql.ErrNoRows {
+		return nil, ErrLinkNotFound
+	}
 	if err != nil {
 		return nil, err
 	}
