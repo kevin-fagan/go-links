@@ -9,19 +9,19 @@ import (
 )
 
 // TableLog retrieves paginated logs records from the repository
-// and renders them into the "table-logs.html" template.
+// and renders them into the "table_logs.html" template.
 func (s *Service) TableLog(g *gin.Context) {
 	renderTable(g, s.logs.ReadAll, "table_logs.html", "Logs")
 }
 
 // TableLink retrieves paginated link records from the repository
-// and renders them into the "table-links.html" template.
+// and renders them into the "table_links.html" template.
 func (s *Service) TableLink(g *gin.Context) {
 	renderTable(g, s.links.ReadAll, "table_links.html", "Links")
 }
 
 // TableTag retrieves paginated link records from the repository
-// and renders them into the "table-links.html" template.
+// and renders them into the "table_tags.html" template.
 func (s *Service) TableTag(g *gin.Context) {
 	renderTable(g, s.tags.ReadAll, "table_tags.html", "Tags")
 }

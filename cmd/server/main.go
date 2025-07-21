@@ -9,6 +9,7 @@ import (
 	"github.com/kevin-fagan/go-links/internal/db"
 	"github.com/kevin-fagan/go-links/internal/links"
 	"github.com/kevin-fagan/go-links/internal/pages"
+	"github.com/kevin-fagan/go-links/internal/tags"
 	"github.com/kevin-fagan/go-links/internal/tmpl"
 )
 
@@ -43,6 +44,7 @@ func main() {
 	root := router.Group("/")
 	pages.AddRoutes(root)
 	links.AddRoutes(root, sqlite)
+	tags.AddRoutes(root, sqlite)
 	components.AddRoutes(root, sqlite)
 
 	// Starting Gin

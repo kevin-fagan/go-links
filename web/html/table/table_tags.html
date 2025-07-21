@@ -1,35 +1,81 @@
 <table
     class="min-w-full table-auto border border-gray-300 bg-white shadow-sm rounded-md"
-    hx-get="/components/table/logs?page={{ .Page.Current }}&pageSize={{ .Page.Size }}"
+    hx-get="/components/table/tags?page={{ .Page.Next }}&pageSize={{ .Page.Size }}"
     hx-trigger="refresh from:body"
-    hx-target="#table-logs"
+    hx-target="#table-tags"
     hx-swap="innerHTML"
 >
     <thead class="bg-gray-100 border-b border-gray-300 text-left text-sm font-semibold text-gray-700">
         <tr>
-            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-link-45deg mr-1"></i> Short URL</th>
-            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-link-45deg mr-1"></i> Long URL</th>
-            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-globe mr-1"></i> Client IP</th>
-            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-calendar mr-1"></i> Timestamp</th>
-            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-gear mr-1"></i> Action</th>
+            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-tag mr-1"></i>Tag</th>
+            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-calendar mr-1"></i>Updated</th>
+            <th class="px-2 py-3 whitespace-nowrap w-px text-center"><i class="bi bi-gear mr-1"></i>Action</th>
         </tr>
     </thead>
 
-    <tbody class="bg-white divide-y divide-gray-200 text-sm text-gray-800">
-        {{ range .Logs }}
+    <tbody class="text-sm text-gray-800 divide-y divide-gray-200">
+        {{ range .Tags }}
             <tr class="hover:bg-gray-50 transition">
-                <td class="px-4 py-2 break-words">{{ .ShortURL }}</td>
-                <td class="px-4 py-2 break-words">{{ .LongURL }}</td>
-                <td class="px-4 py-2 whitespace-nowrap">{{ .ClientIP }}</td>
-                <td class="px-4 py-2 whitespace-nowrap">{{ .Timestamp | FormatDate }}</td>
-                <td class="px-4 py-2 whitespace-nowrap">
-                    <span
-                        class="inline-block px-2 py-0.5 text-xs font-semibold rounded-full {{ .Action | FormatChip }}"
-                    >
-                        {{ .Action }}
+                <td class="px-4 py-2 break-words">
+                    <span class="inline-block px-2 py-0.5 text-xs font-semibold rounded-md bg-blue-100 text-blue-800">
+                        {{ .Name }}
                     </span>
+                </td>
+                <td class="px-4 py-2 whitespace-nowrap">{{ .LastUpdated | FormatDate }}</td>
+                <td class="px-2 py-2 whitespace-nowrap w-px text-center">
+                    <div class="flex items-center justify-center gap-2">
+                        <button
+                            hx-target="#modal"
+                            hx-swap="innerHTML"
+                            class="w-9 h-9 flex items-center justify-center rounded-md hover:bg-blue-100 text-blue-600 hover:text-blue-800 transition"
+                        >
+                            <i class="bi bi-pencil text-base"></i>
+                        </button>
+                        <button
+                            hx-target="#modal"
+                            hx-swap="innerHTML"
+                            class="w-9 h-9 flex items-center justify-center rounded-md hover:bg-red-100 text-red-500 hover:text-red-700 transition"
+                        >
+                            <i class="bi bi-trash text-base"></i>
+                        </button>
+                    </div>
                 </td>
             </tr>
         {{ end }}
     </tbody>
 </table>
+
+<div class="flex justify-end mt-4 pb-4">
+    <div class="flex items-center gap-3 text-sm text-gray-700">
+        <div>
+            {{ .Results.Start }}–{{ .Results.End }} of
+            {{ .Results.Total }}
+        </div>
+
+        <button
+            hx-get="/components/table/tags?page={{ .Page.Previous }}&pageSize={{ .Page.Size }}"
+            {{ if eq .Page.Current 0 }}disabled{{ end }}
+            hx-target="#table-links"
+            hx-swap="innerHTML"
+            aria-label="Previous Page"
+            type="button"
+            title="Previous"
+            class="p-2 rounded-md border border-gray-300 bg-white hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition"
+        >
+            <i class="bi bi-chevron-left"></i>
+        </button>
+
+        <button
+            hx-get="/components/table/tags?page={{ .Page.Previous }}&pageSize={{ .Page.Size }}"
+            {{ if eq .Results.End .Results.Total }}disabled{{ end }}
+            hx-target="#table-links"
+            hx-swap="innerHTML"
+            aria-label="Next Page"
+            type="button"
+            title="Next"
+            class="p-2 rounded-md border border-gray-300 bg-white hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition"
+        >
+            <i class="bi bi-chevron-right"></i>
+        </button>
+    </div>
+</div>

@@ -11,9 +11,7 @@ import (
 type Tag struct {
 	// Name is the label assigned to the tag (e.g., Social).
 	Name string
-	// Color is the tag's display color in HEX format (e.g., #FFFFFF).
-	Color string
-	// LastUpdated indicates the last time the tag was modified (e.g., Name or Color change).
+	// LastUpdated indicates the last time the tag was modified
 	LastUpdated time.Time
 }
 
@@ -29,14 +27,14 @@ func NewRepository(ctx *db.SQLiteContext) *Repository {
 // Read will read a single tag from the repository. An error is returned if one occurs
 func (r *Repository) Read(name string) (*Tag, error) {
 	statement := `
-		SELECT name, color, last_updated
+		SELECT name, last_updated
 		FROM tags
 		WHERE name = ?`
 
 	var tag Tag
 
 	row := r.db.QueryRow(statement, name)
-	err := row.Scan(&tag.Name, &tag.Color, &tag.LastUpdated)
+	err := row.Scan(&tag.Name, &tag.LastUpdated)
 	if err != nil {
 		return nil, err
 	}
@@ -73,15 +71,15 @@ func (r *Repository) ReadAll(page, pageSize int, search string) ([]Tag, int, err
 
 // Create will create a tag. Addtionally, a log entry will be created reflecting the operation.
 // If an error occurs, any changes are rolled back and the error is returned
-func (r *Repository) Create(name, color, clientIP string) error {
+func (r *Repository) Create(name, clientIP string) error {
 	return r.db.WithTx(func(tx *sql.Tx) error {
-		return r.CreateTx(tx, name, color, clientIP)
+		return r.CreateTx(tx, name, clientIP)
 	})
 }
 
 // Delete will delete a tag. Additionally, a log entry will be created reflecting the operation.
 // If an error occurs, any changes are rolled back and the error is returned
-func (r *Repository) Delete(name, color, clientIP string) error {
+func (r *Repository) Delete(name, clientIP string) error {
 	return r.db.WithTx(func(tx *sql.Tx) error {
 		return r.DeleteTx(tx, name, clientIP)
 	})
@@ -89,9 +87,9 @@ func (r *Repository) Delete(name, color, clientIP string) error {
 
 // Update will update a tag. Additionally, a log entry will be created reflecting the operation.
 // If an error occurs, any changes are rolled back and the error is returned
-func (r *Repository) Update(name, color, clientIP string) error {
+func (r *Repository) Update(name, clientIP string) error {
 	return r.db.WithTx(func(tx *sql.Tx) error {
-		return r.UpdateTx(tx, name, color, clientIP)
+		return r.UpdateTx(tx, name, clientIP)
 	})
 }
 
@@ -105,14 +103,14 @@ func (r *Repository) ReadAllTx(tx *sql.Tx, page, pageSize int, search string) ([
 
 	if search == "" {
 		rows, err = tx.Query(`
-		SELECT name, color, last_updated
+		SELECT name, last_updated
 		FROM tags
 		ORDER BY last_updated DESC
 		LIMIT ? OFFSET ?;`, pageSize, pageSize*page)
 	} else {
 		pattern := "%" + search + "%"
 		rows, err = tx.Query(`
-			SELECT name, color, last_updated
+			SELECT name, last_updated
 			FROM tags
 			WHERE name LIKE ? 
 			ORDER BY last_updated DESC
@@ -128,7 +126,7 @@ func (r *Repository) ReadAllTx(tx *sql.Tx, page, pageSize int, search string) ([
 	var tags []Tag
 	for rows.Next() {
 		var tag Tag
-		err := rows.Scan(&tag.Name, &tag.Color, &tag.LastUpdated)
+		err := rows.Scan(&tag.Name, &tag.LastUpdated)
 		if err != nil {
 			return nil, err
 		}
@@ -141,10 +139,10 @@ func (r *Repository) ReadAllTx(tx *sql.Tx, page, pageSize int, search string) ([
 
 // CreateTx is a SQL transaction that creates a tag. Additionally, a log entry will
 // be created relfecting the operation
-func (r *Repository) CreateTx(tx *sql.Tx, name, color, clientIP string) error {
+func (r *Repository) CreateTx(tx *sql.Tx, name, clientIP string) error {
 	_, err := tx.Exec(`
-		INSERT INTO tags (name, color)
-		VALUES (?, ?);`, name, color)
+		INSERT INTO tags (name)
+		VALUES (?);`, name)
 
 	if err != nil {
 		return err
@@ -179,11 +177,11 @@ func (r *Repository) DeleteTx(tx *sql.Tx, name, clientIP string) error {
 
 // UpdateTx is a SQL transaction that updates a tag. Additionally, a log entry will
 // be created relfecting the operation
-func (r *Repository) UpdateTx(tx *sql.Tx, name, color, clientIP string) error {
+func (r *Repository) UpdateTx(tx *sql.Tx, name, clientIP string) error {
 	_, err := tx.Exec(`
 		UPDATE tags
 		SET name = ?
-		WHERE color = ?;`, name, color)
+		WHERE name = ?;`, name)
 
 	if err != nil {
 		return err

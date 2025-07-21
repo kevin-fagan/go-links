@@ -9,6 +9,7 @@
         <tr>
             <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-link-45deg mr-1"></i> Short URL</th>
             <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-link-45deg mr-1"></i> Long URL</th>
+            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-tag mr-1"></i> Tag(s)</th>
             <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-globe mr-1"></i> Client IP</th>
             <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-calendar mr-1"></i> Timestamp</th>
             <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-gear mr-1"></i> Action</th>
@@ -18,23 +19,42 @@
     <tbody class="bg-white divide-y divide-gray-200 text-sm text-gray-800">
         {{ range .Logs }}
             <tr class="hover:bg-gray-50 transition">
-                <td class="px-4 py-2 break-words">{{ .ShortURL }}</td>
                 <td class="px-4 py-2 break-words">
-                    <a
-                        href="{{ .LongURL }}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="text-blue-600 hover:text-blue-800 underline break-words"
-                    >
-                        {{ .LongURL }}
-                    </a>
+                    {{ if ne .LongURL "" }}
+                        {{ .ShortURL }}
+                    {{ else }}
+                        -
+                    {{ end }}
+                </td>
+                <td class="px-4 py-2 break-words">
+                    {{ if ne .LongURL "" }}
+                        <a
+                            href="{{ .LongURL }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-blue-600 hover:text-blue-800 underline break-words"
+                        >
+                            {{ .LongURL }}
+                        </a>
+                    {{ else }}
+                        -
+                    {{ end }}
+                </td>
+                <td class="px-4 py-2 break-words">
+                    {{ if ne .Tag "" }}
+                        <span
+                            class="inline-block px-2 py-0.5 text-xs font-semibold rounded-md bg-blue-100 text-blue-800"
+                        >
+                            {{ .Tag }}
+                        </span>
+                    {{ else }}
+                        -
+                    {{ end }}
                 </td>
                 <td class="px-4 py-2 whitespace-nowrap">{{ .ClientIP }}</td>
                 <td class="px-4 py-2 whitespace-nowrap">{{ .Timestamp | FormatDate }}</td>
                 <td class="px-4 py-2 whitespace-nowrap">
-                    <span
-                        class="inline-block px-2 py-0.5 text-xs font-semibold rounded-full {{ .Action | FormatChip }}"
-                    >
+                    <span class="inline-block px-2 py-0.5 text-xs font-semibold rounded-md {{ .Action | FormatChip }}">
                         {{ .Action }}
                     </span>
                 </td>

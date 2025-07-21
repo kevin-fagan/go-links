@@ -7,11 +7,11 @@
 >
     <thead class="bg-gray-100 border-b border-gray-300 text-left text-sm font-semibold text-gray-700">
         <tr>
-            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-link-45deg mr-1"></i> Short URL</th>
-            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-link-45deg mr-1"></i> Long URL</th>
-            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-person mr-1"></i> Visits</th>
-            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-calendar mr-1"></i> Updated</th>
-            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-gear mr-1"></i> Action</th>
+            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-link-45deg mr-1"></i>Short URL</th>
+            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-link-45deg mr-1"></i>Long URL</th>
+            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-person mr-1"></i>Visits</th>
+            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-calendar mr-1"></i>Updated</th>
+            <th class="px-2 py-3 whitespace-nowrap w-px text-center"><i class="bi bi-gear mr-1"></i>Action</th>
         </tr>
     </thead>
 
@@ -31,8 +31,8 @@
                 </td>
                 <td class="px-4 py-2 whitespace-nowrap">{{ .Visits }}</td>
                 <td class="px-4 py-2 whitespace-nowrap">{{ .LastUpdated | FormatDate }}</td>
-                <td class="px-4 py-2 whitespace-nowrap">
-                    <div class="flex gap-2">
+                <td class="px-2 py-2 whitespace-nowrap w-px text-center">
+                    <div class="flex items-center justify-center gap-2">
                         <button
                             hx-get="/components/modal/links/update/{{ .ShortURL }}"
                             hx-target="#modal"
