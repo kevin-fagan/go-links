@@ -8,6 +8,7 @@
     <thead class="bg-gray-100 border-b border-gray-300 text-left text-sm font-semibold text-gray-700">
         <tr>
             <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-tag mr-1"></i>Tag</th>
+            <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-link-45deg mr-1"></i>References</th>
             <th class="px-4 py-3 whitespace-nowrap"><i class="bi bi-calendar mr-1"></i>Updated</th>
             <th class="px-2 py-3 whitespace-nowrap w-px text-center"><i class="bi bi-gear mr-1"></i>Action</th>
         </tr>
@@ -21,6 +22,7 @@
                         {{ .Name }}
                     </span>
                 </td>
+                <td class="px-4 py-2 whitespace-nowrap">{{ .References }}</td>
                 <td class="px-4 py-2 whitespace-nowrap">{{ .LastUpdated | FormatDate }}</td>
                 <td class="px-2 py-2 whitespace-nowrap w-px text-center">
                     <div class="flex items-center justify-center gap-2">

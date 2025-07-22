@@ -11,6 +11,8 @@ import (
 type Tag struct {
 	// Name is the label assigned to the tag (e.g., Social).
 	Name string
+	// References is the numbers of links that are referencing the tag
+	References int
 	// LastUpdated indicates the last time the tag was modified
 	LastUpdated time.Time
 }
@@ -27,14 +29,19 @@ func NewRepository(ctx *db.SQLiteContext) *Repository {
 // Read will read a single tag from the repository. An error is returned if one occurs
 func (r *Repository) Read(name string) (*Tag, error) {
 	statement := `
-		SELECT name, last_updated
-		FROM tags
-		WHERE name = ?`
+	SELECT
+    	tags.name,
+    	tags.last_updated,
+    COUNT(links_tags.link_id) AS refs
+	FROM tags
+	LEFT JOIN links_tags ON links_tags.tag_id = tags.id
+	WHERE tags.name = ?
+	GROUP BY tags.id;`
 
 	var tag Tag
 
 	row := r.db.QueryRow(statement, name)
-	err := row.Scan(&tag.Name, &tag.LastUpdated)
+	err := row.Scan(&tag.Name, &tag.LastUpdated, &tag.References)
 	if err != nil {
 		return nil, err
 	}
@@ -103,18 +110,28 @@ func (r *Repository) ReadAllTx(tx *sql.Tx, page, pageSize int, search string) ([
 
 	if search == "" {
 		rows, err = tx.Query(`
-		SELECT name, last_updated
-		FROM tags
-		ORDER BY last_updated DESC
-		LIMIT ? OFFSET ?;`, pageSize, pageSize*page)
+        SELECT 
+            tags.name, 
+            tags.last_updated, 
+            COUNT(links_tags.link_id) AS refs
+        FROM tags
+        LEFT JOIN links_tags ON links_tags.tag_id = tags.id
+        GROUP BY tags.id
+        ORDER BY refs DESC
+        LIMIT ? OFFSET ?;`, pageSize, pageSize*page)
 	} else {
 		pattern := "%" + search + "%"
 		rows, err = tx.Query(`
-			SELECT name, last_updated
-			FROM tags
-			WHERE name LIKE ? 
-			ORDER BY last_updated DESC
-			LIMIT ? OFFSET ?;`, pattern, pattern, pageSize, pageSize*page)
+        SELECT 
+            tags.name, 
+            tags.last_updated, 
+            COUNT(links_tags.link_id) AS refs
+        FROM tags
+        LEFT JOIN links_tags ON links_tags.tag_id = tags.id
+        WHERE tags.name LIKE ?
+        GROUP BY tags.id
+        ORDER BY refs DESC
+        LIMIT ? OFFSET ?;`, pattern, pageSize, pageSize*page)
 	}
 
 	if err != nil {
@@ -126,7 +143,7 @@ func (r *Repository) ReadAllTx(tx *sql.Tx, page, pageSize int, search string) ([
 	var tags []Tag
 	for rows.Next() {
 		var tag Tag
-		err := rows.Scan(&tag.Name, &tag.LastUpdated)
+		err := rows.Scan(&tag.Name, &tag.LastUpdated, &tag.References)
 		if err != nil {
 			return nil, err
 		}
