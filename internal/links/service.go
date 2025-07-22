@@ -43,8 +43,13 @@ func (s *Service) Update(g *gin.Context) {
 	long := g.PostForm("long-url")
 	short := g.PostForm("short-url")
 
-	if short == "" || long == "" {
-		htmx.ModalError(g, "missing short or long url")
+	if short == "" {
+		htmx.ModalError(g, "form data 'short-url' missing")
+		return
+	}
+
+	if long == "" {
+		htmx.ModalError(g, "form data 'long-url' missing")
 		return
 	}
 

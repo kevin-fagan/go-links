@@ -6,9 +6,9 @@ import (
 )
 
 // FormatDate formats a time.Time value into a readable string with
-// day, abbreviated month, year, and 24-hour time (e.g., "02 Jan 2006 15:04").
+// day, abbreviated month, year, and 24-hour time (e.g., "Jan 02 2006 15:04").
 func FormatDate(t time.Time) string {
-	return t.Format("02 Jan 2006 15:04")
+	return t.Format("Jan 02 2006 15:04")
 }
 
 // FormatChip returns a CSS class name corresponding to the given action type.

@@ -1,0 +1,30 @@
+<div class="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm" aria-hidden="true"></div>
+<div class="fixed inset-0 z-50 flex items-center justify-center px-4 sm:px-6">
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 border border-gray-200">
+        <form
+            hx-delete="/tags/{{ .Name }}"
+            hx-target="#modal"
+            hx-target-error="#modal"
+            hx-swap="innerHTML"
+            class="space-y-6"
+        >
+            <h2 class="text-2xl font-semibold text-gray-800">Delete Tag</h2>
+            <p class="text-gray-700">
+                Are you sure you want to delete
+                <strong class="font-semibold">{{ .Name }}</strong>?
+            </p>
+            <div class="flex justify-end gap-3 pt-2">
+                <button
+                    type="button"
+                    hx-get="/components/modal/clear"
+                    class="px-4 py-2 rounded-md bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200 transition"
+                >
+                    Cancel
+                </button>
+                <button type="submit" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 transition">
+                    Delete
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

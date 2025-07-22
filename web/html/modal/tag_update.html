@@ -1,7 +1,13 @@
 <div class="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm" aria-hidden="true"></div>
 <div class="fixed inset-0 z-50 flex items-center justify-center px-4">
     <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 border border-gray-200">
-        <form hx-post="/tags" hx-target="#modal" hx-target-error="#modal" hx-swap="innerHTML" class="space-y-4">
+        <form
+            hx-post="/tags/{{ .Name }}"
+            hx-target="#modal"
+            hx-target-error="#modal"
+            hx-swap="innerHTML"
+            class="space-y-4"
+        >
             <h2 class="text-xl font-semibold text-gray-800">Create Tag</h2>
 
             <div>
@@ -10,6 +16,7 @@
                     type="text"
                     id="tag"
                     name="tag"
+                    value="{{ .Name }}"
                     required
                     class="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                 />

@@ -1,14 +1,7 @@
 <div class="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm" aria-hidden="true"></div>
 <div class="fixed inset-0 z-50 flex items-center justify-center px-4">
     <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 border border-gray-200">
-        <form
-            id="create-form"
-            hx-post="/links"
-            hx-target="#modal"
-            hx-target-error="#modal"
-            hx-swap="innerHTML"
-            class="space-y-4"
-        >
+        <form hx-post="/links" hx-target="#modal" hx-target-error="#modal" hx-swap="innerHTML" class="space-y-4">
             <h2 class="text-xl font-semibold text-gray-800">Create URL</h2>
 
             <div>

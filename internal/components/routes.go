@@ -18,4 +18,6 @@ func AddRoutes(rg *gin.RouterGroup, sqlite *db.SQLiteContext) {
 	rg.GET("/components/modal/links/delete/:link", s.ModalDeleteLink)
 
 	rg.GET("/components/modal/tags/create", s.ModalCreateTag)
+	rg.GET("/components/modal/tags/delete/:tag", s.ModalDeleteTag)
+	rg.GET("/components/modal/tags/update/:tag", s.ModalUpdateTag)
 }

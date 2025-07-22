@@ -25,15 +25,19 @@
                 <td class="px-2 py-2 whitespace-nowrap w-px text-center">
                     <div class="flex items-center justify-center gap-2">
                         <button
+                            hx-get="/components/modal/tags/update/{{ .Name }}"
                             hx-target="#modal"
                             hx-swap="innerHTML"
+                            aria-label="Update Tag {{ .Name }}"
                             class="w-9 h-9 flex items-center justify-center rounded-md hover:bg-blue-100 text-blue-600 hover:text-blue-800 transition"
                         >
                             <i class="bi bi-pencil text-base"></i>
                         </button>
                         <button
+                            hx-get="/components/modal/tags/delete/{{ .Name }}"
                             hx-target="#modal"
                             hx-swap="innerHTML"
+                            aria-label="Update Tag {{ .Name }}"
                             class="w-9 h-9 flex items-center justify-center rounded-md hover:bg-red-100 text-red-500 hover:text-red-700 transition"
                         >
                             <i class="bi bi-trash text-base"></i>

@@ -31,7 +31,32 @@ func (s *Service) Create(g *gin.Context) {
 	htmx.Refresh(g)
 }
 
-func (s *Service) Update(g *gin.Context) {}
+func (s *Service) Update(g *gin.Context) {
+	oldTag := g.Param("tag")
+	newTag := g.PostForm("tag")
+
+	if oldTag == newTag {
+		return
+	}
+
+	if oldTag == "" {
+		htmx.ModalError(g, "url param 'tag' missing")
+		return
+	}
+
+	if newTag == "" {
+		htmx.ModalError(g, "form data 'tag' missing")
+		return
+	}
+
+	err := s.repository.Update(oldTag, newTag, g.ClientIP())
+	if err != nil {
+		htmx.ModalError(g, err.Error())
+		return
+	}
+
+	htmx.Refresh(g)
+}
 
 func (s *Service) Delete(g *gin.Context) {
 	tag := g.Param("tag")

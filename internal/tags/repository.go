@@ -58,7 +58,7 @@ func (r *Repository) ReadAll(page, pageSize int, search string) ([]Tag, int, err
 			return err
 		}
 
-		count, err = r.CountTx(tx, search)
+		count, err = r.ResultsTx(tx, search)
 		if err != nil {
 			return err
 		}
@@ -87,9 +87,9 @@ func (r *Repository) Delete(name, clientIP string) error {
 
 // Update will update a tag. Additionally, a log entry will be created reflecting the operation.
 // If an error occurs, any changes are rolled back and the error is returned
-func (r *Repository) Update(name, clientIP string) error {
+func (r *Repository) Update(old, new, clientIP string) error {
 	return r.db.WithTx(func(tx *sql.Tx) error {
-		return r.UpdateTx(tx, name, clientIP)
+		return r.UpdateTx(tx, old, new, clientIP)
 	})
 }
 
@@ -177,22 +177,22 @@ func (r *Repository) DeleteTx(tx *sql.Tx, name, clientIP string) error {
 
 // UpdateTx is a SQL transaction that updates a tag. Additionally, a log entry will
 // be created relfecting the operation
-func (r *Repository) UpdateTx(tx *sql.Tx, name, clientIP string) error {
+func (r *Repository) UpdateTx(tx *sql.Tx, old, new, clientIP string) error {
 	_, err := tx.Exec(`
 		UPDATE tags
 		SET name = ?
-		WHERE name = ?;`, name)
+		WHERE name = ?;`, new, old)
 
 	if err != nil {
 		return err
 	}
 
-	return r.logs.CreateTx(tx, "", "", name, clientIP, "UPDATE")
+	return r.logs.CreateTx(tx, "", "", new, clientIP, "UPDATE")
 }
 
-// CountTx is a SQL transaction that returns the numbers of results found.
+// ResultsTx is a SQL transaction that returns the numbers of results found.
 // If search is not empty, it will be used as part of the SQL query
-func (r *Repository) CountTx(tx *sql.Tx, search string) (int, error) {
+func (r *Repository) ResultsTx(tx *sql.Tx, search string) (int, error) {
 	var count int
 
 	if search == "" {
